@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { OrderStatus, ORDER_STATUSES } from '@/lib/types';
 import { Check, Clock, AlertCircle, XCircle } from 'lucide-react';
@@ -55,17 +57,17 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
 
   if (status === 'cancelled' || status === 'unable_to_contact') {
     return (
-      <div className={cn('p-4 rounded-xl border bg-dark-900/80', className)}>
-        <div className="flex items-center gap-3 text-rose-400">
-          <XCircle className="w-5 h-5 shrink-0" />
+      <div className={cn('p-4 rounded-2xl border bg-rose-50 border-rose-200 shadow-subtle', className)}>
+        <div className="flex items-center gap-3 text-rose-800">
+          <XCircle className="w-5 h-5 shrink-0 text-rose-600" />
           <div>
-            <div className="font-semibold text-sm">
+            <div className="font-bold text-sm">
               {status === 'cancelled' ? 'Order Cancelled' : 'Unable to Establish Contact'}
             </div>
-            <div className="text-xs text-slate-400 mt-0.5">
+            <div className="text-xs text-rose-700 mt-0.5">
               {status === 'cancelled'
                 ? 'This order request has been cancelled.'
-                : 'The administrator tried contacting you but was unable to reach your number/email.'}
+                : 'The administrator tried contacting you but was unable to reach your number or email.'}
             </div>
           </div>
         </div>
@@ -75,7 +77,7 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-800">
+      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-border">
         {STEPS.map((step) => {
           const isDone = currentStep > step.id;
           const isCurrent = currentStep === step.id;
@@ -87,9 +89,9 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
               <div
                 className={cn(
                   'absolute -left-6 sm:-left-8 top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all border',
-                  isDone && 'bg-emerald-500 text-dark-950 border-emerald-400 shadow-glow-emerald',
-                  isCurrent && 'bg-sky-500 text-dark-950 border-sky-400 shadow-glow animate-pulse',
-                  isPending && 'bg-dark-900 text-slate-500 border-slate-800'
+                  isDone && 'bg-emerald-600 text-white border-emerald-600 shadow-sm',
+                  isCurrent && 'bg-primary-500 text-white border-primary-500 shadow-sm ring-4 ring-primary-100',
+                  isPending && 'bg-surface-secondary text-content-muted border-border'
                 )}
               >
                 {isDone ? (
@@ -107,15 +109,15 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
                   <h4
                     className={cn(
                       'text-sm font-semibold transition-colors',
-                      isDone && 'text-slate-200',
-                      isCurrent && 'text-sky-400 font-bold',
-                      isPending && 'text-slate-500'
+                      isDone && 'text-content-primary',
+                      isCurrent && 'text-primary-600 font-bold',
+                      isPending && 'text-content-muted'
                     )}
                   >
                     {step.label}
                   </h4>
                   {isCurrent && (
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-primary-50 text-primary-700 border border-primary-200">
                       In Progress
                     </span>
                   )}
@@ -123,7 +125,7 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
                 <p
                   className={cn(
                     'text-xs mt-0.5 transition-colors leading-relaxed',
-                    isCurrent ? 'text-slate-300' : 'text-slate-500'
+                    isCurrent ? 'text-content-secondary' : 'text-content-muted'
                   )}
                 >
                   {step.description}

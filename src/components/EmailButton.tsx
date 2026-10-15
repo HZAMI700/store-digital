@@ -40,7 +40,7 @@ We are reaching out to verify your request and explain the available payment met
 Please reply to this email or reach us on WhatsApp at your earliest convenience.
 
 Best regards,
-Store Administration Team`;
+Apex Store Administration Team`;
 
   const mailtoUrl = `mailto:${encodeURIComponent(customerEmail)}?subject=${encodeURIComponent(
     subject
@@ -109,7 +109,7 @@ Store Administration Team`;
   };
 
   const sizeClasses = {
-    sm: 'px-2.5 py-1 text-xs gap-1.5',
+    sm: 'px-2.5 py-1.5 text-xs gap-1.5',
     md: 'px-3.5 py-2 text-sm gap-2',
     lg: 'px-5 py-3 text-base gap-2.5',
   };
@@ -120,40 +120,40 @@ Store Administration Team`;
         type="button"
         onClick={handleOpenClient}
         className={cn(
-          'inline-flex items-center justify-center font-semibold rounded-xl bg-sky-600 hover:bg-sky-500 text-white shadow-lg shadow-sky-950/40 border border-sky-400/30 transition-all hover:scale-[1.02] active:scale-[0.98]',
+          'inline-flex items-center justify-center font-bold rounded-xl bg-primary-500 hover:bg-primary-600 text-white shadow-subtle border border-primary-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]',
           sizeClasses[size],
           className
         )}
       >
         <Mail className="w-4 h-4 shrink-0" />
         <span>Contact via Email</span>
-        <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+        <ExternalLink className="w-3.5 h-3.5 opacity-80" />
       </button>
 
-      {/* Confirmation & Server Email Modal */}
+      {/* Confirmation & Server Email Modal in Pure Light Mode */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-150">
-          <div className="w-full max-w-md bg-dark-900 border border-slate-700/80 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex items-center gap-3 text-sky-400">
-              <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20">
-                <Mail className="w-6 h-6" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-md bg-white border border-border rounded-3xl p-6 shadow-dropdown space-y-4">
+            <div className="flex items-center gap-3 text-primary-600">
+              <div className="p-2.5 rounded-2xl bg-primary-50 border border-primary-200">
+                <Mail className="w-6 h-6 text-primary-500" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-100">Contact Customer via Email</h3>
-                <p className="text-xs text-slate-400">Recipient: {customerEmail}</p>
+                <h3 className="text-base font-bold text-content-primary">Contact via Email</h3>
+                <p className="text-xs text-content-secondary font-mono">To: {customerEmail}</p>
               </div>
             </div>
 
-            <div className="bg-dark-950/70 p-3 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1.5">
-              <div className="text-slate-400 font-medium">Subject: <span className="text-slate-200">{subject}</span></div>
-              <div className="text-slate-400 font-medium">Prepared Message:</div>
-              <p className="text-slate-300 whitespace-pre-line text-[11px] leading-relaxed max-h-32 overflow-y-auto pr-1">
+            <div className="bg-surface-secondary p-3.5 rounded-2xl border border-border text-xs text-content-primary space-y-1.5">
+              <div className="text-content-secondary font-semibold">Subject: <span className="text-content-primary">{subject}</span></div>
+              <div className="text-content-secondary font-semibold">Prepared Message:</div>
+              <p className="text-content-primary whitespace-pre-line text-[11px] leading-relaxed max-h-32 overflow-y-auto pr-1">
                 {body}
               </p>
             </div>
 
             {serverEmailStatus && (
-              <div className="p-2.5 rounded-lg text-xs font-medium bg-sky-950/50 border border-sky-800 text-sky-300">
+              <div className="p-2.5 rounded-xl text-xs font-semibold bg-primary-50 border border-primary-200 text-primary-700">
                 {serverEmailStatus}
               </div>
             )}
@@ -163,7 +163,7 @@ Store Administration Team`;
                 type="button"
                 onClick={handleSendServerEmail}
                 disabled={isSendingServer}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-500 rounded-xl shadow transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold text-white bg-primary-500 hover:bg-primary-600 rounded-xl shadow-subtle transition-colors"
               >
                 {isSendingServer ? (
                   <Clock className="w-4 h-4 animate-spin" />
@@ -177,7 +177,7 @@ Store Administration Team`;
                 <button
                   type="button"
                   onClick={() => setShowConfirmModal(false)}
-                  className="px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 bg-slate-800/60 hover:bg-slate-800 rounded-xl transition-colors"
+                  className="px-3.5 py-2 text-xs font-semibold text-content-secondary hover:text-content-primary bg-surface-secondary hover:bg-surface-tertiary rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
@@ -185,10 +185,10 @@ Store Administration Team`;
                   type="button"
                   onClick={handleConfirmLogged}
                   disabled={isRecording}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white bg-dark-800 hover:bg-dark-700 border border-slate-700 rounded-xl transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-content-primary hover:text-primary-600 bg-white hover:bg-surface-secondary border border-border rounded-xl transition-colors"
                 >
-                  {isRecording ? <Clock className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5 text-emerald-400" />}
-                  <span>I Sent via Email App (Record Date)</span>
+                  {isRecording ? <Clock className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                  <span>Record Client Sent</span>
                 </button>
               </div>
             </div>

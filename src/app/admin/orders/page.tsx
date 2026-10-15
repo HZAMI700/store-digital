@@ -85,8 +85,8 @@ export default function AdminOrdersPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-white tracking-tight">Orders Management</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-2xl font-black text-content-primary tracking-tight">Orders Management</h1>
+          <p className="text-xs text-content-secondary mt-0.5">
             Review submitted customer requests, initiate WhatsApp/Email contact, and fulfill orders.
           </p>
         </div>
@@ -94,24 +94,24 @@ export default function AdminOrdersPage() {
         <button
           type="button"
           onClick={fetchOrders}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-dark-850 hover:bg-dark-800 border border-slate-700 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition-colors self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-surface-secondary border border-border rounded-xl text-xs font-bold text-content-primary transition-colors shadow-subtle self-start sm:self-auto"
         >
-          <RefreshCw className="w-3.5 h-3.5" />
+          <RefreshCw className="w-3.5 h-3.5 text-primary-500" />
           <span>Refresh Orders</span>
         </button>
       </div>
 
       {/* FILTER AND SEARCH BAR */}
-      <div className="p-4 rounded-2xl bg-dark-900 border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="p-4 rounded-3xl bg-white border border-border shadow-subtle grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* Search */}
         <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-content-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search ref, customer, phone, or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs bg-dark-950 border border-slate-700/80 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-surface-secondary border border-border rounded-xl text-content-primary placeholder-content-muted focus:outline-none focus:ring-1 focus:ring-primary-500"
           />
         </div>
 
@@ -120,7 +120,7 @@ export default function AdminOrdersPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 text-xs bg-dark-950 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-500 appearance-none"
+            className="w-full px-3 py-2 text-xs bg-surface-secondary border border-border rounded-xl text-content-primary focus:outline-none focus:ring-1 focus:ring-primary-500 appearance-none font-medium"
           >
             <option value="all">All Statuses ({orders.length})</option>
             {(Object.keys(ORDER_STATUSES) as OrderStatus[]).map((key) => {
@@ -132,7 +132,7 @@ export default function AdminOrdersPage() {
               );
             })}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-content-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         {/* Product Filter */}
@@ -140,7 +140,7 @@ export default function AdminOrdersPage() {
           <select
             value={productFilter}
             onChange={(e) => setProductFilter(e.target.value)}
-            className="w-full px-3 py-2 text-xs bg-dark-950 border border-slate-700/80 rounded-xl text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-500 appearance-none"
+            className="w-full px-3 py-2 text-xs bg-surface-secondary border border-border rounded-xl text-content-primary focus:outline-none focus:ring-1 focus:ring-primary-500 appearance-none font-medium"
           >
             <option value="all">All Products</option>
             {distinctProducts.map((p) => (
@@ -149,29 +149,29 @@ export default function AdminOrdersPage() {
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-content-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
       {/* ORDERS DATA DISPLAY */}
       {loading ? (
         <div className="py-20 text-center space-y-3">
-          <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-slate-400">Loading orders database...</p>
+          <div className="w-10 h-10 border-4 border-primary-200 border-t-primary-500 rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-content-secondary">Loading orders database...</p>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-dark-900 border border-slate-800 space-y-2">
-          <div className="text-base font-bold text-white">No Matching Orders Found</div>
-          <p className="text-xs text-slate-400">
+        <div className="p-12 text-center rounded-3xl bg-white border border-border shadow-card space-y-2">
+          <div className="text-base font-bold text-content-primary">No Matching Orders Found</div>
+          <p className="text-xs text-content-secondary">
             Try adjusting your search criteria or status filter.
           </p>
         </div>
       ) : (
         <>
           {/* DESKTOP TABLE VIEW */}
-          <div className="hidden lg:block rounded-3xl bg-dark-900 border border-slate-800 overflow-hidden shadow-2xl">
+          <div className="hidden lg:block rounded-3xl bg-white border border-border overflow-hidden shadow-card">
             <table className="w-full text-left text-xs">
-              <thead className="bg-dark-950/80 text-slate-400 font-semibold border-b border-slate-800 uppercase tracking-wider text-[10px]">
+              <thead className="bg-surface-secondary text-content-secondary font-bold border-b border-border uppercase tracking-wider text-[10px]">
                 <tr>
                   <th className="py-3.5 px-4">Order Ref</th>
                   <th className="py-3.5 px-4">Customer Name</th>
@@ -183,7 +183,7 @@ export default function AdminOrdersPage() {
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-border/60">
                 {filteredOrders.map((order) => (
                   <tr
                     key={order.id}
@@ -191,43 +191,43 @@ export default function AdminOrdersPage() {
                       setSelectedOrder(order);
                       setIsDrawerOpen(true);
                     }}
-                    className="hover:bg-dark-850/60 cursor-pointer transition-colors group"
+                    className="hover:bg-surface-secondary/60 cursor-pointer transition-colors group"
                   >
                     {/* Order Reference */}
-                    <td className="py-4 px-4 font-mono font-bold text-sky-400 whitespace-nowrap">
+                    <td className="py-4 px-4 font-mono font-bold text-primary-600 whitespace-nowrap">
                       #{order.orderReference}
                     </td>
 
                     {/* Customer Name */}
-                    <td className="py-4 px-4 font-semibold text-slate-200">
+                    <td className="py-4 px-4 font-bold text-content-primary">
                       {order.customerName}
                     </td>
 
                     {/* Product & Qty */}
-                    <td className="py-4 px-4 text-slate-300">
-                      <div className="font-medium text-white">{order.productName}</div>
-                      <div className="text-[11px] text-slate-400">Qty: {order.quantity}</div>
+                    <td className="py-4 px-4 text-content-primary">
+                      <div className="font-semibold text-content-primary">{order.productName}</div>
+                      <div className="text-[11px] text-content-secondary">Qty: {order.quantity}</div>
                     </td>
 
                     {/* Total Amount */}
-                    <td className="py-4 px-4 font-black text-white whitespace-nowrap">
+                    <td className="py-4 px-4 font-black text-content-primary whitespace-nowrap">
                       {formatPrice(order.totalAmount)}
                     </td>
 
                     {/* Contact Info */}
                     <td className="py-4 px-4 space-y-0.5">
-                      <div className="font-mono text-emerald-400 font-semibold flex items-center gap-1.5">
+                      <div className="font-mono text-emerald-700 font-bold flex items-center gap-1.5">
                         <MessageSquare className="w-3 h-3 shrink-0" />
                         <span>{order.customerWhatsapp}</span>
                       </div>
-                      <div className="font-mono text-slate-400 text-[11px] flex items-center gap-1.5">
-                        <Mail className="w-3 h-3 shrink-0 text-slate-500" />
+                      <div className="font-mono text-content-secondary text-[11px] flex items-center gap-1.5">
+                        <Mail className="w-3 h-3 shrink-0 text-content-muted" />
                         <span className="truncate max-w-[180px]">{order.customerEmail}</span>
                       </div>
                     </td>
 
                     {/* Date */}
-                    <td className="py-4 px-4 text-slate-400 whitespace-nowrap text-[11px]">
+                    <td className="py-4 px-4 text-content-secondary whitespace-nowrap text-[11px]">
                       {formatDateTime(order.createdAt)}
                     </td>
 
@@ -258,7 +258,7 @@ export default function AdminOrdersPage() {
                             setSelectedOrder(order);
                             setIsDrawerOpen(true);
                           }}
-                          className="p-1.5 rounded-lg bg-dark-850 hover:bg-dark-800 border border-slate-700 text-slate-300 hover:text-white"
+                          className="p-1.5 rounded-xl bg-white hover:bg-surface-secondary border border-border text-content-secondary hover:text-content-primary shadow-subtle transition-colors"
                           title="Open Details Drawer"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -280,33 +280,33 @@ export default function AdminOrdersPage() {
                   setSelectedOrder(order);
                   setIsDrawerOpen(true);
                 }}
-                className="p-4 rounded-2xl bg-dark-900 border border-slate-800 space-y-3 cursor-pointer hover:border-slate-700 transition-colors"
+                className="p-4 rounded-3xl bg-white border border-border space-y-3 cursor-pointer shadow-subtle hover:border-primary-300 transition-colors"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-bold text-sky-400">
+                  <span className="font-mono text-xs font-bold text-primary-600">
                     #{order.orderReference}
                   </span>
                   <StatusBadge status={order.status} />
                 </div>
 
                 <div className="space-y-1">
-                  <div className="font-bold text-sm text-white">{order.customerName}</div>
-                  <div className="text-xs text-slate-300">
-                    {order.productName} • <span className="text-slate-400">Qty: {order.quantity}</span>
+                  <div className="font-bold text-sm text-content-primary">{order.customerName}</div>
+                  <div className="text-xs text-content-secondary">
+                    {order.productName} • <span className="text-content-muted">Qty: {order.quantity}</span>
                   </div>
-                  <div className="font-black text-sm text-white pt-1">
+                  <div className="font-black text-sm text-content-primary pt-1">
                     {formatPrice(order.totalAmount)}
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-800/80 grid grid-cols-2 gap-2 text-xs">
+                <div className="pt-2 border-t border-border grid grid-cols-2 gap-2 text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-500 block uppercase">WhatsApp</span>
-                    <span className="font-mono text-emerald-400 font-semibold">{order.customerWhatsapp}</span>
+                    <span className="text-[10px] text-content-muted block uppercase font-semibold">WhatsApp</span>
+                    <span className="font-mono text-emerald-700 font-bold">{order.customerWhatsapp}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-500 block uppercase">Submitted</span>
-                    <span className="text-slate-400 text-[11px]">{formatDateTime(order.createdAt)}</span>
+                    <span className="text-[10px] text-content-muted block uppercase font-semibold">Submitted</span>
+                    <span className="text-content-secondary text-[11px]">{formatDateTime(order.createdAt)}</span>
                   </div>
                 </div>
 
@@ -333,7 +333,7 @@ export default function AdminOrdersPage() {
                       setSelectedOrder(order);
                       setIsDrawerOpen(true);
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-700 text-xs text-slate-200"
+                    className="px-3.5 py-1.5 rounded-xl bg-surface-secondary hover:bg-surface-tertiary border border-border text-xs font-bold text-content-primary shadow-subtle transition-colors"
                   >
                     Inspect
                   </button>

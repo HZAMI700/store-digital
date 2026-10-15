@@ -9,7 +9,6 @@ import {
   Key,
   Shield,
   ArrowLeft,
-  ExternalLink,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -23,13 +22,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-dark-950 pb-16">
-      {/* Admin Subheader Navigation */}
-      <div className="border-b border-slate-800 bg-dark-900/90 backdrop-blur sticky top-16 z-30">
+    <div className="min-h-screen bg-background pb-16">
+      {/* Admin Subheader Navigation in Pure Light Mode */}
+      <div className="border-b border-border bg-white/90 backdrop-blur sticky top-16 z-30 shadow-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 text-indigo-400 font-extrabold text-xs tracking-wider uppercase">
-              <Shield className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-primary-600 font-extrabold text-xs tracking-wider uppercase">
+              <Shield className="w-4 h-4 text-primary-500" />
               <span>Admin Management</span>
             </div>
 
@@ -44,10 +43,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all',
+                      'flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all',
                       isActive
-                        ? 'bg-indigo-600 text-white shadow-glow-purple'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-dark-850'
+                        ? 'bg-primary-500 text-white shadow-subtle'
+                        : 'text-content-secondary hover:text-content-primary hover:bg-surface-secondary'
                     )}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -61,9 +60,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-dark-850 border border-slate-700/60"
+              className="text-xs text-content-secondary hover:text-content-primary font-semibold flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-secondary hover:bg-surface-tertiary border border-border shadow-subtle"
             >
-              <ArrowLeft className="w-3 h-3" />
+              <ArrowLeft className="w-3.5 h-3.5" />
               <span>Customer Storefront</span>
             </Link>
           </div>

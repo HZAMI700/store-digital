@@ -69,7 +69,7 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   };
 
   const sizeClasses = {
-    sm: 'px-2.5 py-1 text-xs gap-1.5',
+    sm: 'px-2.5 py-1.5 text-xs gap-1.5',
     md: 'px-3.5 py-2 text-sm gap-2',
     lg: 'px-5 py-3 text-base gap-2.5',
   };
@@ -80,60 +80,59 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
         type="button"
         onClick={handleOpenWhatsApp}
         className={cn(
-          'inline-flex items-center justify-center font-semibold rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40 border border-emerald-400/30 transition-all hover:scale-[1.02] active:scale-[0.98]',
+          'inline-flex items-center justify-center font-bold rounded-xl bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-subtle border border-[#20BD5A]/30 transition-all hover:scale-[1.02] active:scale-[0.98]',
           sizeClasses[size],
           className
         )}
       >
         <MessageSquare className="w-4 h-4 shrink-0 fill-current" />
         <span>Contact via WhatsApp</span>
-        <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+        <ExternalLink className="w-3.5 h-3.5 opacity-80" />
       </button>
 
-      {/* Confirmation Dialog to guarantee accurate logging */}
+      {/* Confirmation Dialog in Pure Light Mode */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-150">
-          <div className="w-full max-w-md bg-dark-900 border border-slate-700/80 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex items-center gap-3 text-emerald-400">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                <MessageSquare className="w-6 h-6" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-md bg-white border border-border rounded-3xl p-6 shadow-dropdown space-y-4">
+            <div className="flex items-center gap-3 text-[#20BD5A]">
+              <div className="p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200">
+                <MessageSquare className="w-6 h-6 text-[#20BD5A]" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-100">WhatsApp Window Opened</h3>
-                <p className="text-xs text-slate-400">Did you establish contact with the customer?</p>
+                <h3 className="text-base font-bold text-content-primary">WhatsApp Opened</h3>
+                <p className="text-xs text-content-secondary">Did you connect with the customer?</p>
               </div>
             </div>
 
-            <div className="bg-dark-950/70 p-3 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1">
-              <div className="text-slate-400 font-medium">Prepared Message:</div>
-              <p className="italic text-slate-200">"{defaultText}"</p>
+            <div className="bg-surface-secondary p-3.5 rounded-2xl border border-border text-xs text-content-primary space-y-1">
+              <div className="text-content-secondary font-semibold">Prepared Message:</div>
+              <p className="italic text-content-primary">"{defaultText}"</p>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Recording this action updates the order status timeline and logs the contact timestamp.
-              If the message could not be sent, do not mark as contacted.
+            <p className="text-xs text-content-secondary leading-relaxed">
+              Recording this action updates the order status timeline to <strong>Contacting Customer</strong> and logs the exact contact timestamp.
             </p>
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setShowConfirmModal(false)}
-                className="px-4 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 bg-slate-800/60 hover:bg-slate-800 rounded-xl transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-content-secondary hover:text-content-primary bg-surface-secondary hover:bg-surface-tertiary rounded-xl transition-colors"
               >
-                No, Skip Recording
+                Skip Recording
               </button>
               <button
                 type="button"
                 onClick={handleConfirmLogged}
                 disabled={isRecording}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl shadow transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#25D366] hover:bg-[#20BD5A] rounded-xl shadow-subtle transition-colors"
               >
                 {isRecording ? (
                   <Clock className="w-3.5 h-3.5 animate-spin" />
                 ) : (
                   <Check className="w-3.5 h-3.5" />
                 )}
-                <span>Yes, Record Contact Attempt</span>
+                <span>Record Contact Attempt</span>
               </button>
             </div>
           </div>

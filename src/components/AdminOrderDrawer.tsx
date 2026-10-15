@@ -160,18 +160,18 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/75 backdrop-blur-sm flex justify-end animate-in fade-in duration-150">
-      <div className="w-full max-w-2xl bg-dark-900 border-l border-slate-700/80 h-full overflow-y-auto flex flex-col shadow-2xl">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-black/40 backdrop-blur-sm flex justify-end animate-in fade-in duration-150">
+      <div className="w-full max-w-2xl bg-white border-l border-border h-full overflow-y-auto flex flex-col shadow-2xl">
         {/* Drawer Header */}
-        <div className="sticky top-0 z-20 px-6 py-4 bg-dark-900/95 backdrop-blur-md border-b border-slate-800 flex items-center justify-between gap-4">
+        <div className="sticky top-0 z-20 px-6 py-4 bg-white/95 backdrop-blur-md border-b border-border flex items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-sm font-extrabold text-sky-400">
+              <span className="font-mono text-sm font-extrabold text-primary-600">
                 #{currentOrder.orderReference}
               </span>
               <StatusBadge status={currentOrder.status} />
             </div>
-            <div className="text-xs text-slate-400 mt-0.5">
+            <div className="text-xs text-content-secondary mt-0.5">
               Submitted: {formatDateTime(currentOrder.createdAt)}
             </div>
           </div>
@@ -179,7 +179,7 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 transition-colors"
+            className="p-2 rounded-xl text-content-secondary hover:text-content-primary bg-surface-secondary hover:bg-surface-tertiary transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -188,21 +188,21 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
         {/* Content Body */}
         <div className="p-6 space-y-6 flex-1">
           {actionError && (
-            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
               <span>{actionError}</span>
             </div>
           )}
 
           {/* QUICK CONTACT ACTIONS (Requirement 4) */}
-          <div className="p-4 rounded-2xl bg-dark-950 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-3xl bg-surface-secondary border border-border space-y-3 shadow-subtle">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <MessageSquare className="w-4 h-4 text-sky-400" />
+              <h3 className="text-xs font-bold text-content-primary uppercase tracking-wider flex items-center gap-1.5">
+                <MessageSquare className="w-4 h-4 text-primary-500" />
                 <span>Direct Customer Contact Actions</span>
               </h3>
               {currentOrder.contactedAt && (
-                <span className="text-[11px] text-emerald-400 font-medium">
+                <span className="text-[11px] text-emerald-700 font-semibold">
                   Last contacted via {currentOrder.contactMethod?.toUpperCase()}:{' '}
                   {formatDateTime(currentOrder.contactedAt)}
                 </span>
@@ -255,8 +255,8 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
           </div>
 
           {/* STATUS SELECTOR (All 8 Statuses) */}
-          <div className="p-4 rounded-2xl bg-dark-950 border border-slate-800 space-y-2.5">
-            <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider">
+          <div className="p-4 rounded-3xl bg-surface-secondary border border-border space-y-2.5 shadow-subtle">
+            <label className="block text-xs font-bold text-content-primary uppercase tracking-wider">
               Change Order Status
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -271,12 +271,12 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
                     disabled={isUpdatingStatus}
                     className={`flex items-center justify-between p-2.5 rounded-xl border text-xs text-left transition-all ${
                       isSelected
-                        ? `${conf.badgeBg} ${conf.badgeBorder} ${conf.badgeText} font-bold ring-1 ring-sky-500/40`
-                        : 'bg-dark-900 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                        ? `${conf.badgeBg} ${conf.badgeBorder} ${conf.badgeText} font-bold ring-2 ring-primary-500/30 shadow-subtle`
+                        : 'bg-white border-border text-content-secondary hover:text-content-primary hover:border-border-strong'
                     }`}
                   >
                     <span>{conf.label}</span>
-                    {isSelected && <CheckCircle2 className="w-4 h-4 shrink-0" />}
+                    {isSelected && <CheckCircle2 className="w-4 h-4 shrink-0 text-primary-600" />}
                   </button>
                 );
               })}
@@ -284,59 +284,59 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
           </div>
 
           {/* CUSTOMER CONTACT INFORMATION */}
-          <div className="p-4 rounded-2xl bg-dark-950 border border-slate-800 space-y-3">
-            <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-              <User className="w-4 h-4 text-sky-400" />
+          <div className="p-4 rounded-3xl bg-surface-secondary border border-border space-y-3 shadow-subtle">
+            <h3 className="text-xs font-bold text-content-primary uppercase tracking-wider flex items-center gap-1.5">
+              <User className="w-4 h-4 text-primary-500" />
               <span>Customer Information</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <span className="text-slate-500 block">Name</span>
-                <span className="font-semibold text-slate-100">{currentOrder.customerName}</span>
+                <span className="text-content-secondary block">Name</span>
+                <span className="font-bold text-content-primary">{currentOrder.customerName}</span>
               </div>
               <div>
-                <span className="text-slate-500 block">Email Address</span>
-                <span className="font-mono text-slate-200">{currentOrder.customerEmail}</span>
+                <span className="text-content-secondary block">Email Address</span>
+                <span className="font-mono text-content-primary">{currentOrder.customerEmail}</span>
               </div>
               <div>
-                <span className="text-slate-500 block">WhatsApp Phone</span>
-                <span className="font-mono text-emerald-400 font-semibold">
+                <span className="text-content-secondary block">WhatsApp Phone</span>
+                <span className="font-mono text-emerald-700 font-bold">
                   {currentOrder.customerWhatsapp}
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 block">Account Status</span>
-                <span className="text-slate-300">
+                <span className="text-content-secondary block">Account Status</span>
+                <span className="text-content-primary font-medium">
                   {currentOrder.customerId ? 'Registered Customer' : 'Guest Request'}
                 </span>
               </div>
             </div>
 
             {currentOrder.customerMessage && (
-              <div className="mt-3 p-3 rounded-xl bg-dark-900 border border-slate-800 text-xs">
-                <span className="text-slate-400 font-medium block mb-1">Customer Note:</span>
-                <p className="text-slate-200 italic">"{currentOrder.customerMessage}"</p>
+              <div className="mt-3 p-3 rounded-2xl bg-white border border-border text-xs">
+                <span className="text-content-secondary font-semibold block mb-1">Customer Note:</span>
+                <p className="text-content-primary italic">"{currentOrder.customerMessage}"</p>
               </div>
             )}
           </div>
 
           {/* ORDERED PRODUCT & FINANCIALS */}
-          <div className="p-4 rounded-2xl bg-dark-950 border border-slate-800 space-y-3">
-            <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          <div className="p-4 rounded-3xl bg-surface-secondary border border-border space-y-3 shadow-subtle">
+            <h3 className="text-xs font-bold text-content-primary uppercase tracking-wider">
               Product & Financial Snapshot
             </h3>
 
-            <div className="flex items-center justify-between p-3 rounded-xl bg-dark-900 border border-slate-800">
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-border">
               <div>
-                <div className="font-bold text-sm text-slate-100">{currentOrder.productName}</div>
-                <div className="text-xs text-slate-400">
-                  Quantity: <span className="font-bold text-slate-200">{currentOrder.quantity}</span> × {formatPrice(currentOrder.unitPrice)}
+                <div className="font-bold text-sm text-content-primary">{currentOrder.productName}</div>
+                <div className="text-xs text-content-secondary">
+                  Quantity: <span className="font-bold text-content-primary">{currentOrder.quantity}</span> × {formatPrice(currentOrder.unitPrice)}
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-[11px] text-slate-500 uppercase tracking-wider block">Total Amount</span>
-                <span className="text-base font-extrabold text-white">
+                <span className="text-[11px] text-content-secondary uppercase tracking-wider block">Total Amount</span>
+                <span className="text-base font-black text-content-primary">
                   {formatPrice(currentOrder.totalAmount)}
                 </span>
               </div>
@@ -344,20 +344,20 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
           </div>
 
           {/* INVENTORY ALLOCATION & SAFE DELIVERY (Requirement 6) */}
-          <div className="p-4 rounded-2xl bg-dark-950 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-3xl bg-surface-secondary border border-border space-y-3 shadow-subtle">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <Key className="w-4 h-4 text-amber-400" />
+              <h3 className="text-xs font-bold text-content-primary uppercase tracking-wider flex items-center gap-1.5">
+                <Key className="w-4 h-4 text-amber-500" />
                 <span>Digital Account Delivery Vault</span>
               </h3>
-              <span className="text-[10px] text-slate-500">Single-use Protection</span>
+              <span className="text-[10px] text-content-secondary font-medium">Single-use Protection</span>
             </div>
 
             {currentOrder.deliveredCredentials ? (
-              <div className="p-3.5 rounded-xl bg-dark-900 border border-emerald-500/30 space-y-3">
+              <div className="p-3.5 rounded-2xl bg-white border border-emerald-300 space-y-3 shadow-subtle">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
-                    <CheckCircle2 className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-emerald-700 text-xs font-bold">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     <span>Credentials Assigned to Order</span>
                   </div>
 
@@ -366,10 +366,10 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
                     type="button"
                     onClick={() => handleToggleReveal(!currentOrder.credentialsRevealed)}
                     disabled={isTogglingReveal}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold border transition-all ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
                       currentOrder.credentialsRevealed
-                        ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
-                        : 'bg-dark-850 border-slate-700 text-slate-400 hover:text-white'
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                        : 'bg-surface-secondary border-border text-content-secondary hover:text-content-primary'
                     }`}
                   >
                     {currentOrder.credentialsRevealed ? (
@@ -386,28 +386,28 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
                   </button>
                 </div>
 
-                <div className="bg-dark-950 p-2.5 rounded-lg border border-slate-800 font-mono text-xs text-slate-200 select-all whitespace-pre-wrap break-all">
+                <div className="bg-surface-secondary p-3 rounded-xl border border-border font-mono text-xs text-content-primary select-all whitespace-pre-wrap break-all">
                   {currentOrder.deliveredCredentials}
                 </div>
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-content-secondary leading-relaxed">
                   Assign available stock credentials to this order once payment is confirmed.
                   Single-use safety locks guarantee an account cannot be assigned twice.
                 </p>
 
                 {availableInventory.length === 0 ? (
-                  <div className="p-3 rounded-xl bg-dark-900 border border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+                  <div className="p-3 rounded-2xl bg-white border border-border text-xs text-content-secondary flex items-center justify-between">
                     <span>No unassigned stock available for this product in vault.</span>
-                    <span className="text-amber-400 text-[11px]">Deliver manually via WhatsApp</span>
+                    <span className="text-amber-700 font-semibold text-[11px]">Deliver manually via WhatsApp</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
                     <select
                       value={selectedInventoryId}
                       onChange={(e) => setSelectedInventoryId(e.target.value)}
-                      className="flex-1 h-10 px-3 bg-dark-900 border border-slate-700 rounded-xl text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                      className="flex-1 h-10 px-3 bg-white border border-border rounded-xl text-xs text-content-primary focus:outline-none focus:ring-1 focus:ring-primary-500 shadow-subtle"
                     >
                       <option value="">Select an available account from vault...</option>
                       {availableInventory.map((item) => (
@@ -421,7 +421,7 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
                       type="button"
                       onClick={handleAssignInventory}
                       disabled={!selectedInventoryId || isAssigning}
-                      className="h-10 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold disabled:opacity-50 transition-colors"
+                      className="h-10 px-4 bg-primary-500 hover:bg-primary-600 text-white rounded-xl text-xs font-bold disabled:opacity-50 transition-colors shadow-subtle"
                     >
                       {isAssigning ? 'Assigning...' : 'Assign Account'}
                     </button>
@@ -432,14 +432,14 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
           </div>
 
           {/* INTERNAL ADMIN NOTES (Strictly Administrator Only) */}
-          <div className="p-4 rounded-2xl bg-dark-950 border border-slate-800 space-y-2">
+          <div className="p-4 rounded-3xl bg-surface-secondary border border-border space-y-2 shadow-subtle">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-4 h-4 text-sky-400" />
+              <label className="text-xs font-bold text-content-primary uppercase tracking-wider flex items-center gap-1.5">
+                <FileText className="w-4 h-4 text-primary-500" />
                 <span>Internal Admin Notes (Private)</span>
               </label>
               {notesSavedNotice && (
-                <span className="text-[11px] text-emerald-400 font-semibold animate-in fade-in">
+                <span className="text-[11px] text-emerald-700 font-bold animate-in fade-in">
                   Saved successfully!
                 </span>
               )}
@@ -450,7 +450,7 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
               value={internalNotes}
               onChange={(e) => setInternalNotes(e.target.value)}
               placeholder="Private notes (payment transaction ID, customer preferences, follow-up schedule). Never visible to customers."
-              className="w-full p-3 text-xs bg-dark-900 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-sky-500 resize-none"
+              className="w-full p-3 text-xs bg-white border border-border rounded-xl text-content-primary placeholder-content-muted focus:outline-none focus:ring-1 focus:ring-primary-500 resize-none shadow-subtle"
             />
 
             <div className="flex justify-end">
@@ -458,9 +458,9 @@ export const AdminOrderDrawer: React.FC<AdminOrderDrawerProps> = ({
                 type="button"
                 onClick={handleSaveNotes}
                 disabled={isSavingNotes}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-dark-850 hover:bg-dark-800 border border-slate-700 text-xs font-semibold text-slate-200 rounded-lg transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-surface-secondary border border-border text-xs font-bold text-content-primary rounded-xl transition-colors shadow-subtle"
               >
-                <Save className="w-3.5 h-3.5" />
+                <Save className="w-3.5 h-3.5 text-primary-500" />
                 <span>{isSavingNotes ? 'Saving...' : 'Save Notes'}</span>
               </button>
             </div>

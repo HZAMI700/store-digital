@@ -68,54 +68,54 @@ export default function AdminDashboardPage() {
       value: stats?.newOrders ?? 0,
       description: 'Submitted, awaiting review',
       icon: Sparkles,
-      color: 'text-amber-400',
-      bg: 'bg-amber-500/10',
-      border: 'border-amber-500/30',
+      color: 'text-amber-800',
+      bg: 'bg-amber-50',
+      border: 'border-amber-200',
     },
     {
       title: 'Awaiting Contact',
       value: stats?.awaitingContact ?? 0,
       description: 'Pending admin WhatsApp/Email outreach',
       icon: PhoneCall,
-      color: 'text-sky-400',
-      bg: 'bg-sky-500/10',
-      border: 'border-sky-500/30',
+      color: 'text-blue-700',
+      bg: 'bg-blue-50',
+      border: 'border-blue-200',
     },
     {
       title: 'Awaiting Customer Reply',
       value: stats?.awaitingCustomerResponse ?? 0,
       description: 'Contacted / Payment info sent',
       icon: Clock,
-      color: 'text-indigo-400',
-      bg: 'bg-indigo-500/10',
-      border: 'border-indigo-500/30',
+      color: 'text-purple-700',
+      bg: 'bg-purple-50',
+      border: 'border-purple-200',
     },
     {
       title: 'Payment Confirmed',
       value: stats?.paymentConfirmed ?? 0,
       description: 'Verified, ready for delivery',
       icon: CheckCircle2,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10',
-      border: 'border-emerald-500/30',
+      color: 'text-teal-700',
+      bg: 'bg-teal-50',
+      border: 'border-teal-200',
     },
     {
       title: 'Completed Orders',
       value: stats?.completed ?? 0,
       description: 'Fulfilled & accounts delivered',
       icon: PackageCheck,
-      color: 'text-teal-400',
-      bg: 'bg-teal-500/10',
-      border: 'border-teal-500/30',
+      color: 'text-emerald-700',
+      bg: 'bg-emerald-50',
+      border: 'border-emerald-200',
     },
     {
       title: 'Total Order Value',
       value: formatPrice(stats?.totalOrderValue ?? 0),
       description: 'Gross value of all active requests',
       icon: DollarSign,
-      color: 'text-purple-400',
-      bg: 'bg-purple-500/10',
-      border: 'border-purple-500/30',
+      color: 'text-indigo-700',
+      bg: 'bg-indigo-50',
+      border: 'border-indigo-200',
     },
   ];
 
@@ -124,8 +124,8 @@ export default function AdminDashboardPage() {
       {/* Title & Refresh */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-white tracking-tight">Admin Overview</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-2xl font-black text-content-primary tracking-tight">Admin Overview</h1>
+          <p className="text-xs text-content-secondary mt-0.5">
             Monitor real-time incoming manual order requests, customer outreach, and manual fulfillment.
           </p>
         </div>
@@ -134,15 +134,15 @@ export default function AdminDashboardPage() {
           <button
             type="button"
             onClick={fetchData}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-dark-850 hover:bg-dark-800 border border-slate-700 rounded-xl text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-surface-secondary border border-border rounded-xl text-xs font-bold text-content-primary transition-colors shadow-subtle"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-3.5 h-3.5 text-primary-500" />
             <span>Refresh Data</span>
           </button>
 
           <Link
             href="/admin/orders"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-indigo-950/40 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-xl text-xs font-bold shadow-subtle transition-colors"
           >
             <span>View All Orders</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -157,10 +157,10 @@ export default function AdminDashboardPage() {
           return (
             <div
               key={i}
-              className="p-5 rounded-3xl bg-dark-900 border border-slate-800 shadow-xl space-y-3 relative overflow-hidden"
+              className="p-5 rounded-3xl bg-white border border-border shadow-card space-y-3 relative overflow-hidden"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <span className="text-xs font-bold text-content-secondary uppercase tracking-wider">
                   {card.title}
                 </span>
                 <div className={`p-2.5 rounded-2xl ${card.bg} ${card.border} border ${card.color}`}>
@@ -169,10 +169,10 @@ export default function AdminDashboardPage() {
               </div>
 
               <div>
-                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                <div className="text-2xl sm:text-3xl font-black text-content-primary tracking-tight">
                   {card.value}
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1">{card.description}</div>
+                <div className="text-[11px] text-content-muted mt-1 font-medium">{card.description}</div>
               </div>
             </div>
           );
@@ -180,63 +180,63 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* PRIORITY ACTION QUEUE: NEW & PENDING ORDERS */}
-      <div className="p-6 rounded-3xl bg-dark-900 border border-slate-800 shadow-xl space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="p-6 rounded-3xl bg-white border border-border shadow-card space-y-4">
+        <div className="flex items-center justify-between border-b border-border pb-4">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+            <h2 className="text-base font-bold text-content-primary flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-500" />
               <span>Pending Attention: New & Uncontacted Orders</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-content-secondary mt-0.5">
               Customers waiting for you to reach out via WhatsApp or Email
             </p>
           </div>
 
           <Link
             href="/admin/orders"
-            className="text-xs text-sky-400 hover:text-sky-300 font-semibold"
+            className="text-xs text-primary-600 hover:text-primary-700 font-bold"
           >
             Manage in Table →
           </Link>
         </div>
 
         {loading ? (
-          <div className="py-12 text-center text-xs text-slate-500">Loading orders...</div>
+          <div className="py-12 text-center text-xs text-content-secondary">Loading orders...</div>
         ) : orders.filter((o) => o.status === 'new_order' || o.status === 'contacting_customer').length === 0 ? (
-          <div className="p-8 text-center text-xs text-slate-400 bg-dark-950/60 rounded-2xl border border-slate-800/80">
+          <div className="p-8 text-center text-xs text-content-secondary bg-surface-secondary rounded-2xl border border-border">
             All current orders have been contacted or responded to! Good job.
           </div>
         ) : (
-          <div className="divide-y divide-slate-800/60">
+          <div className="divide-y divide-border/60">
             {orders
               .filter((o) => o.status === 'new_order' || o.status === 'contacting_customer')
               .slice(0, 5)
               .map((order) => (
                 <div
                   key={order.id}
-                  className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-dark-850/40 p-3 rounded-2xl transition-colors"
+                  className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface-secondary/50 p-3 rounded-2xl transition-colors"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono text-xs font-bold text-sky-400">
+                      <span className="font-mono text-xs font-bold text-primary-600">
                         #{order.orderReference}
                       </span>
                       <StatusBadge status={order.status} />
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-content-secondary">
                         {formatDateTime(order.createdAt)}
                       </span>
                     </div>
 
-                    <div className="text-sm font-semibold text-slate-200">
-                      {order.customerName} • <span className="text-slate-400">{order.productName} (x{order.quantity})</span>
+                    <div className="text-sm font-bold text-content-primary">
+                      {order.customerName} • <span className="text-content-secondary font-normal">{order.productName} (x{order.quantity})</span>
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs text-slate-400">
-                      <span className="font-mono text-emerald-400">{order.customerWhatsapp}</span>
+                    <div className="flex items-center gap-3 text-xs text-content-secondary">
+                      <span className="font-mono text-emerald-700 font-bold">{order.customerWhatsapp}</span>
                       <span>•</span>
                       <span className="font-mono">{order.customerEmail}</span>
                       <span>•</span>
-                      <span className="font-bold text-white">{formatPrice(order.totalAmount)}</span>
+                      <span className="font-black text-content-primary">{formatPrice(order.totalAmount)}</span>
                     </div>
                   </div>
 
@@ -267,7 +267,7 @@ export default function AdminDashboardPage() {
                         setSelectedOrder(order);
                         setIsDrawerOpen(true);
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-slate-700 text-xs font-medium text-slate-200"
+                      className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-surface-secondary border border-border text-xs font-bold text-content-primary shadow-subtle transition-colors"
                     >
                       Details
                     </button>

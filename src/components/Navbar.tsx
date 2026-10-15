@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -13,20 +13,14 @@ import {
   X,
   ExternalLink,
   Sparkles,
+  MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AnnouncementBanner } from './AnnouncementBanner';
 
 export const Navbar = () => {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isAdminMode, setIsAdminMode] = useState(false);
-
-  useEffect(() => {
-    // Check if user is on admin route or has admin flag in localStorage
-    if (pathname.startsWith('/admin')) {
-      setIsAdminMode(true);
-    }
-  }, [pathname]);
 
   const navLinks = [
     { name: 'Products Catalog', href: '/' },
@@ -35,34 +29,29 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-dark-950/80 backdrop-blur-xl">
-      {/* Top Banner Notice */}
-      <div className="bg-gradient-to-r from-sky-950/70 via-dark-900 to-indigo-950/70 border-b border-sky-500/20 px-4 py-1.5 text-center text-xs text-sky-300 flex items-center justify-center gap-2">
-        <Sparkles className="w-3.5 h-3.5 text-sky-400 shrink-0 animate-pulse" />
-        <span>
-          <strong>Direct Manual Service:</strong> No online card payments. Submit your request & our admin contacts you via WhatsApp or Email.
-        </span>
-      </div>
+    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-border shadow-subtle">
+      {/* 21st-style Announcement Ticker */}
+      <AnnouncementBanner />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-all">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-500 to-primary-700 flex items-center justify-center text-white shadow-subtle group-hover:scale-105 transition-all">
             <ShoppingBag className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-base font-extrabold tracking-tight text-white flex items-center gap-1.5">
+            <div className="text-base font-extrabold tracking-tight text-content-primary flex items-center gap-1.5">
               <span>APEX</span>
-              <span className="text-sky-400">DIGITAL</span>
+              <span className="text-primary-500">DIGITAL</span>
             </div>
-            <div className="text-[10px] text-slate-400 font-medium tracking-wide uppercase">
-              Premium Accounts Store
+            <div className="text-[10px] text-content-secondary font-semibold tracking-wide uppercase">
+              Verified Digital Store
             </div>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1 bg-dark-900/60 p-1 rounded-xl border border-slate-800">
+        <nav className="hidden md:flex items-center gap-1 bg-surface-secondary p-1 rounded-xl border border-border">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -72,8 +61,8 @@ export const Navbar = () => {
                 className={cn(
                   'px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all',
                   isActive
-                    ? 'bg-sky-500/10 text-sky-400 border border-sky-500/30'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-dark-800'
+                    ? 'bg-white text-primary-600 shadow-subtle border border-border font-bold'
+                    : 'text-content-secondary hover:text-content-primary hover:bg-white/70'
                 )}
               >
                 {link.name}
@@ -90,8 +79,8 @@ export const Navbar = () => {
             className={cn(
               'hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border',
               pathname.startsWith('/admin')
-                ? 'bg-indigo-600 text-white border-indigo-400 shadow-glow-purple'
-                : 'bg-dark-850 hover:bg-dark-800 text-indigo-400 hover:text-indigo-300 border-indigo-500/30'
+                ? 'bg-primary-500 text-white border-primary-600 shadow-sm'
+                : 'bg-surface-secondary hover:bg-white text-primary-600 hover:text-primary-700 border-border hover:border-primary-200 shadow-subtle'
             )}
           >
             <Shield className="w-3.5 h-3.5" />
@@ -101,7 +90,7 @@ export const Navbar = () => {
           {/* Customer Profile Icon */}
           <Link
             href="/my-orders"
-            className="p-2 rounded-xl bg-dark-850 border border-slate-700/60 text-slate-300 hover:text-white hover:border-slate-600 transition-colors"
+            className="p-2 rounded-xl bg-surface-secondary border border-border text-content-secondary hover:text-content-primary hover:bg-white hover:border-border-strong transition-all shadow-subtle"
             title="My Orders & Profile"
           >
             <User className="w-4 h-4" />
@@ -110,7 +99,8 @@ export const Navbar = () => {
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-xl bg-dark-850 border border-slate-700/60 text-slate-300 hover:text-white"
+            className="md:hidden p-2 rounded-xl bg-surface-secondary border border-border text-content-secondary hover:text-content-primary"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -119,17 +109,17 @@ export const Navbar = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-800 bg-dark-900/95 backdrop-blur-xl px-4 py-4 space-y-2 animate-in slide-in-from-top duration-150">
+        <div className="md:hidden border-b border-border bg-white px-4 py-4 space-y-2 animate-in slide-in-from-top duration-150 shadow-dropdown">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
               className={cn(
-                'block px-4 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                'block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors',
                 pathname === link.href
-                  ? 'bg-sky-500/10 text-sky-400 border border-sky-500/30'
-                  : 'text-slate-300 hover:bg-dark-800'
+                  ? 'bg-primary-50 text-primary-600 border border-primary-200'
+                  : 'text-content-secondary hover:bg-surface-secondary'
               )}
             >
               {link.name}
@@ -138,10 +128,10 @@ export const Navbar = () => {
           <Link
             href="/admin"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-semibold bg-indigo-950/40 border border-indigo-800 text-indigo-300 hover:bg-indigo-900/40"
+            className="flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold bg-primary-50 border border-primary-200 text-primary-700 hover:bg-primary-100"
           >
             <span className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-indigo-400" />
+              <Shield className="w-4 h-4 text-primary-500" />
               <span>Admin Management Portal</span>
             </span>
             <ExternalLink className="w-3.5 h-3.5 opacity-60" />
