@@ -512,18 +512,18 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 5. Luxurious 3D Product Cards Grid (Large, Bold Gras Typography, Tactile Depth) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        {/* 5. Minimalist Compact 3D Product Cards Grid (5 Cards Per Line on Desktop) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-4 lg:gap-5">
           {filteredProducts.map((product) => {
             return (
               <div key={product.id} id={product.id} className="card-3d-wrap">
                 <Link
                   href={`/products/${product.slug}`}
-                  className="card-3d p-5 sm:p-6 flex flex-col justify-between group overflow-hidden bg-white text-right h-full cursor-pointer select-none"
+                  className="card-3d-sm p-3 sm:p-3.5 flex flex-col justify-between group overflow-hidden bg-white text-right h-full cursor-pointer select-none"
                 >
                   <div>
-                    {/* 1. Large 3D Floating Artwork Media */}
-                    <div className="relative aspect-[16/10] sm:aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-900 border-2 border-slate-100 shadow-md mb-4 group-hover:border-[#06b6d4]/40 transition-colors">
+                    {/* 1. Product Artwork Media */}
+                    <div className="relative aspect-[4/3] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-slate-900 border border-slate-100 shadow-xs mb-2.5 group-hover:border-[#06b6d4]/40 transition-colors">
                       <img
                         src={product.imageUrl}
                         alt={product.title}
@@ -531,76 +531,32 @@ export default function HomePage() {
                         loading="lazy"
                         decoding="async"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-                      {/* Floating Badges */}
-                      <div className="absolute top-3 right-3 flex items-center gap-2 z-10 card-3d-badge">
-                        {product.badge && (
-                          <span className="px-3 py-1 rounded-full bg-slate-950/90 backdrop-blur-md text-white font-black text-xs border border-white/20 shadow-lg flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                            <span>{product.badge}</span>
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="absolute bottom-3 right-3 z-10">
-                        <span className="px-3 py-1 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 text-xs text-slate-900 font-black shadow-md flex items-center gap-1.5">
-                          <i className={product.icon}></i>
-                          <span>{product.categoryName}</span>
-                        </span>
-                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    {/* 2. Product Name (Large & Bold / Gras) */}
-                    <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#0284c7] transition-colors leading-snug mb-2 line-clamp-2">
+                    {/* 2. Product Name (Bold / Gras) */}
+                    <h3 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-[#0284c7] transition-colors leading-snug line-clamp-2 min-h-[2.4rem] flex items-center mb-1.5">
                       {product.title}
                     </h3>
-
-                    {/* 3. Short Description (Crisp, High-Contrast & Gras) */}
-                    <p className="text-xs sm:text-sm font-bold text-slate-600 line-clamp-2 leading-relaxed mb-4">
-                      {product.shortDescription}
-                    </p>
-
-                    {/* 4. Two Feature Highlights Preview */}
-                    <div className="space-y-1.5 mb-5 pb-4 border-t border-slate-100 pt-3">
-                      {product.features.slice(0, 2).map((feat, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs font-black text-slate-700">
-                          <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-[10px]">
-                            <i className="fa-solid fa-check"></i>
-                          </div>
-                          <span className="truncate">{feat}</span>
-                        </div>
-                      ))}
-                    </div>
                   </div>
 
-                  {/* 5. Bottom Price & Tactile 3D Action Button */}
-                  <div className="space-y-3 pt-2">
-                    <div className="flex items-baseline justify-between border-t border-slate-100 pt-3">
-                      <div>
-                        <span className="text-[11px] font-black text-slate-400 block">السعر بالدينار التونسي:</span>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl sm:text-3xl font-black text-[#0284c7] font-mono">
-                            {formatPrice(product.price)}
-                          </span>
-                          {product.compareAtPrice && (
-                            <span className="text-xs sm:text-sm font-bold text-slate-400 line-through font-mono">
-                              {formatPrice(product.compareAtPrice)}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <span className="text-xs font-black text-emerald-700 px-3 py-1 rounded-xl bg-emerald-50 border border-emerald-200">
-                        {product.warranty}
+                  {/* 3. Product Price (Bold / Gras) */}
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between mt-auto">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-sm sm:text-base font-black text-[#0284c7] font-mono">
+                        {formatPrice(product.price)}
                       </span>
+                      {product.compareAtPrice && (
+                        <span className="text-[10px] font-bold text-slate-400 line-through font-mono">
+                          {formatPrice(product.compareAtPrice)}
+                        </span>
+                      )}
                     </div>
 
-                    <div className="btn-3d w-full py-3.5 px-5 font-black text-sm text-white flex items-center justify-center gap-2.5">
-                      <Zap className="w-4 h-4 text-yellow-300" />
-                      <span>عرض الباقة والطلب الفوري</span>
-                      <ChevronLeft className="w-4 h-4" />
-                    </div>
+                    <span className="text-[10px] font-black text-slate-400 group-hover:text-[#0284c7] transition flex items-center gap-0.5">
+                      <span>عرض</span>
+                      <ChevronLeft className="w-3 h-3" />
+                    </span>
                   </div>
                 </Link>
               </div>
