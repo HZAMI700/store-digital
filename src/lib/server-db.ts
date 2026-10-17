@@ -53,6 +53,8 @@ export const serverDb = {
     customerMessage?: string | null;
     consentGiven: boolean;
     customerId?: string | null;
+    planId?: string | null;
+    unitPrice?: number | null;
   }): Order => {
     const product = global.__globalStore!.products.find((p) => p.id === data.productId);
     if (!product) {
@@ -60,7 +62,19 @@ export const serverDb = {
     }
 
     // SERVER-SIDE CALCULATION & PRICE SNAPSHOT
-    const unitPrice = product.price;
+    let unitPrice = product.price;
+    let selectedPlan: string | undefined = undefined;
+
+    if (data.planId && product.plans) {
+      const matchedPlan = product.plans.find((p) => p.id === data.planId);
+      if (matchedPlan) {
+        unitPrice = matchedPlan.price;
+        selectedPlan = matchedPlan.name;
+      }
+    } else if (data.unitPrice && data.unitPrice > 0) {
+      unitPrice = data.unitPrice;
+    }
+
     const totalAmount = Number((unitPrice * data.quantity).toFixed(2));
     const now = new Date().toISOString();
     const orderReference = generateOrderReference();
@@ -78,6 +92,7 @@ export const serverDb = {
       productId: product.id,
       productName: product.title,
       productImage: product.imageUrl,
+      selectedPlan,
       quantity: data.quantity,
       unitPrice,
       totalAmount,

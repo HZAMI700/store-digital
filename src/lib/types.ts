@@ -102,6 +102,16 @@ export const ORDER_STATUSES: Record<OrderStatus, OrderStatusConfig> = {
   },
 };
 
+export interface ProductPlan {
+  id: string;
+  name: string;
+  duration: string;
+  price: number;
+  compareAtPrice?: number;
+  badge?: string;
+  isPopular?: boolean;
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -123,6 +133,7 @@ export interface Product {
   stockStatus: 'in_stock' | 'low_stock' | 'out_of_stock';
   warranty: string;
   deliveryNote: string;
+  plans?: ProductPlan[];
 }
 
 export interface Order {
@@ -137,6 +148,7 @@ export interface Order {
   productId: string;
   productName: string;
   productImage?: string;
+  selectedPlan?: string;
   quantity: number;
   unitPrice: number;
   totalAmount: number;

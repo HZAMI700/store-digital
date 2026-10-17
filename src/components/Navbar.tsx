@@ -54,25 +54,33 @@ export const Navbar = () => {
 
   const navProducts = [
     {
+      id: 'prod-capcut-pro-1m',
+      title: 'اشتراك كاب كت برو CapCut Pro',
+      price: '15 د.ت',
+      icon: 'fa-solid fa-scissors text-cyan-600',
+      tag: 'شهر / سنة',
+      tagColor: 'bg-cyan-50 text-cyan-700 border border-cyan-200',
+    },
+    {
+      id: 'prod-gemini-advanced',
+      title: 'اشتراك Gemini Advanced',
+      price: '30 د.ت',
+      icon: 'fa-solid fa-brain text-blue-600',
+      tag: 'سنة كاملة',
+      tagColor: 'bg-blue-50 text-blue-700 border border-blue-200',
+    },
+    {
       id: 'prod-netflix-4k',
       title: 'اشتراك نتفلكس 4K UHD',
-      price: '15.00 ر.س',
+      price: '18 د.ت',
       icon: 'fa-solid fa-tv text-rose-500',
       tag: 'الأكثر طلباً',
       tagColor: 'bg-rose-50 text-rose-600 border border-rose-200',
     },
     {
-      id: 'prod-capcut-pro-1m',
-      title: 'اشتراك كاب كت برو CapCut Pro',
-      price: '19.99 ر.س',
-      icon: 'fa-solid fa-scissors text-cyan-600',
-      tag: 'تصدير 4K',
-      tagColor: 'bg-cyan-50 text-cyan-700 border border-cyan-200',
-    },
-    {
       id: 'prod-canva-pro',
       title: 'اشتراك كانفا برو Canva Pro',
-      price: '12.00 ر.س',
+      price: '25 د.ت',
       icon: 'fa-solid fa-palette text-sky-600',
       tag: 'تفعيل إيميلك',
       tagColor: 'bg-sky-50 text-sky-700 border border-sky-200',
@@ -80,18 +88,10 @@ export const Navbar = () => {
     {
       id: 'prod-express-vpn',
       title: 'اشتراك ExpressVPN',
-      price: '24.50 ر.س',
+      price: '45 د.ت',
       icon: 'fa-solid fa-shield-halved text-emerald-600',
       tag: 'أعلى حماية',
       tagColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-    },
-    {
-      id: 'prod-gemini-advanced',
-      title: 'اشتراك Gemini Advanced',
-      price: '29.00 ر.س',
-      icon: 'fa-solid fa-brain text-blue-600',
-      tag: 'ذكاء اصطناعي',
-      tagColor: 'bg-blue-50 text-blue-700 border border-blue-200',
     },
   ];
 
@@ -136,7 +136,7 @@ export const Navbar = () => {
             {/* Language & Currency on Desktop */}
             <div className="hidden lg:flex items-center gap-2 text-xs font-semibold text-slate-600 border-r border-slate-200 pr-3">
               <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-800 font-bold">AR</span>
-              <span className="px-2 py-1 rounded-lg bg-sky-50 text-[#0284c7] font-bold border border-sky-100">🇸🇦 ر.س</span>
+              <span className="px-2 py-1 rounded-lg bg-sky-50 text-[#0284c7] font-bold border border-sky-100">🇹🇳 د.ت TND</span>
             </div>
           </div>
 

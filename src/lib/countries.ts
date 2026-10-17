@@ -1,14 +1,14 @@
 import { CountryCode } from './types';
 
 export const POPULAR_COUNTRIES: CountryCode[] = [
-  { name: 'United States', dialCode: '+1', code: 'US', flag: '🇺🇸' },
-  { name: 'United Kingdom', dialCode: '+44', code: 'GB', flag: '🇬🇧' },
+  { name: 'تونس (Tunisia)', dialCode: '+216', code: 'TN', flag: '🇹🇳' },
   { name: 'Saudi Arabia', dialCode: '+966', code: 'SA', flag: '🇸🇦' },
   { name: 'United Arab Emirates', dialCode: '+971', code: 'AE', flag: '🇦🇪' },
-  { name: 'Egypt', dialCode: '+20', code: 'EG', flag: '🇪gypt 🇪🇬' },
-  { name: 'Tunisia', dialCode: '+216', code: 'TN', flag: '🇹🇳' },
+  { name: 'Egypt', dialCode: '+20', code: 'EG', flag: '🇪🇬' },
   { name: 'Morocco', dialCode: '+212', code: 'MA', flag: '🇲🇦' },
   { name: 'Algeria', dialCode: '+213', code: 'DZ', flag: '🇩🇿' },
+  { name: 'United States', dialCode: '+1', code: 'US', flag: '🇺🇸' },
+  { name: 'France', dialCode: '+33', code: 'FR', flag: '🇫🇷' },
   { name: 'Kuwait', dialCode: '+965', code: 'KW', flag: '🇰🇼' },
   { name: 'Qatar', dialCode: '+974', code: 'QA', flag: '🇶🇦' },
   { name: 'Oman', dialCode: '+968', code: 'OM', flag: '🇴🇲' },

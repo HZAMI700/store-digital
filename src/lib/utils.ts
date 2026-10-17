@@ -5,15 +5,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatPrice(amount: number, currency: string = 'SAR'): string {
-  if (currency === 'SAR' || currency === 'ر.س') {
-    return `${Number(amount).toFixed(amount % 1 === 0 ? 0 : 2)} ر.س`;
+export function formatPrice(amount: number, currency: string = 'TND'): string {
+  const formattedAmount = Number(amount).toFixed(amount % 1 === 0 ? 0 : 2);
+  if (currency === 'TND' || currency === 'د.ت' || currency === 'DT') {
+    return `${formattedAmount} د.ت`;
   }
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: 2,
-  }).format(amount);
+  if (currency === 'SAR' || currency === 'ر.س') {
+    return `${formattedAmount} ر.س`;
+  }
+  return `${formattedAmount} د.ت`;
 }
 
 export function generateOrderReference(): string {

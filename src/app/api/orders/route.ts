@@ -17,6 +17,8 @@ export async function POST(req: NextRequest) {
       customerMessage,
       consentGiven,
       customerId,
+      planId,
+      unitPrice,
     } = body;
 
     // 1. Server-side Validations
@@ -94,6 +96,8 @@ export async function POST(req: NextRequest) {
       customerMessage: customerMessage ? customerMessage.trim() : null,
       consentGiven: true,
       customerId: customerId || null,
+      planId: planId || null,
+      unitPrice: typeof unitPrice === 'number' ? unitPrice : null,
     });
 
     // Return sanitized customer-facing order response

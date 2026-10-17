@@ -46,6 +46,7 @@ export const clientStore = {
     countryCode: string;
     customerMessage?: string | null;
     unitPrice: number;
+    selectedPlan?: string;
   }): Order {
     const totalAmount = Number((data.unitPrice * data.quantity).toFixed(2));
     const now = new Date().toISOString();
@@ -66,6 +67,7 @@ export const clientStore = {
       productId: data.productId,
       productName: data.productName,
       productImage: product?.imageUrl || '',
+      selectedPlan: data.selectedPlan,
       quantity: data.quantity,
       unitPrice: data.unitPrice,
       totalAmount,
