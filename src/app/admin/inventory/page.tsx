@@ -145,7 +145,7 @@ export default function AdminInventoryPage() {
             className="p-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-slate-700 transition"
             title="تحديث البيانات"
           >
-            <RefreshCw className="w-4 h-4 text-[#5e17eb]" />
+            <RefreshCw className="w-4 h-4 text-[#0284c7]" />
           </button>
         </div>
       </div>
@@ -154,7 +154,7 @@ export default function AdminInventoryPage() {
         {/* Add New Stock Form */}
         <div className="lg:col-span-1 bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <div className="p-2 rounded-xl bg-purple-50 text-[#5e17eb]">
+            <div className="p-2 rounded-xl bg-sky-50 text-[#0284c7]">
               <Plus className="w-4 h-4" />
             </div>
             <div>
@@ -188,7 +188,7 @@ export default function AdminInventoryPage() {
               <select
                 value={selectedProductId}
                 onChange={(e) => setSelectedProductId(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] text-slate-900 text-xs font-bold outline-none cursor-pointer"
+                className="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] text-slate-900 text-xs font-bold outline-none cursor-pointer"
               >
                 {products.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -208,7 +208,7 @@ export default function AdminInventoryPage() {
                 value={accountData}
                 onChange={(e) => setAccountData(e.target.value)}
                 placeholder="مثال: الإيميل: user@example.com | كلمة المرور: Pass1234 | الشاشة رقم 3 PIN: 1234"
-                className="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] text-slate-900 text-xs font-mono outline-none"
+                className="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] text-slate-900 text-xs font-mono outline-none"
               />
               <span className="text-[10px] text-slate-400 mt-1 block">
                 تظل هذه البيانات مشفرة وسرية ولا يتم كشفها للعميل إلا بعد موافقة الإدارة اليدوية.
@@ -218,7 +218,7 @@ export default function AdminInventoryPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#5e17eb] hover:bg-[#4f0ecf] text-white font-bold text-xs shadow-md shadow-purple-500/20 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-2.5 px-4 rounded-xl velto-gradient-btn text-white font-bold text-xs shadow-md shadow-cyan-500/20 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {isSubmitting ? (
                 <span>جاري الحفظ...</span>

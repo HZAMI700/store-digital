@@ -90,7 +90,7 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
                 className={cn(
                   'absolute -right-6 sm:-right-8 top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all border',
                   isDone && 'bg-emerald-600 text-white border-emerald-600 shadow-sm',
-                  isCurrent && 'bg-indigo-600 text-white border-indigo-600 shadow-sm ring-4 ring-indigo-500/20',
+                  isCurrent && 'bg-brand-primary text-white border-brand-primary shadow-sm ring-4 ring-cyan-500/20',
                   isPending && 'bg-slate-100 text-slate-400 border-slate-300'
                 )}
               >
@@ -110,14 +110,14 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
                     className={cn(
                       'text-xs sm:text-sm font-semibold transition-colors',
                       isDone && 'text-slate-800',
-                      isCurrent && 'text-indigo-600 font-bold',
+                      isCurrent && 'text-brand-primary font-bold',
                       isPending && 'text-slate-400'
                     )}
                   >
                     {step.label}
                   </h4>
                   {isCurrent && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-brand-primary border border-sky-200">
                       قيد المعالجة
                     </span>
                   )}

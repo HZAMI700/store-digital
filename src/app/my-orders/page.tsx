@@ -124,7 +124,7 @@ export default function MyOrdersPage() {
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               سجل طلباتي
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-[#5e17eb] text-xs font-bold border border-purple-200">
+            <span className="px-2.5 py-0.5 rounded-full bg-sky-50 text-brand-primary text-xs font-bold border border-sky-200">
               وصول فوري بدون تسجيل دخول
             </span>
           </div>
@@ -138,13 +138,13 @@ export default function MyOrdersPage() {
             href="/track-order"
             className="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-800 rounded-xl transition shadow-xs flex items-center gap-1.5"
           >
-            <Search className="w-3.5 h-3.5 text-[#5e17eb]" />
+            <Search className="w-3.5 h-3.5 text-brand-primary" />
             <span>تتبع طلب برقم المرجع</span>
           </Link>
 
           <Link
             href="/"
-            className="px-4 py-2 bg-[#5e17eb] hover:bg-[#4f0ecf] text-white text-xs font-black rounded-xl transition shadow-md shadow-purple-500/20"
+            className="px-4 py-2 velto-gradient-btn text-white text-xs font-black rounded-xl transition shadow-md shadow-cyan-500/20"
           >
             تصفح الكتالوج
           </Link>
@@ -152,10 +152,10 @@ export default function MyOrdersPage() {
       </div>
 
       {/* Reminder Banner */}
-      <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-200/80 text-xs text-purple-950 flex items-start gap-3 shadow-xs">
-        <Info className="w-4 h-4 text-[#5e17eb] shrink-0 mt-0.5" />
+      <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200/80 text-xs text-sky-950 flex items-start gap-3 shadow-xs">
+        <Info className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
         <div className="leading-relaxed">
-          <strong className="text-purple-950 font-bold">تواصل الإدارة اليدوي:</strong> يتم التحقق من جميع الطلبات وتفعيلها بواسطة المشرفين عبر الواتساب. بعد تقديم الطلب يرجى إبقاء الواتساب متاحاً لتلقي تفاصيل السداد واستلام بيانات حسابك.
+          <strong className="text-sky-950 font-bold">تواصل الإدارة اليدوي:</strong> يتم التحقق من جميع الطلبات وتفعيلها بواسطة المشرفين عبر الواتساب. بعد تقديم الطلب يرجى إبقاء الواتساب متاحاً لتلقي تفاصيل السداد واستلام بيانات حسابك.
         </div>
       </div>
 
@@ -171,7 +171,7 @@ export default function MyOrdersPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="أدخل رقم الطلب (مثال: ORD-12345-6789)"
-            className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 outline-none focus:bg-white focus:border-[#5e17eb]"
+            className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 outline-none focus:bg-white focus:border-brand-primary"
             dir="ltr"
           />
           <input
@@ -179,7 +179,7 @@ export default function MyOrdersPage() {
             value={searchIdentifier}
             onChange={(e) => setSearchIdentifier(e.target.value)}
             placeholder="البريد أو رقم الواتساب المسجل"
-            className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 outline-none focus:bg-white focus:border-[#5e17eb]"
+            className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 outline-none focus:bg-white focus:border-brand-primary"
             dir="ltr"
           />
           <button
@@ -198,7 +198,7 @@ export default function MyOrdersPage() {
       {/* Orders List */}
       {loading ? (
         <div className="py-20 text-center space-y-3 bg-white rounded-3xl border border-slate-200 p-8">
-          <div className="w-10 h-10 border-4 border-purple-200 border-t-[#5e17eb] rounded-full animate-spin mx-auto" />
+          <div className="w-10 h-10 border-4 border-sky-200 border-t-brand-primary rounded-full animate-spin mx-auto" />
           <p className="text-xs text-slate-500 font-bold">جاري استرجاع طلباتك...</p>
         </div>
       ) : orders.length === 0 ? (
@@ -213,7 +213,7 @@ export default function MyOrdersPage() {
           <div className="pt-2">
             <Link
               href="/#products"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#5e17eb] hover:bg-[#4f0ecf] text-white font-black text-xs rounded-xl shadow-md shadow-purple-500/20 transition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 velto-gradient-btn text-white font-black text-xs rounded-xl shadow-md shadow-cyan-500/20 transition"
             >
               <span>تصفح أحدث عروض الاشتراكات</span>
               <ArrowRight className="w-3.5 h-3.5 rotate-180" />
@@ -236,13 +236,13 @@ export default function MyOrdersPage() {
                   className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/70 transition"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200/60 flex items-center justify-center text-[#5e17eb] shrink-0 text-xl font-bold">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200/60 flex items-center justify-center text-brand-primary shrink-0 text-xl font-bold">
                       <ShoppingBag className="w-6 h-6" />
                     </div>
 
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-black text-[#5e17eb] bg-purple-50 px-2.5 py-0.5 rounded-lg border border-purple-200">
+                        <span className="font-mono text-xs font-black text-brand-primary bg-sky-50 px-2.5 py-0.5 rounded-lg border border-sky-200">
                           #{order.orderReference}
                         </span>
                         <StatusBadge status={order.status} />
@@ -355,7 +355,7 @@ export default function MyOrdersPage() {
                     <div className="flex items-center justify-between text-xs pt-2">
                       <Link
                         href={`/track-order?ref=${order.orderReference}&email=${encodeURIComponent(order.customerEmail)}`}
-                        className="text-[#5e17eb] hover:underline font-bold flex items-center gap-1"
+                        className="text-brand-primary hover:underline font-bold flex items-center gap-1"
                       >
                         <span>فتح صفحة التتبع المستقلة</span>
                         <ExternalLink className="w-3.5 h-3.5" />

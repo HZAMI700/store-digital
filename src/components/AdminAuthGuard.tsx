@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Link from 'next/link';
-import { Shield, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Shield, Lock, User, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 
 interface AdminAuthContextType {
   isAuthenticated: boolean;
@@ -18,7 +18,7 @@ const AdminAuthContext = createContext<AdminAuthContextType>({
 
 export const useAdminAuth = () => useContext(AdminAuthContext);
 
-const ADMIN_STORAGE_KEY = 'y7x_admin_session_auth_v2';
+const ADMIN_STORAGE_KEY = 'velto_admin_session_auth_v2';
 const VALID_USERNAME = 'yassine700';
 const VALID_PASSWORD = 'yassine700';
 
@@ -84,8 +84,8 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="text-center space-y-3">
-          <div className="w-10 h-10 border-4 border-purple-200 border-t-[#5e17eb] rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-slate-500 font-bold">جاري التحقق من صلاحيات الدخول...</p>
+          <div className="w-10 h-10 border-4 border-sky-200 border-t-[#0284c7] rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-slate-500 font-bold">جاري التحقق من صلاحيات المشرف...</p>
         </div>
       </div>
     );
@@ -96,14 +96,14 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-slate-50/70 flex items-center justify-center p-4 sm:p-6" dir="rtl">
         <div className="w-full max-w-md bg-white border border-slate-200/90 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
           
-          {/* Header & Logo */}
+          {/* Header & Velto Logo */}
           <div className="text-center space-y-2">
-            <div className="inline-flex p-3 rounded-2xl bg-gradient-to-tr from-[#5e17eb] to-[#843dff] text-white shadow-lg shadow-purple-500/20 mb-2">
-              <Shield className="w-8 h-8" />
+            <div className="relative w-16 h-16 mx-auto rounded-2xl overflow-hidden shadow-lg shadow-cyan-500/20 mb-2 border border-slate-100 bg-white p-1">
+              <img src="/logo.png" alt="Velto Logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex items-center justify-center gap-2">
-              <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-purple-100 text-[#5e17eb] font-bold">
-                Y7X STORE ADMIN
+              <span className="font-mono text-xs px-2.5 py-0.5 rounded-md bg-sky-50 text-[#0284c7] border border-sky-200 font-black">
+                VELTO STORE ADMIN
               </span>
             </div>
             <h1 className="text-2xl font-black text-slate-900 tracking-tight">تسجيل دخول الإدارة</h1>
@@ -133,7 +133,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="yassine700"
-                  className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] focus:ring-2 focus:ring-[#5e17eb]/20 text-slate-900 text-xs font-medium outline-none transition"
+                  className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] focus:ring-2 focus:ring-[#0284c7]/20 text-slate-900 text-xs font-medium outline-none transition"
                   dir="ltr"
                   autoComplete="username"
                   autoFocus
@@ -153,7 +153,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••"
-                  className="w-full px-4 py-2.5 pr-10 pl-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] focus:ring-2 focus:ring-[#5e17eb]/20 text-slate-900 text-xs font-medium outline-none transition"
+                  className="w-full px-4 py-2.5 pr-10 pl-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] focus:ring-2 focus:ring-[#0284c7]/20 text-slate-900 text-xs font-medium outline-none transition"
                   dir="ltr"
                   autoComplete="current-password"
                 />
@@ -172,7 +172,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 rounded-xl bg-[#5e17eb] hover:bg-[#4f0ecf] active:scale-[0.99] text-white font-black text-xs shadow-lg shadow-purple-600/25 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-3 px-4 rounded-xl velto-gradient-btn text-white font-black text-xs shadow-lg shadow-cyan-600/25 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {isLoading ? (
                 <>
@@ -189,9 +189,9 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
           </form>
 
           {/* Quick Notice */}
-          <div className="p-3 rounded-xl bg-purple-50/60 border border-purple-100 text-[11px] text-purple-900 flex items-center justify-center gap-2 text-center">
+          <div className="p-3 rounded-xl bg-sky-50/60 border border-sky-100 text-[11px] text-sky-900 flex items-center justify-center gap-2 text-center">
             <span className="font-semibold">صلاحية الدخول مخصصة فقط لمشرف المتجر:</span>
-            <code className="bg-white px-1.5 py-0.5 rounded border border-purple-200 font-mono font-bold text-[#5e17eb]">
+            <code className="bg-white px-1.5 py-0.5 rounded border border-sky-200 font-mono font-bold text-[#0284c7]">
               yassine700
             </code>
           </div>
@@ -200,10 +200,10 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
           <div className="text-center pt-2 border-t border-slate-100">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#5e17eb] transition"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#0284c7] transition"
             >
               <ArrowRight className="w-3.5 h-3.5" />
-              <span>العودة لمتجر يوكس الرئيسي</span>
+              <span>العودة لمتجر فيلترو الرئيسي</span>
             </Link>
           </div>
 

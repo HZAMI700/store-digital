@@ -110,7 +110,7 @@ function TrackOrderContent() {
               value={orderReference}
               onChange={(e) => setOrderReference(e.target.value)}
               placeholder="مثال: ORD-20261015-8491"
-              className="w-full h-11 px-4 text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+              className="w-full h-11 px-4 text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
               dir="ltr"
             />
           </div>
@@ -125,7 +125,7 @@ function TrackOrderContent() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your.email@example.com"
-              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
               dir="ltr"
             />
             <p className="text-[11px] text-slate-500 mt-1">
@@ -136,7 +136,7 @@ function TrackOrderContent() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-11 rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25 transition disabled:opacity-50"
+            className="w-full h-11 rounded-xl velto-gradient-btn hover:opacity-95 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 transition disabled:opacity-50"
           >
             {loading ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -163,7 +163,7 @@ function TrackOrderContent() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
             <div>
               <span className="text-xs text-slate-500 font-medium">مرجع الطلب</span>
-              <div className="text-xl font-mono font-black text-indigo-600">
+              <div className="text-xl font-mono font-black text-brand-primary">
                 #{order.orderReference}
               </div>
               <div className="text-xs text-slate-500 mt-0.5">
@@ -206,10 +206,10 @@ function TrackOrderContent() {
               </div>
             </div>
           ) : (
-            <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 flex items-start gap-3 shadow-sm">
-              <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 text-xs text-sky-900 flex items-start gap-3 shadow-sm">
+              <Info className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
               <div>
-                <strong className="block mb-0.5 text-indigo-950 font-bold">بانتظار تواصل الإدارة:</strong>
+                <strong className="block mb-0.5 text-sky-950 font-bold">بانتظار تواصل الإدارة:</strong>
                 سيتواصل معك المشرف قريباً عبر الواتساب لتأكيد تفاصيل الطلب وتسليم الحساب. لا يلزمك اتخاذ أي إجراء حالياً.
               </div>
             </div>
@@ -225,7 +225,7 @@ function TrackOrderContent() {
 
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
               <span className="text-slate-500 block font-semibold">الإجمالي التقديري</span>
-              <div className="font-black text-base text-indigo-600 font-mono">{formatPrice(order.totalAmount)}</div>
+              <div className="font-black text-base text-brand-primary font-mono">{formatPrice(order.totalAmount)}</div>
               <div className="text-emerald-700 font-semibold">يتم السداد بالتنسيق مع المشرف</div>
             </div>
           </div>

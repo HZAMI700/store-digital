@@ -37,7 +37,7 @@ function OrderSuccessContent() {
         particleCount: 60,
         spread: 60,
         origin: { y: 0.6 },
-        colors: ['#6366f1', '#8b5cf6', '#10b981'],
+        colors: ['#0284c7', '#06b6d4', '#10b981'],
       });
     } catch {}
 
@@ -95,7 +95,7 @@ function OrderSuccessContent() {
   if (loading) {
     return (
       <div className="max-w-xl mx-auto px-4 py-24 text-center space-y-4">
-        <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto" />
+        <div className="w-12 h-12 border-4 border-sky-200 border-t-brand-primary rounded-full animate-spin mx-auto" />
         <p className="text-xs text-slate-500">جاري تحميل تفاصيل طلبك...</p>
       </div>
     );
@@ -112,7 +112,7 @@ function OrderSuccessContent() {
           <div className="pt-2">
             <Link
               href="/track-order"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-lg transition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 velto-gradient-btn text-white font-bold rounded-xl text-xs shadow-lg transition"
             >
               <span>تتبع الطلب بالبريد ورقم المرجع</span>
             </Link>
@@ -147,7 +147,7 @@ function OrderSuccessContent() {
           <div>
             <span className="text-xs text-slate-500 block font-semibold">رقم مرجع الطلب (احتفظ به)</span>
             <div className="flex items-center gap-2 mt-1">
-              <span className="font-mono text-xl sm:text-2xl font-black text-indigo-600 tracking-wider">
+              <span className="font-mono text-xl sm:text-2xl font-black text-brand-primary tracking-wider">
                 {order.orderReference}
               </span>
               <button
@@ -170,15 +170,15 @@ function OrderSuccessContent() {
         </div>
 
         {/* PRIMARY NOTICE (Requirement 1) */}
-        <div className="p-5 rounded-2xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 space-y-2 shadow-sm">
-          <div className="flex items-center gap-2 text-indigo-700 font-bold text-sm">
-            <Clock className="w-4 h-4 shrink-0 text-indigo-600" />
+        <div className="p-5 rounded-2xl bg-sky-50 border border-sky-200 text-xs text-sky-900 space-y-2 shadow-sm">
+          <div className="flex items-center gap-2 text-brand-primary font-bold text-sm">
+            <Clock className="w-4 h-4 shrink-0 text-brand-primary" />
             <span>بانتظار تواصل مسؤول المتجر</span>
           </div>
           <p className="leading-relaxed text-slate-700">
-            سيتواصل معك فريق المتجر مباشرة عبر <strong className="text-emerald-700 font-mono">الواتساب ({order.customerWhatsapp})</strong> أو <strong className="text-indigo-700 font-mono">البريد ({order.customerEmail})</strong> لتأكيد طلبك وتوضيح طرق الدفع وترتيب الاستلام.
+            سيتواصل معك فريق المتجر مباشرة عبر <strong className="text-emerald-700 font-mono">الواتساب ({order.customerWhatsapp})</strong> أو <strong className="text-brand-primary font-mono">البريد ({order.customerEmail})</strong> لتأكيد طلبك وتوضيح طرق الدفع وترتيب الاستلام.
           </p>
-          <div className="text-[11px] text-slate-500 pt-2 border-t border-indigo-100 font-medium">
+          <div className="text-[11px] text-slate-500 pt-2 border-t border-sky-100 font-medium">
             لا داعي للدفع عبر الإنترنت الآن. طلبك لا يعتبر مؤكداً حتى نتواصل معك.
           </div>
         </div>
@@ -186,7 +186,7 @@ function OrderSuccessContent() {
         {/* Product Details */}
         <div className="space-y-3">
           <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-            <ShoppingBag className="w-4 h-4 text-indigo-600" />
+            <ShoppingBag className="w-4 h-4 text-brand-primary" />
             <span>المنتج المطلوب</span>
           </h3>
 
@@ -200,7 +200,7 @@ function OrderSuccessContent() {
 
             <div className="text-left">
               <span className="text-[11px] text-slate-500 block font-medium">الإجمالي التقديري</span>
-              <span className="text-lg font-black text-indigo-600 font-mono">{formatPrice(order.totalAmount)}</span>
+              <span className="text-lg font-black text-brand-primary font-mono">{formatPrice(order.totalAmount)}</span>
             </div>
           </div>
         </div>
@@ -208,7 +208,7 @@ function OrderSuccessContent() {
         {/* Contact Information */}
         <div className="space-y-3">
           <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-            <User className="w-4 h-4 text-indigo-600" />
+            <User className="w-4 h-4 text-brand-primary" />
             <span>بيانات التواصل المسجلة</span>
           </h3>
 
@@ -252,7 +252,7 @@ function OrderSuccessContent() {
 
         <Link
           href={`/track-order?ref=${order.orderReference}&email=${encodeURIComponent(order.customerEmail)}`}
-          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white text-xs font-bold shadow-lg flex items-center justify-center gap-2 transition"
+          className="w-full sm:w-auto px-6 py-3 rounded-xl velto-gradient-btn hover:opacity-95 text-white text-xs font-bold shadow-lg flex items-center justify-center gap-2 transition"
         >
           <span>حفظ صفحة متابعة الطلب</span>
           <ArrowLeft className="w-4 h-4" />

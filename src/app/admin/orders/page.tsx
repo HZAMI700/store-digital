@@ -134,9 +134,9 @@ export default function AdminOrdersPage() {
         <button
           type="button"
           onClick={fetchOrders}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition shadow-xs self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition shadow-xs self-start sm:self-auto cursor-pointer"
         >
-          <RefreshCw className="w-3.5 h-3.5 text-[#5e17eb]" />
+          <RefreshCw className="w-3.5 h-3.5 text-[#0284c7]" />
           <span>تحديث الطلبات</span>
         </button>
       </div>
@@ -151,7 +151,7 @@ export default function AdminOrdersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="بحث برقم الطلب، اسم العميل، رقم الواتساب، أو الإيميل..."
-              className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] focus:ring-2 focus:ring-[#5e17eb]/20 text-slate-900 text-xs font-medium outline-none transition"
+              className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] focus:ring-2 focus:ring-[#0284c7]/20 text-slate-900 text-xs font-medium outline-none transition"
             />
             <Search className="w-4 h-4 text-slate-400 absolute top-3 right-3 pointer-events-none" />
             {search && (
@@ -170,14 +170,13 @@ export default function AdminOrdersPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full md:w-48 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] text-slate-900 text-xs font-bold outline-none transition cursor-pointer"
+              className="w-full md:w-48 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] text-slate-900 text-xs font-bold outline-none transition cursor-pointer"
             >
               <option value="all">جميع الحالات ({orders.length})</option>
               <option value="new_order">طلب جديد</option>
               <option value="contacting_customer">جاري التواصل</option>
               <option value="awaiting_customer_response">بانتظار رد العميل</option>
               <option value="payment_confirmed">تم تأكيد الدفع</option>
-              <option value="account_delivered">تم تسليم الحساب</option>
               <option value="completed">مكتمل</option>
               <option value="cancelled">ملغي</option>
             </select>
@@ -189,7 +188,7 @@ export default function AdminOrdersPage() {
             <select
               value={productFilter}
               onChange={(e) => setProductFilter(e.target.value)}
-              className="w-full md:w-48 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#5e17eb] text-slate-900 text-xs font-bold outline-none transition cursor-pointer"
+              className="w-full md:w-48 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] text-slate-900 text-xs font-bold outline-none transition cursor-pointer"
             >
               <option value="all">جميع الاشتراكات</option>
               {distinctProducts.map((p) => (
@@ -213,7 +212,7 @@ export default function AdminOrdersPage() {
                 setProductFilter('all');
                 setSearch('');
               }}
-              className="text-[#5e17eb] hover:underline font-bold"
+              className="text-[#0284c7] hover:underline font-bold cursor-pointer"
             >
               إلغاء الفلاتر
             </button>
@@ -224,12 +223,12 @@ export default function AdminOrdersPage() {
       {/* Orders List / Table */}
       {loading ? (
         <div className="py-20 text-center space-y-3 bg-white rounded-3xl border border-slate-200 p-8">
-          <div className="w-10 h-10 border-4 border-purple-200 border-t-[#5e17eb] rounded-full animate-spin mx-auto" />
+          <div className="w-10 h-10 border-4 border-sky-200 border-t-[#0284c7] rounded-full animate-spin mx-auto" />
           <p className="text-xs text-slate-500">جاري تحميل سجل الطلبات...</p>
         </div>
       ) : filteredOrders.length === 0 ? (
         <div className="p-12 rounded-3xl bg-white border border-slate-200 shadow-sm text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-[#5e17eb] flex items-center justify-center mx-auto text-xl">
+          <div className="w-12 h-12 rounded-2xl bg-sky-50 text-[#0284c7] flex items-center justify-center mx-auto text-xl">
             <ShoppingBag className="w-6 h-6" />
           </div>
           <h3 className="text-base font-bold text-slate-900">لا توجد طلبات مطابقة للبحث</h3>
@@ -266,7 +265,7 @@ export default function AdminOrdersPage() {
                     {/* Order Ref & Time */}
                     <td className="py-4 px-4 whitespace-nowrap">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-mono font-bold text-[#5e17eb] bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                        <span className="font-mono font-bold text-[#0284c7] bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
                           #{order.orderReference}
                         </span>
                         <button
@@ -318,7 +317,7 @@ export default function AdminOrdersPage() {
                         {formatPrice(order.totalAmount)}
                       </div>
                       {order.internalNotes && (
-                        <div className="text-[10px] text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded mt-1 inline-block border border-purple-200">
+                        <div className="text-[10px] text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded mt-1 inline-block border border-sky-200">
                           يوجد ملاحظات داخلية
                         </div>
                       )}
@@ -397,7 +396,7 @@ export default function AdminOrdersPage() {
                 className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-3 cursor-pointer hover:bg-slate-50/60 transition"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-[#5e17eb] bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200">
+                  <span className="font-mono text-xs font-bold text-[#0284c7] bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">
                     #{order.orderReference}
                   </span>
                   <StatusBadge status={order.status} />

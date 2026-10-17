@@ -2,26 +2,39 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/lib/cart-context';
 import { formatPrice } from '@/lib/utils';
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const { totalItems, totalPrice, setIsCartOpen } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [bannerVisible, setBannerVisible] = useState(true);
-  const { totalItems, totalPrice, setIsCartOpen } = useCart();
-
-  const announcements = [
-    { icon: 'fa-solid fa-tag text-yellow-300', text: 'خصم 10% لأول عملية شراء – استخدم كود WELCOME10' },
-    { icon: 'fa-brands fa-instagram text-pink-300', text: 'تابعنا على منصة انستقرام لمعرفة أجدد العروض Yox7_Store' },
-    { icon: 'fa-brands fa-whatsapp text-emerald-300', text: 'للتواصل مع الدعم الفني عبر الواتس اب 0532137759' },
-    { icon: 'fa-solid fa-bolt text-yellow-300', text: 'تسليم فوري ومباشر 100% لجميع الاشتراكات مع ضمان ذهبي كامل المدة' },
-  ];
-
   const [activeNoticeIndex, setActiveNoticeIndex] = useState(0);
+  const [bannerVisible, setBannerVisible] = useState(true);
+
+  // Velto Rotating Announcement Ticker
+  const announcements = [
+    {
+      text: 'مرحباً بك في متجر فيلترو (Velto) – تسليم فوري وضمان ذهبي كامل المدة لجميع الاشتراكات!',
+      icon: 'fa-solid fa-bolt text-cyan-300 animate-pulse',
+    },
+    {
+      text: 'خصم خاص حتى 50% على اشتراكات Netflix 4K، CapCut Pro، Canva Pro، ExpressVPN و Gemini!',
+      icon: 'fa-solid fa-tag text-emerald-300',
+    },
+    {
+      text: 'تفعيل يدوي مباشر وخدمة عملاء على مدار الساعة عبر الواتساب: 0532137759',
+      icon: 'fa-brands fa-whatsapp text-emerald-300',
+    },
+    {
+      text: 'حسابات شخصية وخاصة 100% بدون انقطاع مع دعم فني مستمر',
+      icon: 'fa-solid fa-shield-halved text-cyan-300',
+    },
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -33,7 +46,7 @@ export const Navbar = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/?search=${encodeURIComponent(searchQuery.trim())}#products`;
+      window.location.href = `/#products`;
       setSearchModalOpen(false);
       setMobileMenuOpen(false);
     }
@@ -42,55 +55,55 @@ export const Navbar = () => {
   const navProducts = [
     {
       id: 'prod-netflix-4k',
-      title: 'اشتراك نتفلكس بريميوم 4K',
-      price: '19 ر.س',
-      icon: 'fa-solid fa-film text-rose-500',
-      tag: 'حسابات خاصة',
-      tagColor: 'bg-red-500 text-white',
+      title: 'اشتراك نتفلكس 4K UHD',
+      price: '15.00 ر.س',
+      icon: 'fa-solid fa-tv text-rose-500',
+      tag: 'الأكثر طلباً',
+      tagColor: 'bg-rose-50 text-rose-600 border border-rose-200',
     },
     {
       id: 'prod-capcut-pro-1m',
-      title: 'اشتراك كاب كت برو CapCut',
-      price: '19 ر.س',
-      icon: 'fa-solid fa-scissors text-purple-600',
-      tag: 'الارخص',
-      tagColor: 'bg-purple-600 text-white',
+      title: 'اشتراك كاب كت برو CapCut Pro',
+      price: '19.99 ر.س',
+      icon: 'fa-solid fa-scissors text-cyan-600',
+      tag: 'تصدير 4K',
+      tagColor: 'bg-cyan-50 text-cyan-700 border border-cyan-200',
     },
     {
       id: 'prod-canva-pro',
       title: 'اشتراك كانفا برو Canva Pro',
-      price: '25 ر.س',
-      icon: 'fa-solid fa-palette text-sky-500',
-      tag: 'أصلي 100%',
-      tagColor: 'bg-sky-500 text-white',
+      price: '12.00 ر.س',
+      icon: 'fa-solid fa-palette text-sky-600',
+      tag: 'تفعيل إيميلك',
+      tagColor: 'bg-sky-50 text-sky-700 border border-sky-200',
     },
     {
       id: 'prod-express-vpn',
-      title: 'اشتراك اكسبريس في بي ان ExpressVPN',
-      price: '49 ر.س',
+      title: 'اشتراك ExpressVPN',
+      price: '24.50 ر.س',
       icon: 'fa-solid fa-shield-halved text-emerald-600',
-      tag: 'الأكثر أماناً',
-      tagColor: 'bg-emerald-600 text-white',
+      tag: 'أعلى حماية',
+      tagColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     },
     {
       id: 'prod-gemini-advanced',
-      title: 'اشتراك جوجل جيميناي Gemini Advanced',
-      price: '35 ر.س',
-      icon: 'fa-solid fa-brain text-indigo-600',
-      tag: 'جديد AI',
-      tagColor: 'bg-indigo-600 text-white',
+      title: 'اشتراك Gemini Advanced',
+      price: '29.00 ر.س',
+      icon: 'fa-solid fa-brain text-blue-600',
+      tag: 'ذكاء اصطناعي',
+      tagColor: 'bg-blue-50 text-blue-700 border border-blue-200',
     },
   ];
 
   return (
     <>
-      {/* 1. Y7X Top Announcement Bar (angel-ad) */}
+      {/* 1. Velto Top Announcement Bar */}
       {bannerVisible && (
-        <div className="angel-ad relative overflow-hidden bg-[#2b0b6b] text-white text-xs sm:text-sm py-2 px-4 shadow-sm transition-all duration-300 z-50">
+        <div className="relative overflow-hidden bg-gradient-to-r from-[#0a192f] via-[#0369a1] to-[#0a192f] text-white text-xs sm:text-sm py-2 px-4 shadow-sm transition-all duration-300 z-50">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div className="flex-1 flex items-center justify-center gap-2.5 overflow-hidden h-5 text-center">
-              <i className={`${announcements[activeNoticeIndex].icon} text-sm transition-all`}></i>
-              <span className="truncate font-semibold tracking-wide">
+              <i className={`${announcements[activeNoticeIndex].icon} text-sm transition-all duration-300`}></i>
+              <span className="truncate font-semibold tracking-wide animate-fade-in">
                 {announcements[activeNoticeIndex].text}
               </span>
             </div>
@@ -105,96 +118,102 @@ export const Navbar = () => {
         </div>
       )}
 
-      {/* 2. Main Store Header (store-header) */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e8e8e8] shadow-sm transition-all">
+      {/* 2. Main Store Header (Velto Sticky Glass Nav) */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e2e8f0] shadow-xs transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
           
-          {/* Right Section: Mobile Menu Trigger & Navigation */}
+          {/* Right Section: Mobile Menu Trigger & Language/Currency */}
           <div className="flex items-center gap-3 sm:gap-4 w-1/3 justify-start">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="mburger flex items-center gap-2 p-2 rounded-xl text-slate-800 hover:text-[#5e17eb] hover:bg-slate-50 transition"
+              className="flex items-center gap-2 p-2 rounded-xl text-slate-800 hover:text-[#0284c7] hover:bg-slate-50 transition"
               aria-label="القائمة"
             >
-              <i className="fa-solid fa-bars text-xl text-[#5e17eb]"></i>
+              <i className="fa-solid fa-bars text-xl text-[#0284c7]"></i>
               <span className="hidden md:inline-block font-bold text-sm text-slate-900">القائمة</span>
             </button>
 
             {/* Language & Currency on Desktop */}
             <div className="hidden lg:flex items-center gap-2 text-xs font-semibold text-slate-600 border-r border-slate-200 pr-3">
               <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-800 font-bold">AR</span>
-              <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-800 font-bold">🇸🇦 ر.س</span>
+              <span className="px-2 py-1 rounded-lg bg-sky-50 text-[#0284c7] font-bold border border-sky-100">🇸🇦 ر.س</span>
             </div>
           </div>
 
-          {/* Center Section: Y7X Store Logo */}
+          {/* Center Section: Velto Official Brand Logo */}
           <div className="flex flex-col items-center justify-center">
             <Link href="/" className="flex items-center gap-3 group text-center">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#5e17eb] to-[#843dff] flex items-center justify-center shadow-md shadow-[#5e17eb]/25 group-hover:scale-105 transition">
-                <span className="text-white font-black text-2xl tracking-tighter">Y7X</span>
+              <div className="relative w-11 h-11 rounded-2xl overflow-hidden shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300 border border-slate-100 bg-white flex items-center justify-center p-0.5">
+                <img
+                  src="/logo.png"
+                  alt="Velto Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div className="text-right">
-                <div className="text-lg sm:text-xl font-black tracking-tight text-slate-900 flex items-center gap-1.5 leading-none">
+                <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 flex items-center gap-1.5 leading-none">
                   <span>متجر</span>
-                  <span className="text-[#5e17eb]">يوكس</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-50 text-[#5e17eb] border border-purple-200 font-mono font-bold">Y7X</span>
+                  <span className="velto-gradient-text">فيلترو</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-cyan-50 text-[#0284c7] border border-cyan-200 font-mono font-black tracking-wider">
+                    VELTO
+                  </span>
                 </div>
-                <div className="text-[11px] text-slate-500 font-medium mt-1">متجر المنتجات الرقمية والاشتراكات</div>
+                <div className="text-[11px] text-slate-400 font-medium mt-1">الاشتراكات الرقمية والخدمات السحابية</div>
               </div>
             </Link>
           </div>
 
-          {/* Left Section: Search, User/Tracking, Admin, Cart */}
-          <div className="flex items-center justify-end gap-2 sm:gap-3 w-1/3">
+          {/* Left Section: Search, Tracking, My Orders, Admin, Cart */}
+          <div className="flex items-center justify-end gap-2 sm:gap-2.5 w-1/3">
             {/* Search Button */}
             <button
               type="button"
               onClick={() => setSearchModalOpen(true)}
-              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#5e17eb] transition"
-              title="بحث في المتجر"
+              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#0284c7] transition"
+              title="بحث في الاشتراكات"
               aria-label="بحث"
             >
               <i className="fa-solid fa-magnifying-glass text-base"></i>
             </button>
 
-            {/* Tracking / My Orders */}
+            {/* Tracking Link */}
             <Link
               href="/track-order"
-              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#5e17eb] transition hidden sm:inline-flex"
+              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#0284c7] transition hidden sm:inline-flex"
               title="تتبع الطلب"
             >
               <i className="fa-solid fa-box-archive text-base"></i>
             </Link>
 
-            {/* Customer Orders */}
+            {/* My Orders Link (Zero login needed) */}
             <Link
               href="/my-orders"
-              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#5e17eb] transition"
+              className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-[#0284c7] transition"
               title="سجل طلباتي"
             >
               <i className="fa-solid fa-clipboard-list text-base"></i>
             </Link>
 
-            {/* Admin Panel Access */}
+            {/* Admin Panel Access Link */}
             <Link
               href="/admin"
-              className="p-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-[#5e17eb] transition"
+              className="p-2.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 text-[#0284c7] transition"
               title="لوحة تحكم الإدارة (خاص بالمسؤول)"
             >
               <i className="fa-solid fa-shield-halved text-base"></i>
             </Link>
 
-            {/* Shopping Cart Button */}
+            {/* Shopping Cart Button with Shimmer */}
             <button
               id="cartBtn"
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center gap-2 bg-[#5e17eb] hover:bg-[#4f0ecf] text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-[#5e17eb]/25 transition relative"
+              className="flex items-center gap-2 velto-gradient-btn text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-black shadow-md shadow-cyan-500/25 transition-all relative overflow-hidden"
             >
               <div className="relative">
                 <i className="fa-solid fa-bag-shopping text-base"></i>
                 {totalItems > 0 && (
-                  <span className="absolute -top-2.5 -right-2.5 bg-rose-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-black animate-scale-in">
+                  <span className="absolute -top-2.5 -right-2.5 bg-rose-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-black animate-scale-up">
                     {totalItems}
                   </span>
                 )}
@@ -204,12 +223,12 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* 3. Category Horizontal Pills (Y7X Nav Header) */}
-        <div className="border-t border-[#e8e8e8] bg-slate-50/80 overflow-x-auto custom-scrollbar">
+        {/* 3. Category Horizontal Pills Sub-bar with Live Highlights */}
+        <div className="border-t border-[#e2e8f0] bg-slate-50/80 overflow-x-auto custom-scrollbar">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2.5 py-2.5 text-xs font-semibold whitespace-nowrap">
             <Link
               href="/#products"
-              className="px-3.5 py-1.5 rounded-xl bg-[#5e17eb] text-white font-bold flex items-center gap-1.5 shadow-sm"
+              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#06b6d4] to-[#0284c7] text-white font-bold flex items-center gap-1.5 shadow-xs hover:shadow-sm transition"
             >
               <i className="fa-solid fa-border-all"></i>
               <span>جميع الاشتراكات (5)</span>
@@ -219,10 +238,10 @@ export const Navbar = () => {
               <Link
                 key={item.id}
                 href={`/#${item.id}`}
-                className="px-3.5 py-1.5 rounded-xl text-slate-700 hover:text-slate-900 bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 transition flex items-center gap-2 shadow-2xs"
+                className="px-3 py-1.5 rounded-xl text-slate-700 hover:text-slate-900 bg-white hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all flex items-center gap-2 shadow-2xs group"
               >
-                <i className={item.icon}></i>
-                <span>{item.title}</span>
+                <i className={`${item.icon} group-hover:scale-110 transition-transform`}></i>
+                <span className="font-bold">{item.title}</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${item.tagColor}`}>
                   {item.tag}
                 </span>
@@ -232,28 +251,30 @@ export const Navbar = () => {
         </div>
       </header>
 
-      {/* 4. Y7X Mobile Slide-out Menu Drawer (#mobile-menu) */}
+      {/* 4. Velto Mobile Slide-out Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 overflow-hidden animate-in fade-in duration-200" dir="rtl">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
           />
 
-          {/* Drawer container */}
-          <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-sm bg-white shadow-2xl flex flex-col justify-between overflow-hidden">
+          <div className="fixed inset-y-0 right-0 max-w-full flex">
+            <div className="w-screen max-w-xs sm:max-w-sm bg-white shadow-2xl flex flex-col justify-between border-l border-slate-200">
               
-              {/* Drawer Header */}
-              <div className="p-5 bg-gradient-to-r from-[#2b0b6b] to-[#1f074d] text-white flex items-center justify-between">
+              {/* Drawer Top Header */}
+              <div className="p-5 bg-gradient-to-r from-[#0a192f] to-[#0369a1] text-white flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center font-black text-white">
-                    Y7X
+                  <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-md">
+                    <img src="/logo.png" alt="Velto" className="w-full h-full object-contain" />
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-sm text-white">متجر يوكس | Y7X</h3>
-                    <p className="text-[11px] text-purple-200">الاشتراكات الرقمية المعتمدة</p>
+                    <h3 className="font-extrabold text-sm text-white flex items-center gap-1">
+                      <span>متجر فيلترو</span>
+                      <span className="text-[10px] font-mono bg-cyan-400 text-slate-900 px-1 rounded font-black">VELTO</span>
+                    </h3>
+                    <p className="text-[11px] text-cyan-200">الاشتراكات الرقمية المعتمدة</p>
                   </div>
                 </div>
 
@@ -277,7 +298,7 @@ export const Navbar = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="ابحث عن اشتراكك..."
-                    className="w-full h-11 px-4 pr-10 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5e17eb] focus:bg-white"
+                    className="w-full h-11 px-4 pr-10 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0284c7] focus:bg-white"
                   />
                   <i className="fa-solid fa-magnifying-glass absolute right-3.5 top-3.5 text-slate-400 text-xs"></i>
                 </form>
@@ -285,7 +306,7 @@ export const Navbar = () => {
                 {/* Subscriptions Categories */}
                 <div className="space-y-2">
                   <div className="text-xs font-black text-slate-400 uppercase tracking-wider mb-2">
-                    الاشتراكات المتاحة (5)
+                    الاشتراكات المعتمدة (5)
                   </div>
 
                   {navProducts.map((p) => (
@@ -293,14 +314,14 @@ export const Navbar = () => {
                       key={p.id}
                       href={`/#${p.id}`}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 hover:bg-purple-50 border border-slate-200 hover:border-purple-300 transition group"
+                      className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all group"
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-lg shadow-2xs group-hover:scale-105 transition">
                           <i className={p.icon}></i>
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-slate-900 group-hover:text-[#5e17eb] transition">
+                          <div className="text-xs font-bold text-slate-900 group-hover:text-[#0284c7] transition">
                             {p.title}
                           </div>
                           <div className="text-[11px] text-slate-500 font-semibold">{p.price}</div>
@@ -325,7 +346,7 @@ export const Navbar = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-50 transition"
                   >
-                    <i className="fa-solid fa-box-archive text-[#5e17eb] text-sm"></i>
+                    <i className="fa-solid fa-box-archive text-[#0284c7] text-sm"></i>
                     <span>تتبع حالة طلبك</span>
                   </Link>
 
@@ -334,44 +355,44 @@ export const Navbar = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-bold text-slate-800 hover:bg-slate-50 transition"
                   >
-                    <i className="fa-solid fa-user text-[#5e17eb] text-sm"></i>
+                    <i className="fa-solid fa-clipboard-list text-[#0284c7] text-sm"></i>
                     <span>سجل طلباتي</span>
                   </Link>
 
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 transition"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-bold text-[#0284c7] bg-sky-50 border border-sky-200 transition"
                   >
                     <i className="fa-solid fa-shield-halved text-sm"></i>
-                    <span>لوحة تحكم الإدارة</span>
+                    <span>لوحة تحكم الإدارة (خاص بالمسؤول)</span>
                   </Link>
                 </div>
 
-                {/* Customer Support WhatsApp */}
+                {/* Customer Support WhatsApp Card */}
                 <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 space-y-2">
                   <div className="font-bold flex items-center gap-2 text-emerald-800">
                     <i className="fa-brands fa-whatsapp text-lg text-emerald-600"></i>
-                    <span>خدمة العملاء والدعم الفني</span>
+                    <span>خدمة عملاء فيلترو</span>
                   </div>
                   <p className="text-[11px] text-emerald-700 leading-relaxed">
-                    متواجدون على مدار الساعة للرد على استفساراتكم وترتيب الطلبات.
+                    متواجدون على مدار الساعة للرد على استفساراتكم وترتيب تسليم الحسابات.
                   </p>
                   <a
-                    href="https://api.whatsapp.com/send/?phone=%2B966532137759&text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85+%D8%B9%D9%84%D9%8A%D9%83%D9%85%2C+%D8%AD%D8%A7%D8%A8+%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%0A&type=phone_number&app_absent=0"
+                    href="https://wa.me/966532137759"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-xs shadow-sm hover:bg-emerald-700 transition"
+                    className="inline-flex items-center justify-center gap-1.5 w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition"
                   >
-                    <span>مراسلة عبر الواتساب</span>
-                    <i className="fa-solid fa-arrow-left text-[10px]"></i>
+                    <span>محادثة واتساب مباشرة</span>
                   </a>
                 </div>
+
               </div>
 
               {/* Drawer Footer */}
               <div className="p-4 border-t border-slate-200 bg-slate-50 text-center text-[11px] text-slate-500">
-                متجر يوكس Y7X Store © 2026 • جميع الحقوق محفوظة
+                متجر فيلترو الرقمي Velto Store © 2026 • جميع الحقوق محفوظة
               </div>
             </div>
           </div>
@@ -380,12 +401,12 @@ export const Navbar = () => {
 
       {/* 5. Search Modal */}
       {searchModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-20 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-20 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200" dir="rtl">
           <div className="w-full max-w-lg bg-white rounded-3xl p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                <i className="fa-solid fa-magnifying-glass text-[#5e17eb]"></i>
-                <span>البحث في متجر يوكس</span>
+                <i className="fa-solid fa-magnifying-glass text-[#0284c7]"></i>
+                <span>البحث في متجر فيلترو</span>
               </h3>
               <button
                 type="button"
@@ -404,7 +425,7 @@ export const Navbar = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ابحث عن: نتفلكس، كاب كت، كانفا، ExpressVPN، جيميناي..."
-                  className="w-full h-12 px-4 pr-11 text-sm bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5e17eb] focus:bg-white focus:ring-2 focus:ring-[#5e17eb]/10"
+                  className="w-full h-12 px-4 pr-11 text-sm bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0284c7] focus:bg-white focus:ring-2 focus:ring-[#0284c7]/10"
                 />
                 <i className="fa-solid fa-magnifying-glass absolute right-4 top-4 text-slate-400"></i>
               </div>
@@ -421,7 +442,7 @@ export const Navbar = () => {
                       window.location.href = `/#${p.id}`;
                       setSearchModalOpen(false);
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-50 text-slate-800 hover:text-[#5e17eb] text-xs font-semibold border border-slate-200 transition"
+                    className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-800 hover:text-[#0284c7] text-xs font-bold border border-slate-200 transition"
                   >
                     {p.title}
                   </button>
@@ -432,14 +453,14 @@ export const Navbar = () => {
         </div>
       )}
 
-      {/* 6. Y7X Mobile Sticky Bottom Header (bottom-header) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg px-2 py-1">
+      {/* 6. Velto Mobile Sticky Bottom Header */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg px-2 py-1" dir="rtl">
         <ul className="grid grid-cols-5 items-center justify-between text-center">
           <li>
             <Link
               href="/"
               className={`flex flex-col items-center py-1.5 text-[11px] font-bold ${
-                pathname === '/' ? 'text-[#5e17eb]' : 'text-slate-600 hover:text-slate-900'
+                pathname === '/' ? 'text-[#0284c7]' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <i className="fa-solid fa-house text-lg mb-0.5"></i>
@@ -453,7 +474,7 @@ export const Navbar = () => {
               onClick={() => setMobileMenuOpen(true)}
               className="w-full flex flex-col items-center py-1.5 text-[11px] font-bold text-slate-600 hover:text-slate-900"
             >
-              <i className="fa-solid fa-table-cells-large text-lg mb-0.5 text-[#5e17eb]"></i>
+              <i className="fa-solid fa-table-cells-large text-lg mb-0.5 text-[#0284c7]"></i>
               <span>الأقسام</span>
             </button>
           </li>
@@ -462,7 +483,7 @@ export const Navbar = () => {
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="w-full flex flex-col items-center py-1.5 text-[11px] font-bold text-slate-600 hover:text-[#5e17eb] relative"
+              className="w-full flex flex-col items-center py-1.5 text-[11px] font-bold text-slate-600 hover:text-[#0284c7] relative"
             >
               <div className="relative">
                 <i className="fa-solid fa-bag-shopping text-lg mb-0.5"></i>
@@ -491,11 +512,11 @@ export const Navbar = () => {
             <Link
               href="/track-order"
               className={`flex flex-col items-center py-1.5 text-[11px] font-bold ${
-                pathname === '/track-order' ? 'text-[#5e17eb]' : 'text-slate-600 hover:text-slate-900'
+                pathname === '/track-order' ? 'text-[#0284c7]' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <i className="fa-solid fa-user text-lg mb-0.5"></i>
-              <span>تتبع/حسابي</span>
+              <i className="fa-solid fa-box-archive text-lg mb-0.5"></i>
+              <span>تتبع طلبي</span>
             </Link>
           </li>
         </ul>

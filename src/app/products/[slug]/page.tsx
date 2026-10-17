@@ -33,7 +33,7 @@ export default function ProductDetailPage() {
         <p className="text-slate-500 text-sm">عذراً، لم نتمكن من العثور على هذا المنتج في المتجر.</p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-lg transition"
+          className="inline-flex items-center gap-2 px-5 py-2.5 velto-gradient-btn text-white font-bold rounded-xl text-xs shadow-lg transition"
         >
           <i className="fa-solid fa-arrow-right"></i>
           <span>العودة لكتالوج المنتجات</span>
@@ -57,7 +57,7 @@ export default function ProductDetailPage() {
       <div>
         <Link
           href="/#products"
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-indigo-600 transition"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-brand-primary transition"
         >
           <i className="fa-solid fa-arrow-right"></i>
           <span>العودة إلى جميع العروض والمنتجات</span>
@@ -70,7 +70,7 @@ export default function ProductDetailPage() {
         <div className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 p-5 shadow-xl">
           <div
             className={`relative h-80 sm:h-96 rounded-2xl overflow-hidden bg-gradient-to-tr ${
-              product.color || 'from-indigo-900 to-indigo-950'
+              product.color || 'from-sky-900 to-slate-950'
             } flex items-center justify-center p-6 border border-slate-200 shadow-inner`}
           >
             <i className={`${product.icon || 'fa-solid fa-gem'} text-8xl text-white/30`}></i>
@@ -79,7 +79,7 @@ export default function ProductDetailPage() {
             {/* Badges */}
             <div className="absolute top-4 right-4 flex items-center gap-2">
               {product.badge && (
-                <div className="px-3 py-1.5 rounded-full bg-indigo-600 text-white font-black text-xs shadow-lg flex items-center gap-1.5">
+                <div className="px-3 py-1.5 rounded-full bg-brand-primary text-white font-black text-xs shadow-lg flex items-center gap-1.5">
                   <Flame className="w-3.5 h-3.5 fill-current text-yellow-300" />
                   <span>{product.badge}</span>
                 </div>
@@ -100,7 +100,7 @@ export default function ProductDetailPage() {
 
           <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
             <div className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4 text-indigo-600 shrink-0" />
+              <RefreshCw className="w-4 h-4 text-brand-primary shrink-0" />
               <span>{product.warranty}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -113,7 +113,7 @@ export default function ProductDetailPage() {
         {/* Product Details & Action Buttons */}
         <div className="space-y-6">
           <div className="space-y-2">
-            <div className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold">
+            <div className="inline-block px-3 py-1 rounded-full bg-sky-50 text-brand-primary border border-sky-200 text-xs font-bold">
               {product.categoryName}
             </div>
             <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
@@ -154,7 +154,7 @@ export default function ProductDetailPage() {
               <button
                 type="button"
                 onClick={() => setIsModalOpen(true)}
-                className="py-4 px-6 rounded-2xl bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-black text-sm shadow-xl shadow-indigo-500/25 flex items-center justify-center gap-2.5 transition active:scale-95"
+                className="py-4 px-6 rounded-2xl velto-gradient-btn hover:opacity-95 text-white font-black text-sm shadow-xl shadow-cyan-500/25 flex items-center justify-center gap-2.5 transition active:scale-95"
               >
                 <Zap className="w-4 h-4 text-yellow-300" />
                 <span>طلب مباشر الآن</span>
@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
                 onClick={handleAddToCart}
                 className="py-4 px-6 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-black text-sm shadow-sm flex items-center justify-center gap-2.5 transition active:scale-95"
               >
-                <ShoppingBag className="w-4 h-4 text-indigo-600" />
+                <ShoppingBag className="w-4 h-4 text-brand-primary" />
                 <span>إضافة إلى السلة</span>
               </button>
             </div>
@@ -198,7 +198,7 @@ export default function ProductDetailPage() {
       {/* Delivery FAQ Box */}
       <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-lg space-y-6">
         <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-indigo-600" />
+          <HelpCircle className="w-5 h-5 text-brand-primary" />
           <span>كيف يتم استلام {product.title}؟</span>
         </h3>
 

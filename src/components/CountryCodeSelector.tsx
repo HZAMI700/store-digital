@@ -46,7 +46,7 @@ export const CountryCodeSelector: React.FC<CountryCodeSelectorProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 h-11 px-3 bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 rounded-l-xl focus:outline-none focus:border-indigo-600 transition-all text-xs font-bold"
+        className="flex items-center gap-2 h-11 px-3 bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 rounded-l-xl focus:outline-none focus:border-brand-primary transition-all text-xs font-bold"
       >
         <span className="text-base leading-none">{selectedCountry.flag}</span>
         <span className="font-mono text-slate-700">{selectedCountry.dialCode}</span>
@@ -63,7 +63,7 @@ export const CountryCodeSelector: React.FC<CountryCodeSelectorProps> = ({
                 placeholder="ابحث عن دولة أو رمز..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white"
+                className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-primary focus:bg-white"
                 autoFocus
               />
             </div>
@@ -86,7 +86,7 @@ export const CountryCodeSelector: React.FC<CountryCodeSelectorProps> = ({
                     }}
                     className={cn(
                       'w-full flex items-center justify-between px-3 py-2 text-xs text-left hover:bg-slate-50 transition-colors',
-                      isSelected ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-800'
+                      isSelected ? 'bg-sky-50 text-brand-primary font-bold' : 'text-slate-800'
                     )}
                   >
                     <div className="flex items-center gap-2 truncate">
@@ -95,7 +95,7 @@ export const CountryCodeSelector: React.FC<CountryCodeSelectorProps> = ({
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0 pl-2">
                       <span className="font-mono text-slate-500">{c.dialCode}</span>
-                      {isSelected && <Check className="w-3.5 h-3.5 text-indigo-600" />}
+                      {isSelected && <Check className="w-3.5 h-3.5 text-brand-primary" />}
                     </div>
                   </button>
                 );

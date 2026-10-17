@@ -156,9 +156,9 @@ export default function AdminDashboardPage() {
       value: formatPrice(stats?.totalOrderValue ?? 0),
       description: 'القيمة الإجمالية للطلبات المعتمدة',
       icon: DollarSign,
-      color: 'text-[#5e17eb]',
-      bg: 'bg-purple-50',
-      border: 'border-purple-200',
+      color: 'text-[#0284c7]',
+      bg: 'bg-sky-50',
+      border: 'border-sky-200',
     },
   ];
 
@@ -182,15 +182,15 @@ export default function AdminDashboardPage() {
           <button
             type="button"
             onClick={loadData}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition shadow-xs cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-[#5e17eb]" />
+            <RefreshCw className="w-3.5 h-3.5 text-[#0284c7]" />
             <span>تحديث البيانات</span>
           </button>
 
           <Link
             href="/admin/orders"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#5e17eb] hover:bg-[#4f0ecf] text-white rounded-xl text-xs font-black shadow-md shadow-purple-500/20 transition"
+            className="inline-flex items-center gap-1.5 px-4 py-2 velto-gradient-btn text-white rounded-xl text-xs font-black shadow-md shadow-cyan-500/20 transition cursor-pointer"
           >
             <span>جدول الطلبات الكامل</span>
             <ArrowRight className="w-3.5 h-3.5 rotate-180" />
@@ -242,7 +242,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/orders"
-            className="text-xs text-[#5e17eb] hover:text-[#4f0ecf] font-bold flex items-center gap-1"
+            className="text-xs text-[#0284c7] hover:text-[#0369a1] font-bold flex items-center gap-1"
           >
             <span>عرض كل الطلبات</span>
             <ArrowRight className="w-3.5 h-3.5 rotate-180" />
@@ -267,7 +267,7 @@ export default function AdminDashboardPage() {
                 >
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono text-xs font-bold text-[#5e17eb] bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200">
+                      <span className="font-mono text-xs font-bold text-[#0284c7] bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">
                         #{order.orderReference}
                       </span>
                       <StatusBadge status={order.status} />

@@ -174,7 +174,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           </button>
 
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600">
+            <div className="p-2.5 rounded-2xl bg-sky-50 border border-sky-100 text-brand-primary">
               <ShoppingBag className="w-5 h-5" />
             </div>
             <div>
@@ -200,14 +200,14 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           {/* Product Summary */}
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-indigo-600 text-lg shrink-0 shadow-sm">
+              <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-brand-primary text-lg shrink-0 shadow-sm">
                 <i className={product.icon || 'fa-solid fa-gem'}></i>
               </div>
               <div className="min-w-0">
                 <div className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
                   {product.title}
                 </div>
-                <div className="text-xs text-indigo-600 font-bold font-mono">
+                <div className="text-xs text-brand-primary font-bold font-mono">
                   {formatPrice(product.price)} <span className="text-slate-400 font-normal">/ وحدة</span>
                 </div>
               </div>
@@ -248,7 +248,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="مثال: تركي الشمري"
-              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
             />
             {errors.name && <p className="text-rose-600 text-[11px] font-semibold">{errors.name}</p>}
           </div>
@@ -264,7 +264,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your.email@example.com"
-              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 text-left"
+              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-left"
               dir="ltr"
             />
             {errors.email && <p className="text-rose-600 text-[11px] font-semibold">{errors.email}</p>}
@@ -286,7 +286,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 value={localPhone}
                 onChange={(e) => setLocalPhone(e.target.value)}
                 placeholder="50 123 4567"
-                className="w-full h-11 px-4 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+                className="w-full h-11 px-4 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
               />
             </div>
             {errors.phone && <p className="text-rose-600 text-[11px] font-semibold">{errors.phone}</p>}
@@ -302,7 +302,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="أي تفاصيل أو رغبة في جهاز محدد..."
-              className="w-full px-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 resize-none"
+              className="w-full px-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary resize-none"
             />
           </div>
 
@@ -310,7 +310,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
             <div>
               <span className="text-xs text-slate-500 block font-medium">إجمالي الطلب التقديري:</span>
-              <div className="text-lg font-black text-indigo-600 font-mono">
+              <div className="text-lg font-black text-brand-primary font-mono">
                 {formatPrice(totalPrice)}
               </div>
             </div>
@@ -321,8 +321,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           </div>
 
           {/* MANDATORY NOTICE (Requirement 1) */}
-          <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 flex items-start gap-2.5">
-            <Info className="w-4 h-4 shrink-0 text-indigo-600 mt-0.5" />
+          <div className="p-3.5 rounded-2xl bg-sky-50 border border-sky-200 text-xs text-sky-900 flex items-start gap-2.5">
+            <Info className="w-4 h-4 shrink-0 text-brand-primary mt-0.5" />
             <div className="leading-relaxed text-[11px]">
               <strong>ملاحظة هامة:</strong> سنتواصل معك مباشرة عبر الواتساب أو البريد الإلكتروني لتأكيد طلبك وتوضيح طرق الدفع وترتيب الاستلام. طلبك لا يعتبر مؤكداً حتى نتواصل معك.
             </div>
@@ -335,7 +335,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 type="checkbox"
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 w-4 h-4 rounded text-indigo-600 bg-white border-slate-300 focus:ring-indigo-600"
+                className="mt-0.5 w-4 h-4 rounded text-brand-primary bg-white border-slate-300 focus:ring-brand-primary"
               />
               <span className="text-xs text-slate-700 leading-snug">
                 أوافق على التواصل معي عبر الواتساب أو البريد بخصوص هذا الطلب.
@@ -350,7 +350,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-bold text-xs sm:text-sm shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition disabled:opacity-50"
+              className="w-full h-12 rounded-xl velto-gradient-btn hover:opacity-95 text-white font-bold text-xs sm:text-sm shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 transition disabled:opacity-50"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

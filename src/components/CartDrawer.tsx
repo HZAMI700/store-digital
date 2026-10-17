@@ -118,9 +118,9 @@ export const CartDrawer: React.FC = () => {
         {/* Drawer Header */}
         <div className="flex items-center justify-between border-b border-slate-200 pb-4">
           <h3 className="font-extrabold text-lg flex items-center gap-2 text-slate-900">
-            <i className="fa-solid fa-bag-shopping text-indigo-600"></i>
+            <i className="fa-solid fa-bag-shopping text-brand-primary"></i>
             <span>سلة المشتريات</span>
-            <span className="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full font-bold">
+            <span className="text-xs bg-sky-50 text-brand-primary border border-sky-200 px-2 py-0.5 rounded-full font-bold">
               {cart.reduce((s, i) => s + i.qty, 0)} منتجات
             </span>
           </h3>
@@ -145,7 +145,7 @@ export const CartDrawer: React.FC = () => {
               <p className="text-slate-500 text-sm font-medium">السلة فارغة حالياً</p>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="text-xs text-indigo-600 hover:text-indigo-700 font-bold"
+                className="text-xs text-brand-primary hover:underline font-bold"
               >
                 تصفح المنتجات والعروض ←
               </button>
@@ -160,7 +160,7 @@ export const CartDrawer: React.FC = () => {
                 >
                   <div className="space-y-1 min-w-0 flex-1">
                     <h4 className="font-bold text-xs text-slate-900 truncate">{item.title}</h4>
-                    <div className="text-xs text-indigo-600 font-extrabold">
+                    <div className="text-xs text-brand-primary font-extrabold">
                       {formatPrice(item.price)}
                     </div>
                   </div>
@@ -200,7 +200,7 @@ export const CartDrawer: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowOrderForm(false)}
-                className="text-xs text-indigo-600 hover:text-indigo-700 font-bold flex items-center gap-1.5 mb-2"
+                className="text-xs text-brand-primary hover:underline font-bold flex items-center gap-1.5 mb-2"
               >
                 <i className="fa-solid fa-arrow-right"></i>
                 <span>العودة لتعديل السلة</span>
@@ -224,7 +224,7 @@ export const CartDrawer: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="مثال: عبدالله العتيبي"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
                 />
                 {errors.name && <p className="text-rose-600 text-[11px] font-semibold">{errors.name}</p>}
               </div>
@@ -240,7 +240,7 @@ export const CartDrawer: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 text-left"
+                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-left"
                   dir="ltr"
                 />
                 {errors.email && <p className="text-rose-600 text-[11px] font-semibold">{errors.email}</p>}
@@ -262,7 +262,7 @@ export const CartDrawer: React.FC = () => {
                     value={localPhone}
                     onChange={(e) => setLocalPhone(e.target.value)}
                     placeholder="50 123 4567"
-                    className="w-full h-10 px-3 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+                    className="w-full h-10 px-3 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
                   />
                 </div>
                 {errors.phone && <p className="text-rose-600 text-[11px] font-semibold">{errors.phone}</p>}
@@ -278,13 +278,13 @@ export const CartDrawer: React.FC = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="أي تفاصيل ترغب في توضيحها..."
-                  className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 resize-none"
+                  className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary resize-none"
                 />
               </div>
 
               {/* MANDATORY NOTICE (Requirement 1) */}
-              <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+              <div className="p-3 rounded-xl bg-sky-50 border border-sky-200 text-xs text-sky-900 flex items-start gap-2.5">
+                <Info className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
                 <div className="leading-relaxed text-[11px]">
                   <strong>ملاحظة هامة:</strong> سنتواصل معك مباشرة عبر الواتساب أو البريد الإلكتروني لتأكيد طلبك وتوضيح طرق الدفع وترتيب الاستلام. طلبك لا يعتبر مؤكداً حتى نتواصل معك.
                 </div>
@@ -297,7 +297,7 @@ export const CartDrawer: React.FC = () => {
                     type="checkbox"
                     checked={consent}
                     onChange={(e) => setConsent(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 rounded text-indigo-600 bg-white border-slate-300 focus:ring-indigo-600"
+                    className="mt-0.5 w-4 h-4 rounded text-brand-primary bg-white border-slate-300 focus:ring-brand-primary"
                   />
                   <span className="text-[11px] text-slate-700 leading-snug">
                     أوافق على التواصل معي عبر الواتساب أو البريد بخصوص هذا الطلب.
@@ -315,7 +315,7 @@ export const CartDrawer: React.FC = () => {
           <div className="border-t border-slate-200 pt-4 space-y-3">
             <div className="flex items-center justify-between font-bold text-sm">
               <span className="text-slate-600">الإجمالي التقديري:</span>
-              <span id="cartDrawerTotal" className="text-indigo-600 text-lg font-black font-mono">
+              <span id="cartDrawerTotal" className="text-brand-primary text-lg font-black font-mono">
                 {formatPrice(totalPrice)}
               </span>
             </div>
@@ -324,7 +324,7 @@ export const CartDrawer: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowOrderForm(true)}
-                className="w-full bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-500/25 transition flex items-center justify-center gap-2 text-sm"
+                className="w-full velto-gradient-btn hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/25 transition flex items-center justify-center gap-2 text-sm"
               >
                 <span>إتمام الطلب الآن</span>
                 <i className="fa-solid fa-arrow-left text-xs"></i>
@@ -334,7 +334,7 @@ export const CartDrawer: React.FC = () => {
                 type="submit"
                 form="cartCheckoutForm"
                 disabled={isSubmittingOrder}
-                className="w-full bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-500/25 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+                className="w-full velto-gradient-btn hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/25 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50"
               >
                 {isSubmittingOrder ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
