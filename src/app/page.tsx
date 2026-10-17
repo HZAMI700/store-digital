@@ -36,18 +36,60 @@ export default function HomePage() {
 
   const heroSlides = [
     {
-      id: 'slide-gemini',
-      title: 'سنة كاملة بدون انقطاع Gemini Pro',
-      subtitle: 'اشتراك سنوي • حساب خاص رسمي بإيميل وباسورد من عندنا مع دعم وضمان طوال السنة',
-      badge: '30 د.ت سنة كاملة 🤖',
-      price: '30 د.ت',
-      originalPrice: '60 د.ت',
-      discount: 'سنة كاملة',
+      id: 'slide-shahid',
+      title: 'سنة كاملة بدون انقطاع Shahid VIP شامل',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي مع متابعة كافة المسلسلات والأفلام بدقة Full HD وبدون أي إعلانات',
+      badge: '15 د.ت سنة كاملة 🎬',
+      price: '15 د.ت (سنة)',
+      originalPrice: '35 د.ت',
+      discount: 'خصم 55%',
       duration: 'سنة كاملة',
-      productId: 'prod-gemini-advanced',
-      imageUrl: '/images/card-gemini.jpg',
-      icon: 'fa-solid fa-brain',
-      accentColor: '#38bdf8',
+      productId: 'prod-shahid',
+      imageUrl: '/images/card-shahid.jpg',
+      icon: 'fa-solid fa-tv',
+      accentColor: '#10b981',
+    },
+    {
+      id: 'slide-disney',
+      title: 'سنة كاملة بدون انقطاع ديزني بلس Disney+',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي يفتح عوالم ديزني، مارفل، بيكسار، وستار وورز بدقة 4K HDR مع ترجمة عربية',
+      badge: '15 د.ت سنة كاملة ✨',
+      price: '15 د.ت (سنة)',
+      originalPrice: '35 د.ت',
+      discount: 'خصم 55%',
+      duration: 'سنة كاملة',
+      productId: 'prod-disney',
+      imageUrl: '/images/card-disney.jpg',
+      icon: 'fa-solid fa-wand-magic-sparkles',
+      accentColor: '#3b82f6',
+    },
+    {
+      id: 'slide-ufc',
+      title: 'سنة كاملة بدون انقطاع UFC Fight Pass',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي لمشاهدة جميع نزالات الفنون القتالية وبث الفعاليات الحصرية وأرشيف النزالات',
+      badge: '15 د.ت سنة كاملة 🥊',
+      price: '15 د.ت (سنة)',
+      originalPrice: '40 د.ت',
+      discount: 'خصم 60%',
+      duration: 'سنة كاملة',
+      productId: 'prod-ufc',
+      imageUrl: '/images/card-ufc.jpg',
+      icon: 'fa-solid fa-trophy',
+      accentColor: '#ef4444',
+    },
+    {
+      id: 'slide-storytel',
+      title: 'سنة كاملة بدون انقطاع ستوريتل Storytel',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي لأضخم مكتبة للكتب الصوتية والإلكترونية والكورسات مع ميزة الاستماع بدون إنترنت',
+      badge: '15 د.ت سنة كاملة 📚',
+      price: '15 د.ت (سنة)',
+      originalPrice: '35 د.ت',
+      discount: 'خصم 55%',
+      duration: 'سنة كاملة',
+      productId: 'prod-storytel',
+      imageUrl: '/images/card-storytel.jpg',
+      icon: 'fa-solid fa-book-open',
+      accentColor: '#f59e0b',
     },
     {
       id: 'slide-capcut',
@@ -64,11 +106,25 @@ export default function HomePage() {
       accentColor: '#06b6d4',
     },
     {
+      id: 'slide-gemini',
+      title: 'سنة كاملة بدون انقطاع Gemini Pro',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي بإيميل وباسورد من عندنا مع دعم وضمان طوال السنة',
+      badge: '30 د.ت سنة كاملة 🤖',
+      price: '30 د.ت (سنة)',
+      originalPrice: '60 د.ت',
+      discount: 'سنة كاملة',
+      duration: 'سنة كاملة',
+      productId: 'prod-gemini-advanced',
+      imageUrl: '/images/card-gemini.jpg',
+      icon: 'fa-solid fa-brain',
+      accentColor: '#38bdf8',
+    },
+    {
       id: 'slide-canva',
       title: 'سنة كاملة بدون انقطاع Canva Pro',
       subtitle: 'اشتراك سنوي • حساب خاص رسمي مع ملايين القوالب وإزالة الخلفيات وتنزيل التصاميم بجودة فائقة',
       badge: '25 د.ت سنة كاملة ✨',
-      price: '25 د.ت',
+      price: '25 د.ت (سنة)',
       originalPrice: '65 د.ت',
       discount: 'خصم 60%',
       duration: 'سنة كاملة',
@@ -79,8 +135,8 @@ export default function HomePage() {
     },
     {
       id: 'slide-expressvpn',
-      title: 'شهر كامل بدون انقطاع ExpressVPN',
-      subtitle: 'اشتراك شهري وسنوي • حساب خاص بأعلى حماية وتشفير وسيرفرات فائقة لفك الحجب وحماية البيانات',
+      title: 'سنة كاملة بدون انقطاع ExpressVPN',
+      subtitle: 'اشتراك سنوي • حساب خاص بأعلى حماية وتشفير وسيرفرات فائقة لفك الحجب وحماية البيانات',
       badge: 'حماية وتشفير قصوى 🛡️',
       price: '45 د.ت (سنة)',
       originalPrice: '120 د.ت',
@@ -92,25 +148,11 @@ export default function HomePage() {
       accentColor: '#ef4444',
     },
     {
-      id: 'slide-velto',
-      title: 'متجر فيلترو الرقمي | Velto Store',
-      subtitle: 'أرقى الاشتراكات السحابية والترفيهية بالدينار التونسي (د.ت) مع تفعيل وتسليم فوري وضمان كامل المدة',
-      badge: 'المنصة الرقمية الأولى في تونس 🇹🇳',
-      price: 'اشتراكات تبدأ من 15 د.ت',
-      originalPrice: '',
-      discount: 'توفير حتى 65%',
-      duration: 'ضمان كامل',
-      productId: 'prod-capcut-pro-1m',
-      imageUrl: '/images/banner-hero-velto.jpg',
-      icon: 'fa-solid fa-gem',
-      accentColor: '#0284c7',
-    },
-    {
       id: 'slide-netflix',
       title: 'اشتراك نتفلكس بريميوم 4K Ultra HD',
       subtitle: 'شاشة خاصة برقم سري PIN وجودة سينمائية 4K HDR وصوت محيطي وضمان ذهبي كامل المدة',
       badge: 'الأكثر طلباً ومبيعاً ⭐',
-      price: '18 د.ت',
+      price: '18 د.ت (شهر)',
       originalPrice: '35 د.ت',
       discount: 'خصم 50%',
       duration: 'شهر كامل',
@@ -185,26 +227,32 @@ export default function HomePage() {
   const categories = [
     { id: 'all', name: 'الكل', count: products.length, icon: 'fa-solid fa-border-all' },
     {
-      id: 'design',
-      name: 'تصميم ومونتاج',
-      count: products.filter((p) => p.categoryId === 'design').length,
-      icon: 'fa-solid fa-wand-magic-sparkles',
-    },
-    {
       id: 'ai',
-      name: 'ذكاء اصطناعي',
+      name: 'الذكاء الاصطناعي',
       count: products.filter((p) => p.categoryId === 'ai').length,
       icon: 'fa-solid fa-brain',
     },
     {
-      id: 'streaming',
-      name: 'بث وترفيه',
-      count: products.filter((p) => p.categoryId === 'streaming').length,
-      icon: 'fa-solid fa-film',
+      id: 'entertainment',
+      name: 'المشاهدة والترفيه',
+      count: products.filter((p) => p.categoryId === 'entertainment').length,
+      icon: 'fa-solid fa-tv',
+    },
+    {
+      id: 'study',
+      name: 'الدراسة والكورسات',
+      count: products.filter((p) => p.categoryId === 'study').length,
+      icon: 'fa-solid fa-graduation-cap',
+    },
+    {
+      id: 'design',
+      name: 'التصميم والمونتاج',
+      count: products.filter((p) => p.categoryId === 'design').length,
+      icon: 'fa-solid fa-wand-magic-sparkles',
     },
     {
       id: 'security',
-      name: 'حماية وأمان',
+      name: 'الحماية والأمان',
       count: products.filter((p) => p.categoryId === 'security').length,
       icon: 'fa-solid fa-shield-halved',
     },
@@ -234,9 +282,9 @@ export default function HomePage() {
                   <img
                     src={slide.imageUrl}
                     alt={slide.title}
-                    className={`w-full h-full object-cover transition-transform duration-7000 ease-out ${
-                      isActive ? 'scale-105' : 'scale-100'
-                    }`}
+                    className="w-full h-full object-cover"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
                   />
                   {/* Premium Multi-Layer Dark Gradient for High Legibility */}
                   <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-slate-950/60" />
@@ -248,7 +296,7 @@ export default function HomePage() {
                   
                   {/* Top Badges */}
                   <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs font-black text-white border border-white/20 shadow-sm animate-fade-in">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 text-xs font-black text-white border border-white/20 shadow-sm animate-fade-in">
                       <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
                       <span>{slide.badge}</span>
                     </span>
@@ -283,11 +331,13 @@ export default function HomePage() {
 
                     {/* Desktop Card Preview Floater */}
                     <div className="hidden md:flex md:col-span-4 justify-center items-center">
-                      <div className="relative w-48 sm:w-56 aspect-square rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-500 animate-float bg-white/5 backdrop-blur-md p-1.5">
+                      <div className="relative w-48 sm:w-56 aspect-square rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300 animate-float bg-white/10 p-1.5">
                         <img
                           src={slide.imageUrl}
                           alt={slide.title}
                           className="w-full h-full object-cover rounded-2xl"
+                          loading="lazy"
+                          decoding="async"
                         />
                       </div>
                     </div>
@@ -331,7 +381,7 @@ export default function HomePage() {
                             setIsCartOpen(true);
                           }
                         }}
-                        className="px-4 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white font-bold text-xs border border-white/25 transition flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="px-4 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs border border-white/25 transition flex items-center justify-center gap-1.5 cursor-pointer"
                         title="أضف إلى السلة"
                       >
                         <ShoppingBag className="w-4 h-4" />
@@ -349,7 +399,7 @@ export default function HomePage() {
         {/* Navigation Arrows */}
         <button
           onClick={handlePrevSlide}
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition opacity-80 hover:opacity-100 cursor-pointer"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/60 hover:bg-black/85 text-white border border-white/20 flex items-center justify-center transition opacity-80 hover:opacity-100 cursor-pointer"
           aria-label="السابق"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -357,7 +407,7 @@ export default function HomePage() {
 
         <button
           onClick={handleNextSlide}
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition opacity-80 hover:opacity-100 cursor-pointer"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/60 hover:bg-black/85 text-white border border-white/20 flex items-center justify-center transition opacity-80 hover:opacity-100 cursor-pointer"
           aria-label="التالي"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -474,17 +524,18 @@ export default function HomePage() {
                 key={product.id}
                 id={product.id}
                 onClick={() => setActiveModalProduct(product)}
-                className="product-card group cursor-pointer rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-xs hover:shadow-2xl hover:border-[#0284c7]/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between p-3 sm:p-4 text-center select-none active:scale-[0.98]"
+                className="product-card group cursor-pointer rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-xs hover:border-[#0284c7]/50 transition-all duration-200 flex flex-col justify-between p-3 sm:p-4 text-center select-none active:scale-[0.98]"
               >
                 {/* 1. Image (Uploaded Official Veltro Product Card) */}
                 <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-2.5 sm:mb-3 shadow-inner">
                   <img
                     src={product.imageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     loading="lazy"
+                    decoding="async"
                   />
-                  <div className="absolute inset-0 bg-[#0284c7]/0 group-hover:bg-[#0284c7]/5 transition-colors duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 bg-[#0284c7]/0 group-hover:bg-[#0284c7]/5 transition-colors duration-200 pointer-events-none" />
                 </div>
 
                 {/* 2. Product Name */}
@@ -553,7 +604,7 @@ export default function HomePage() {
             </div>
 
             {/* Countdown Clock Display */}
-            <div className="flex flex-col items-center justify-center p-6 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 text-center space-y-4">
+            <div className="flex flex-col items-center justify-center p-6 rounded-3xl bg-white/10 border border-white/20 text-center space-y-4">
               <span className="text-xs font-bold text-cyan-200">ينتهي العرض الخاص خلال:</span>
               
               <div className="grid grid-cols-4 gap-2 sm:gap-3 text-center">

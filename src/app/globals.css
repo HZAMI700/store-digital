@@ -29,13 +29,14 @@ body {
 /* Velto Brand Gradients */
 .velto-gradient-btn {
   background: linear-gradient(135deg, #06b6d4 0%, #0284c7 50%, #2563eb 100%);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
 
 .velto-gradient-btn:hover {
   background: linear-gradient(135deg, #0891b2 0%, #0369a1 50%, #1d4ed8 100%);
   box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.4);
-  transform: translateY(-2px);
+  transform: translate3d(0, -2px, 0);
 }
 
 .velto-gradient-text {
@@ -45,44 +46,45 @@ body {
 }
 
 .velto-subtle-glow {
-  box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.25);
+  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.2);
 }
 
-/* Glass & Nav */
+/* Glass & Nav (Optimized for instant scroll without backdrop blur lag) */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: #ffffff;
 }
 
-/* Interactive Card Motions */
+/* High-Performance Product Card */
 .product-card {
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  contain: content;
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
   background-color: #ffffff;
   border-color: #e2e8f0;
   position: relative;
 }
 
 .product-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 20px 35px -10px rgba(2, 132, 199, 0.22);
+  transform: translate3d(0, -5px, 0);
+  box-shadow: 0 16px 30px -8px rgba(2, 132, 199, 0.18);
   border-color: #38bdf8;
 }
 
 .product-card:hover .product-img {
-  transform: scale(1.06);
+  transform: scale(1.04);
 }
 
 .product-img {
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 /* Ambient Radial Mesh Background */
 .velto-hero-mesh {
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.12) 0%, rgba(37, 99, 235, 0.06) 45%, transparent 70%),
-    radial-gradient(circle at 15% 30%, rgba(0, 210, 196, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.08) 0%, rgba(37, 99, 235, 0.04) 45%, transparent 70%),
+    radial-gradient(circle at 15% 30%, rgba(0, 210, 196, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(2, 132, 199, 0.05) 0%, transparent 50%);
 }
 
 /* Shimmer Sweep Animation */
@@ -97,18 +99,20 @@ body {
   100% { background-position: 200% 0; }
 }
 
-/* Floating Animation */
+/* Smooth GPU-Accelerated Floating Animation */
 @keyframes floatAnimation {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-7px) rotate(1deg); }
+  0%, 100% { transform: translate3d(0, 0px, 0); }
+  50% { transform: translate3d(0, -5px, 0); }
 }
 
 .animate-float {
-  animation: floatAnimation 5s ease-in-out infinite;
+  animation: floatAnimation 4s ease-in-out infinite;
+  will-change: transform;
 }
 
 .animate-float-delayed {
-  animation: floatAnimation 5s ease-in-out 2.5s infinite;
+  animation: floatAnimation 4s ease-in-out 2s infinite;
+  will-change: transform;
 }
 
 /* Custom Scrollbar */
@@ -130,26 +134,16 @@ body {
   background: #0284c7;
 }
 
-/* Slow Rotating Icon */
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.spinning-icon {
-  animation: spinSlow 15s linear infinite;
-}
-
-/* Infinite Moving Gradient Beam (Under Logo) */
+/* Infinite Moving Gradient Beam (Under Logo) - 100% GPU Accelerated */
 @keyframes infiniteLaserLine {
   0% {
-    transform: translateX(-150%);
+    transform: translate3d(-150%, 0, 0);
   }
   50% {
-    transform: translateX(50%);
+    transform: translate3d(50%, 0, 0);
   }
   100% {
-    transform: translateX(250%);
+    transform: translate3d(250%, 0, 0);
   }
 }
 
@@ -160,20 +154,5 @@ body {
   top: 0;
   background: linear-gradient(90deg, transparent 0%, #06b6d4 30%, #0284c7 60%, #8b5cf6 85%, transparent 100%);
   animation: infiniteLaserLine 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.75));
-}
-
-@keyframes continuousGradientFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
-.animate-continuous-flow {
-  background: linear-gradient(90deg, #0284c7, #06b6d4, #38bdf8, #8b5cf6, #00d2c4, #0284c7);
-  background-size: 250% 100%;
-  animation: continuousGradientFlow 3.5s linear infinite;
+  will-change: transform;
 }

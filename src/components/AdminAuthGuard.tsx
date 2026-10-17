@@ -132,7 +132,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="yassine700"
+                  placeholder="ادخل اسم المستخدم"
                   className="w-full px-4 py-2.5 pr-10 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0284c7] focus:ring-2 focus:ring-[#0284c7]/20 text-slate-900 text-xs font-medium outline-none transition"
                   dir="ltr"
                   autoComplete="username"
@@ -188,12 +188,10 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
             </button>
           </form>
 
-          {/* Quick Notice */}
-          <div className="p-3 rounded-xl bg-sky-50/60 border border-sky-100 text-[11px] text-sky-900 flex items-center justify-center gap-2 text-center">
-            <span className="font-semibold">صلاحية الدخول مخصصة فقط لمشرف المتجر:</span>
-            <code className="bg-white px-1.5 py-0.5 rounded border border-sky-200 font-mono font-bold text-[#0284c7]">
-              yassine700
-            </code>
+          {/* Secure System Badge (Secret, No Credentials Revealed) */}
+          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500 flex items-center justify-center gap-2 text-center">
+            <Shield className="w-3.5 h-3.5 text-[#0284c7] shrink-0" />
+            <span>منطقة وصول آمنة ومحمية خاصة بمشرفي النظام فقط</span>
           </div>
 
           {/* Return to storefront */}

@@ -54,8 +54,40 @@ export const Navbar = () => {
 
   const navProducts = [
     {
+      id: 'prod-shahid',
+      title: 'شاهد VIP شامل',
+      price: '15 د.ت',
+      icon: 'fa-solid fa-tv text-emerald-600',
+      tag: 'سنة كاملة',
+      tagColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+    },
+    {
+      id: 'prod-ufc',
+      title: 'UFC Fight Pass',
+      price: '15 د.ت',
+      icon: 'fa-solid fa-trophy text-rose-600',
+      tag: 'سنة كاملة',
+      tagColor: 'bg-rose-50 text-rose-700 border border-rose-200',
+    },
+    {
+      id: 'prod-disney',
+      title: 'ديزني بلس Disney+',
+      price: '15 د.ت',
+      icon: 'fa-solid fa-wand-magic-sparkles text-blue-600',
+      tag: 'سنة كاملة',
+      tagColor: 'bg-blue-50 text-blue-700 border border-blue-200',
+    },
+    {
+      id: 'prod-storytel',
+      title: 'ستوريتل Storytel',
+      price: '15 د.ت',
+      icon: 'fa-solid fa-book-open text-amber-600',
+      tag: 'سنة كاملة',
+      tagColor: 'bg-amber-50 text-amber-700 border border-amber-200',
+    },
+    {
       id: 'prod-capcut-pro-1m',
-      title: 'اشتراك كاب كت برو CapCut Pro',
+      title: 'كاب كت CapCut Pro',
       price: '15 د.ت',
       icon: 'fa-solid fa-scissors text-cyan-600',
       tag: 'شهر / سنة',
@@ -63,31 +95,31 @@ export const Navbar = () => {
     },
     {
       id: 'prod-gemini-advanced',
-      title: 'اشتراك Gemini Advanced',
+      title: 'Gemini Advanced AI',
       price: '30 د.ت',
-      icon: 'fa-solid fa-brain text-blue-600',
+      icon: 'fa-solid fa-brain text-indigo-600',
       tag: 'سنة كاملة',
-      tagColor: 'bg-blue-50 text-blue-700 border border-blue-200',
+      tagColor: 'bg-indigo-50 text-indigo-700 border border-indigo-200',
     },
     {
       id: 'prod-netflix-4k',
-      title: 'اشتراك نتفلكس 4K UHD',
+      title: 'نتفلكس Netflix 4K',
       price: '18 د.ت',
-      icon: 'fa-solid fa-tv text-rose-500',
+      icon: 'fa-solid fa-film text-red-600',
       tag: 'الأكثر طلباً',
-      tagColor: 'bg-rose-50 text-rose-600 border border-rose-200',
+      tagColor: 'bg-red-50 text-red-600 border border-red-200',
     },
     {
       id: 'prod-canva-pro',
-      title: 'اشتراك كانفا برو Canva Pro',
+      title: 'كانفا Canva Pro',
       price: '25 د.ت',
       icon: 'fa-solid fa-palette text-sky-600',
-      tag: 'تفعيل إيميلك',
+      tag: 'سنة كاملة',
       tagColor: 'bg-sky-50 text-sky-700 border border-sky-200',
     },
     {
       id: 'prod-express-vpn',
-      title: 'اشتراك ExpressVPN',
+      title: 'ExpressVPN',
       price: '45 د.ت',
       icon: 'fa-solid fa-shield-halved text-emerald-600',
       tag: 'أعلى حماية',
@@ -119,7 +151,7 @@ export const Navbar = () => {
       )}
 
       {/* 2. Main Store Header (Velto Sticky Glass Nav) */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e2e8f0] shadow-xs transition-all">
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
           
           {/* Right Section: Mobile Menu Trigger & Language/Currency */}
@@ -227,7 +259,7 @@ export const Navbar = () => {
               className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#06b6d4] to-[#0284c7] text-white font-bold flex items-center gap-1.5 shadow-xs hover:shadow-sm transition"
             >
               <i className="fa-solid fa-border-all"></i>
-              <span>جميع الاشتراكات (5)</span>
+              <span>جميع الاشتراكات (9)</span>
             </Link>
 
             {navProducts.map((item) => (
@@ -302,7 +334,7 @@ export const Navbar = () => {
                 {/* Subscriptions Categories */}
                 <div className="space-y-2">
                   <div className="text-xs font-black text-slate-400 uppercase tracking-wider mb-2">
-                    الاشتراكات المعتمدة (5)
+                    الاشتراكات المعتمدة (9)
                   </div>
 
                   {navProducts.map((p) => (
@@ -441,7 +473,7 @@ export const Navbar = () => {
       )}
 
       {/* 6. Velto Mobile Sticky Bottom Header */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg px-2 py-1" dir="rtl">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg px-2 py-1" dir="rtl">
         <ul className="grid grid-cols-5 items-center justify-between text-center">
           <li>
             <Link
