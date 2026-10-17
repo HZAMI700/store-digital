@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { INITIAL_PRODUCTS } from '@/lib/store';
+import { ProductPlan } from '@/lib/types';
 import { OrderModal } from '@/components/OrderModal';
 import { useCart } from '@/lib/cart-context';
 import { formatPrice } from '@/lib/utils';
@@ -16,6 +17,9 @@ import {
   RefreshCw,
   HelpCircle,
   Zap,
+  Clock,
+  Sparkles,
+  ArrowRight,
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -23,6 +27,19 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
   const product = INITIAL_PRODUCTS.find((p) => p.slug === slug);
 
+  const availablePlans = product?.plans || [
+    {
+      id: 'default-plan',
+      name: 'اشتراك رسمي كامل',
+      duration: 'كامل المدة',
+      price: product?.price || 0,
+      compareAtPrice: product?.compareAtPrice,
+    },
+  ];
+
+  const [selectedPlanId, setSelectedPlanId] = useState<string>(
+    availablePlans[0]?.id || 'default-plan'
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addToCart, setIsCartOpen } = useCart();
 
@@ -35,15 +52,21 @@ export default function ProductDetailPage() {
           href="/"
           className="inline-flex items-center gap-2 px-5 py-2.5 velto-gradient-btn text-white font-bold rounded-xl text-xs shadow-lg transition"
         >
-          <i className="fa-solid fa-arrow-right"></i>
+          <ArrowRight className="w-4 h-4" />
           <span>العودة لكتالوج المنتجات</span>
         </Link>
       </div>
     );
   }
 
-  const discountPercent = product.compareAtPrice
-    ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
+  const selectedPlan: ProductPlan =
+    availablePlans.find((p) => p.id === selectedPlanId) || availablePlans[0];
+
+  const currentPrice = selectedPlan ? selectedPlan.price : product.price;
+  const comparePrice = selectedPlan ? selectedPlan.compareAtPrice : product.compareAtPrice;
+
+  const discountPercent = comparePrice
+    ? Math.round(((comparePrice - currentPrice) / comparePrice) * 100)
     : null;
 
   const handleAddToCart = () => {
@@ -52,12 +75,12 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 animate-in fade-in duration-200">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 animate-in fade-in duration-200" dir="rtl">
       {/* Breadcrumb */}
       <div>
         <Link
           href="/#products"
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-brand-primary transition"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#0284c7] transition"
         >
           <i className="fa-solid fa-arrow-right"></i>
           <span>العودة إلى جميع العروض والمنتجات</span>
@@ -68,19 +91,19 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         {/* Visual Card / Media */}
         <div className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 p-5 shadow-xl">
-          <div
-            className={`relative h-80 sm:h-96 rounded-2xl overflow-hidden bg-gradient-to-tr ${
-              product.color || 'from-sky-900 to-slate-950'
-            } flex items-center justify-center p-6 border border-slate-200 shadow-inner`}
-          >
-            <i className={`${product.icon || 'fa-solid fa-gem'} text-8xl text-white/30`}></i>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-inner group">
+            <img
+              src={product.imageUrl}
+              alt={product.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
             {/* Badges */}
             <div className="absolute top-4 right-4 flex items-center gap-2">
               {product.badge && (
-                <div className="px-3 py-1.5 rounded-full bg-brand-primary text-white font-black text-xs shadow-lg flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 fill-current text-yellow-300" />
+                <div className="px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-slate-900 font-black text-xs shadow-lg flex items-center gap-1.5 border border-slate-200">
+                  <Flame className="w-3.5 h-3.5 fill-current text-amber-500" />
                   <span>{product.badge}</span>
                 </div>
               )}
@@ -92,7 +115,7 @@ export default function ProductDetailPage() {
             </div>
 
             <div className="absolute bottom-4 right-4 flex items-center gap-2">
-              <span className="px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 text-xs text-slate-800 font-bold shadow">
+              <span className="px-3 py-1 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 text-xs text-slate-800 font-bold shadow">
                 {product.categoryName}
               </span>
             </div>
@@ -100,7 +123,7 @@ export default function ProductDetailPage() {
 
           <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
             <div className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4 text-brand-primary shrink-0" />
+              <RefreshCw className="w-4 h-4 text-[#0284c7] shrink-0" />
               <span>{product.warranty}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -113,28 +136,81 @@ export default function ProductDetailPage() {
         {/* Product Details & Action Buttons */}
         <div className="space-y-6">
           <div className="space-y-2">
-            <div className="inline-block px-3 py-1 rounded-full bg-sky-50 text-brand-primary border border-sky-200 text-xs font-bold">
+            <div className="inline-block px-3 py-1 rounded-full bg-sky-50 text-[#0284c7] border border-sky-200 text-xs font-bold">
               {product.categoryName}
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug">
               {product.title}
             </h1>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
               {product.fullDescription}
             </p>
+          </div>
+
+          {/* Duration Selector */}
+          <div className="space-y-2.5">
+            <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-[#0284c7]" />
+              <span>اختر مدة الاشتراك:</span>
+            </label>
+
+            <div className={`grid gap-3 ${availablePlans.length > 1 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}>
+              {availablePlans.map((plan) => {
+                const isSelected = selectedPlanId === plan.id;
+                return (
+                  <div
+                    key={plan.id}
+                    onClick={() => setSelectedPlanId(plan.id)}
+                    className={`cursor-pointer rounded-2xl p-4 border transition-all duration-200 relative ${
+                      isSelected
+                        ? 'border-[#0284c7] bg-sky-50/60 shadow-md ring-2 ring-[#0284c7]/20'
+                        : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    {plan.badge && (
+                      <span className="absolute -top-2.5 left-4 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#0284c7] text-white shadow-xs">
+                        {plan.badge}
+                      </span>
+                    )}
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <span className="font-extrabold text-xs text-slate-900 block">
+                          {plan.name}
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          المدة: <strong className="text-slate-700">{plan.duration}</strong>
+                        </span>
+                      </div>
+
+                      <div className="text-left">
+                        <div className="text-base font-black text-[#0284c7] font-mono">
+                          {formatPrice(plan.price)}
+                        </div>
+                        {plan.compareAtPrice && (
+                          <div className="text-[10px] text-slate-400 line-through font-mono">
+                            {formatPrice(plan.compareAtPrice)}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Pricing Box */}
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between shadow-sm">
             <div>
-              <span className="text-xs text-slate-500 block font-semibold">سعر العرض</span>
+              <span className="text-xs text-slate-500 block font-semibold">سعر الباقة المختارة ({selectedPlan.duration})</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-slate-900 font-mono">
-                  {formatPrice(product.price)}
+                  {formatPrice(currentPrice)}
                 </span>
-                {product.compareAtPrice && (
+                {comparePrice && (
                   <span className="text-sm text-slate-400 line-through font-mono">
-                    {formatPrice(product.compareAtPrice)}
+                    {formatPrice(comparePrice)}
                   </span>
                 )}
               </div>
@@ -165,14 +241,14 @@ export default function ProductDetailPage() {
                 onClick={handleAddToCart}
                 className="py-4 px-6 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-black text-sm shadow-sm flex items-center justify-center gap-2.5 transition active:scale-95"
               >
-                <ShoppingBag className="w-4 h-4 text-brand-primary" />
+                <ShoppingBag className="w-4 h-4 text-[#0284c7]" />
                 <span>إضافة إلى السلة</span>
               </button>
             </div>
 
             <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 font-medium flex items-center justify-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>طلب آمن بدون خصم بطاقة أونلاين • يتواصل معك المشرف لتوضيح طرق الدفع والاستلام</span>
+              <span>طلب آمن بدون خصم بطاقة أونلاين • يتواصل معك المشرف لتوضيح طرق الدفع والاستلام بالدينار التونسي</span>
             </div>
           </div>
 
@@ -198,25 +274,25 @@ export default function ProductDetailPage() {
       {/* Delivery FAQ Box */}
       <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-lg space-y-6">
         <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-brand-primary" />
+          <HelpCircle className="w-5 h-5 text-[#0284c7]" />
           <span>كيف يتم استلام {product.title}؟</span>
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
           <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <div className="font-extrabold text-slate-900">1. تسجيل الطلب</div>
+            <div className="font-extrabold text-slate-900">1. تسجيل الطلب المباشر</div>
             <p className="text-slate-600 leading-relaxed">
-              تقوم بتسجيل اسمك ورقم الواتساب وسيتم إدراج طلبك فوراً في لوحة تحكم الإدارة.
+              تقوم بتسجيل اسمك ورقم الواتساب وسيتم إدراج طلبك فوراً في لوحة تحكم المتجر.
             </p>
           </div>
           <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <div className="font-extrabold text-slate-900">2. تواصل المشرف</div>
+            <div className="font-extrabold text-slate-900">2. تواصل المشرف الفوري</div>
             <p className="text-slate-600 leading-relaxed">
-              يتواصل معك مسؤول المتجر عبر الواتساب لتأكيد بياناتك وتوفير خيارات السداد المتاحة (مدى، تحويل، STC Pay).
+              يتواصل معك مسؤول المتجر عبر الواتساب لتأكيد بياناتك وتوفير خيارات السداد المتاحة (Flouci، D17، تحويل بنكي أو بريدي).
             </p>
           </div>
           <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <div className="font-extrabold text-slate-900">3. تسليم الحساب والضمان</div>
+            <div className="font-extrabold text-slate-900">3. تسليم الحساب والضمان الذهبي</div>
             <p className="text-slate-600 leading-relaxed">
               يتم تفعيل وإرسال بيانات اشتراكك فوراً مع شرح كامل لطريقة الاستخدام وضمان كامل المدة.
             </p>

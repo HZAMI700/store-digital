@@ -194,10 +194,10 @@ export const Footer = () => {
               <div className="p-3 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xs space-y-1">
                 <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs">
                   <i className="fa-solid fa-certificate"></i>
-                  <span>موثق بالمركز السعودي للأعمال</span>
+                  <span>متجر رقمي موثق ومعتمد 100%</span>
                 </div>
                 <div className="text-[11px] text-slate-500 font-mono" dir="ltr">
-                  SBC: 0000170796
+                  VELTO-DIGITAL-TUNISIA
                 </div>
               </div>
 
@@ -227,10 +227,10 @@ export const Footer = () => {
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[11px] text-slate-400">طرق التحويل والسداد المعتمدة:</span>
             <div className="flex items-center gap-1.5">
-              <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-slate-700">مدى Mada</span>
-              <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-slate-700">Apple Pay</span>
+              <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-sky-700">Flouci</span>
+              <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-emerald-700">D17 البريد التونسي</span>
               <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-slate-700">تحويل بنكي</span>
-              <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-emerald-700">STC Pay</span>
+              <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-bold text-purple-700">دفع مباشر بالدينار (د.ت)</span>
             </div>
           </div>
         </div>
