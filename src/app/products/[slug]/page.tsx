@@ -172,7 +172,7 @@ export default function ProductDetailPage() {
           if (data.order) {
             orderRef = data.order.orderReference;
             token = data.order.guestLookupToken;
-            clientStore.saveToMyOrders(data.order);
+            clientStore.replaceOrAddOrder(data.order, localOrder.id);
           }
         }
       } catch (apiErr) {

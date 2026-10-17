@@ -36,8 +36,8 @@ export default function AdminDashboardPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const loadData = async () => {
-    setLoading(true);
+  const loadData = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       // 1. First load from clientStore (instant local persistence)
       const localOrders = clientStore.getOrders();
@@ -71,12 +71,12 @@ export default function AdminDashboardPage() {
       setInventory(clientStore.getInventory());
       setStats(clientStore.computeStats(localOrders));
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadData();
+    loadData(true);
 
     // Listen to local storage updates from other tabs
     const handleUpdate = () => {
@@ -86,10 +86,18 @@ export default function AdminDashboardPage() {
       setStats(clientStore.computeStats(localOrders));
     };
 
+    window.addEventListener('velto_orders_updated', handleUpdate);
     window.addEventListener('y7x_orders_updated', handleUpdate);
     window.addEventListener('storage', handleUpdate);
 
+    // Auto-poll silently every 3 seconds for instant real-time live sync
+    const interval = setInterval(() => {
+      loadData(false);
+    }, 3000);
+
     return () => {
+      clearInterval(interval);
+      window.removeEventListener('velto_orders_updated', handleUpdate);
       window.removeEventListener('y7x_orders_updated', handleUpdate);
       window.removeEventListener('storage', handleUpdate);
     };
@@ -181,7 +189,7 @@ export default function AdminDashboardPage() {
         <div className="flex items-center gap-2.5">
           <button
             type="button"
-            onClick={loadData}
+            onClick={() => loadData(true)}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition shadow-xs cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5 text-[#0284c7]" />
@@ -251,6 +259,17 @@ export default function AdminDashboardPage() {
 
         {loading ? (
           <div className="py-12 text-center text-xs text-slate-500">جاري تحميل أحدث الطلبات...</div>
+        ) : orders.length === 0 ? (
+          <div className="p-10 text-center space-y-3 bg-gradient-to-b from-sky-50/60 to-white rounded-2xl border border-sky-100">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-black border border-emerald-200">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+              <span>نظام الاستقبال الفوري جاهز • لا توجد طلبات جديدة حالياً</span>
+            </div>
+            <p className="text-sm font-black text-slate-800">بانتظار وصول طلبات العملاء من المتجر الرقمي</p>
+            <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+              أي طلب يتم إرساله من الموقع سيظهر هنا في اللحظة نفسها تلقائياً وبدون الحاجة لإعادة تحميل الصفحة.
+            </p>
+          </div>
         ) : orders.filter((o) => o.status === 'new_order' || o.status === 'contacting_customer').length === 0 ? (
           <div className="p-8 text-center text-xs text-slate-500 bg-slate-50 rounded-2xl border border-slate-200">
             رائع! تم التواصل مع جميع العملاء ومعالجة كافة الطلبات الواردة.

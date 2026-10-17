@@ -64,10 +64,10 @@ export const Navbar = () => {
     {
       id: 'prod-gemini-advanced',
       slug: 'google-gemini-advanced-1-month',
-      title: 'Gemini Advanced AI',
+      title: 'جيميناي برو (3.8 & 4 Argon)',
       price: '30 د.ت',
       icon: 'fa-solid fa-brain text-indigo-600',
-      tag: 'سنة كاملة',
+      tag: 'سنة كاملة • 3.8 & 4 Argon',
       tagColor: 'bg-indigo-50 text-indigo-700 border border-indigo-200',
     },
     {

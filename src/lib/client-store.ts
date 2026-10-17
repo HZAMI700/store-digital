@@ -2,9 +2,9 @@ import { Order, OrderStatus, DigitalAccountInventory, AdminStats, Product } from
 import { INITIAL_ORDERS, INITIAL_INVENTORY, INITIAL_PRODUCTS } from './store';
 import { generateOrderReference, generateSecureToken } from './utils';
 
-const ORDERS_KEY = 'y7x_store_orders_v2';
-const MY_ORDERS_KEY = 'y7x_customer_my_orders_v2';
-const INVENTORY_KEY = 'y7x_store_inventory_v2';
+const ORDERS_KEY = 'velto_store_orders_v5';
+const MY_ORDERS_KEY = 'velto_customer_my_orders_v5';
+const INVENTORY_KEY = 'velto_store_inventory_v5';
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined';
@@ -13,23 +13,30 @@ function isBrowser(): boolean {
 export const clientStore = {
   // --- ORDERS ---
   getOrders(): Order[] {
-    if (!isBrowser()) return INITIAL_ORDERS;
+    if (!isBrowser()) return [];
     try {
       const stored = localStorage.getItem(ORDERS_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed: Order[] = JSON.parse(stored);
+        // Exclude legacy mock orders
+        return parsed.filter(
+          (o) => !o.id.startsWith('ord-10') && o.orderReference !== 'ORD-20261015-8491' && o.orderReference !== 'ORD-20261015-7721'
+        );
       }
-      localStorage.setItem(ORDERS_KEY, JSON.stringify(INITIAL_ORDERS));
-      return INITIAL_ORDERS;
+      return [];
     } catch {
-      return INITIAL_ORDERS;
+      return [];
     }
   },
 
   saveOrders(orders: Order[]) {
     if (!isBrowser()) return;
     try {
-      localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+      const cleanOrders = orders.filter(
+        (o) => !o.id.startsWith('ord-10') && o.orderReference !== 'ORD-20261015-8491' && o.orderReference !== 'ORD-20261015-7721'
+      );
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(cleanOrders));
+      window.dispatchEvent(new Event('velto_orders_updated'));
       window.dispatchEvent(new Event('y7x_orders_updated'));
     } catch (e) {
       console.error('Failed to save orders to localStorage', e);
@@ -91,6 +98,25 @@ export const clientStore = {
     return newOrder;
   },
 
+  replaceOrAddOrder(order: Order, tempId?: string) {
+    if (!isBrowser()) return;
+    try {
+      const orders = this.getOrders();
+      let updated: Order[];
+      if (tempId) {
+        const withoutTemp = orders.filter((o) => o.id !== tempId);
+        updated = [order, ...withoutTemp.filter((o) => o.id !== order.id && o.orderReference !== order.orderReference)];
+      } else {
+        const withoutSame = orders.filter((o) => o.id !== order.id && o.orderReference !== order.orderReference);
+        updated = [order, ...withoutSame];
+      }
+      this.saveOrders(updated);
+      this.saveToMyOrders(order);
+    } catch (e) {
+      console.error('Failed to replace/add order', e);
+    }
+  },
+
   // --- MY ORDERS (Customer Browser Local History - No login needed) ---
   getMyOrders(): Order[] {
     if (!isBrowser()) return [];
@@ -109,11 +135,9 @@ export const clientStore = {
     if (!isBrowser()) return;
     try {
       const myOrders = this.getMyOrders();
-      const exists = myOrders.some((o) => o.id === order.id || o.orderReference === order.orderReference);
-      if (!exists) {
-        myOrders.unshift(order);
-        localStorage.setItem(MY_ORDERS_KEY, JSON.stringify(myOrders));
-      }
+      const filtered = myOrders.filter((o) => o.id !== order.id && o.orderReference !== order.orderReference);
+      const updated = [order, ...filtered];
+      localStorage.setItem(MY_ORDERS_KEY, JSON.stringify(updated));
     } catch (e) {
       console.error('Failed to save to my orders', e);
     }

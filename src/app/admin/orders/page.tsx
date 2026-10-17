@@ -37,8 +37,8 @@ export default function AdminOrdersPage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const fetchOrders = async () => {
-    setLoading(true);
+  const fetchOrders = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const localOrders = clientStore.getOrders();
       const localInv = clientStore.getInventory();
@@ -65,22 +65,30 @@ export default function AdminOrdersPage() {
       setOrders(localOrders);
       setInventory(clientStore.getInventory());
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrders(true);
 
     const handleUpdate = () => {
       setOrders(clientStore.getOrders());
       setInventory(clientStore.getInventory());
     };
 
+    window.addEventListener('velto_orders_updated', handleUpdate);
     window.addEventListener('y7x_orders_updated', handleUpdate);
     window.addEventListener('storage', handleUpdate);
 
+    // Live continuous polling every 3 seconds for instant multi-tab sync
+    const interval = setInterval(() => {
+      fetchOrders(false);
+    }, 3000);
+
     return () => {
+      clearInterval(interval);
+      window.removeEventListener('velto_orders_updated', handleUpdate);
       window.removeEventListener('y7x_orders_updated', handleUpdate);
       window.removeEventListener('storage', handleUpdate);
     };
@@ -133,7 +141,7 @@ export default function AdminOrdersPage() {
 
         <button
           type="button"
-          onClick={fetchOrders}
+          onClick={() => fetchOrders(true)}
           className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition shadow-xs self-start sm:self-auto cursor-pointer"
         >
           <RefreshCw className="w-3.5 h-3.5 text-[#0284c7]" />
@@ -225,6 +233,22 @@ export default function AdminOrdersPage() {
         <div className="py-20 text-center space-y-3 bg-white rounded-3xl border border-slate-200 p-8">
           <div className="w-10 h-10 border-4 border-sky-200 border-t-[#0284c7] rounded-full animate-spin mx-auto" />
           <p className="text-xs text-slate-500">جاري تحميل سجل الطلبات...</p>
+        </div>
+      ) : orders.length === 0 ? (
+        <div className="p-12 sm:p-16 rounded-3xl bg-white border border-slate-200 shadow-sm text-center space-y-4">
+          <div className="w-16 h-16 rounded-3xl bg-cyan-50 border border-cyan-100 text-[#0284c7] flex items-center justify-center mx-auto text-2xl shadow-inner">
+            <ShoppingBag className="w-8 h-8" />
+          </div>
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-black border border-emerald-200">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+              <span>نظام الاستقبال الفوري متصل ومباشر • بانتظار أول طلب</span>
+            </div>
+            <h3 className="text-lg font-black text-slate-900">لا توجد طلبات مسجلة حالياً</h3>
+            <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+              عندما يقوم أي عميل بتأكيد طلب اشتراك من المتجر، سيظهر هنا فوراً وتلقائياً دون الحاجة لتحديث الصفحة، مع رقم المرجع، معلومات الواتساب، والتحكم بالحالة.
+            </p>
+          </div>
         </div>
       ) : filteredOrders.length === 0 ? (
         <div className="p-12 rounded-3xl bg-white border border-slate-200 shadow-sm text-center space-y-3">

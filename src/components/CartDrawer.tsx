@@ -6,6 +6,7 @@ import { useCart } from '@/lib/cart-context';
 import { CountryCodeSelector } from './CountryCodeSelector';
 import { POPULAR_COUNTRIES } from '@/lib/countries';
 import { CountryCode } from '@/lib/types';
+import { clientStore } from '@/lib/client-store';
 import { formatPrice, isValidEmail, isValidPhone, sanitizePhoneNumber } from '@/lib/utils';
 import {
   X,
@@ -99,6 +100,10 @@ export const CartDrawer: React.FC = () => {
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.error || 'تعذر إرسال الطلب، يرجى المحاولة لاحقاً');
+      }
+
+      if (data.order) {
+        clientStore.replaceOrAddOrder(data.order);
       }
 
       clearCart();
