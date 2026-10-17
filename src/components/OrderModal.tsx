@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Product, CountryCode } from '@/lib/types';
+import { clientStore } from '@/lib/client-store';
 import { CountryCodeSelector } from './CountryCodeSelector';
 import { POPULAR_COUNTRIES } from '@/lib/countries';
 import { formatPrice, isValidEmail, isValidPhone, sanitizePhoneNumber } from '@/lib/utils';
@@ -49,7 +50,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  // Update when userProfile arrives
   useEffect(() => {
     if (userProfile) {
       if (userProfile.name) setName(userProfile.name);
@@ -70,19 +70,19 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const validate = () => {
     const errs: Record<string, string> = {};
     if (!name.trim() || name.trim().length < 2) {
-      errs.name = 'Please provide your full name (minimum 2 characters)';
+      errs.name = 'يرجى كتابة اسمك الكامل (حرفين على الأقل)';
     }
     if (!email.trim() || !isValidEmail(email)) {
-      errs.email = 'Please provide a valid email address';
+      errs.email = 'يرجى إدخال بريد إلكتروني صحيح';
     }
     if (!localPhone.trim() || !isValidPhone(localPhone)) {
-      errs.phone = 'Please provide a valid WhatsApp number (minimum 6 digits)';
+      errs.phone = 'يرجى إدخال رقم واتساب صحيح (6 أرقام على الأقل)';
     }
     if (quantity < 1 || quantity > 10) {
-      errs.quantity = 'Quantity must be between 1 and 10';
+      errs.quantity = 'يجب أن تكون الكمية بين 1 و 10';
     }
     if (!consent) {
-      errs.consent = 'You must consent to being contacted to proceed with your order';
+      errs.consent = 'يجب الموافقة على التواصل معك لمتابعة الطلب';
     }
 
     setErrors(errs);
@@ -114,58 +114,82 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         consentGiven: consent,
       };
 
-      const res = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+      // 1. Create in clientStore for instant frontend offline / zero-backend support
+      const localOrder = clientStore.createOrder({
+        productId: product.id,
+        productName: product.title,
+        quantity,
+        customerName: name.trim(),
+        customerEmail: email.trim(),
+        customerWhatsapp: fullPhone,
+        countryCode: selectedCountry.dialCode,
+        customerMessage: message.trim() || null,
+        unitPrice: product.price,
       });
 
-      const data = await res.json();
+      let orderRef = localOrder.orderReference;
+      let token = localOrder.guestLookupToken;
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit order request');
+      // 2. Also send to API if backend server is available
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.order) {
+            orderRef = data.order.orderReference;
+            token = data.order.guestLookupToken;
+            clientStore.saveToMyOrders(data.order);
+          }
+        }
+      } catch (apiErr) {
+        // Backend offline / purely frontend mode
+        console.info('Backend API skipped or offline, proceeding with client order', apiErr);
       }
 
-      // Close modal and redirect to polished confirmation page
       onClose();
-      router.push(`/order-success/${data.order.orderReference}?token=${data.order.guestLookupToken}`);
+      router.push(`/order-success/${orderRef}?token=${token}`);
     } catch (err: any) {
       console.error(err);
-      setServerError(err.message || 'Something went wrong. Please try again.');
+      setServerError(err.message || 'حدث خطأ أثناء معالجة الطلب');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl bg-white border border-border rounded-3xl shadow-dropdown overflow-hidden my-8">
-        {/* Light Header */}
-        <div className="relative px-6 py-5 border-b border-border bg-surface-secondary/70">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-8">
+        {/* Header */}
+        <div className="relative px-6 py-5 border-b border-slate-100 bg-slate-50/80">
           <button
             onClick={onClose}
-            className="absolute right-5 top-5 p-1.5 rounded-full text-content-secondary hover:text-content-primary bg-white hover:bg-surface-tertiary border border-border transition-colors"
+            className="absolute left-5 top-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-primary-50 border border-primary-200 text-primary-600">
+            <div className="p-2.5 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600">
               <ShoppingBag className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg sm:text-xl font-extrabold text-content-primary tracking-tight">
-                Submit Order Request
+              <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                تقديم طلب شراء مباشر
               </h2>
-              <p className="text-xs text-content-secondary mt-0.5">
-                Manual order facilitation — No upfront payment required
+              <p className="text-xs text-slate-500 mt-0.5">
+                طلب بدون دفع إلكتروني مسبق — سنتواصل معك لتأكيد البيانات
               </p>
             </div>
           </div>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {serverError && (
             <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2.5">
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
@@ -173,49 +197,39 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             </div>
           )}
 
-          {/* Selected Product Summary Card */}
-          <div className="p-3.5 rounded-2xl bg-surface-secondary border border-border flex items-center justify-between gap-4">
+          {/* Product Summary */}
+          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-12 h-12 rounded-xl bg-surface-tertiary overflow-hidden shrink-0 border border-border">
-                {product.imageUrl ? (
-                  <img
-                    src={product.imageUrl}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-content-muted text-xs">
-                    Img
-                  </div>
-                )}
+              <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-indigo-600 text-lg shrink-0 shadow-sm">
+                <i className={product.icon || 'fa-solid fa-gem'}></i>
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-sm text-content-primary truncate">
+                <div className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
                   {product.title}
                 </div>
-                <div className="text-xs text-primary-600 font-semibold">
-                  {formatPrice(product.price)} <span className="text-content-muted font-normal">/ unit</span>
+                <div className="text-xs text-indigo-600 font-bold font-mono">
+                  {formatPrice(product.price)} <span className="text-slate-400 font-normal">/ وحدة</span>
                 </div>
               </div>
             </div>
 
             {/* Quantity Stepper */}
-            <div className="flex items-center gap-2 bg-white border border-border rounded-xl p-1 shrink-0 shadow-subtle">
+            <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl p-1 shrink-0 shadow-sm">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-content-secondary hover:text-content-primary hover:bg-surface-secondary transition-colors"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 disabled:opacity-30"
                 disabled={quantity <= 1}
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="w-6 text-center text-xs font-bold text-content-primary font-mono">
+              <span className="w-6 text-center text-xs font-bold text-slate-900 font-mono">
                 {quantity}
               </span>
               <button
                 type="button"
                 onClick={() => setQuantity(Math.min(10, quantity + 1))}
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-content-secondary hover:text-content-primary hover:bg-surface-secondary transition-colors"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 disabled:opacity-30"
                 disabled={quantity >= 10}
               >
                 <Plus className="w-3.5 h-3.5" />
@@ -224,25 +238,25 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           </div>
 
           {/* Customer Name */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-content-primary">
-              Full Name <span className="text-rose-500">*</span>
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700">
+              الاسم الكامل <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. John Doe"
-              className="w-full h-11 px-4 text-sm bg-white border border-border rounded-xl text-content-primary placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all shadow-subtle"
+              placeholder="مثال: تركي الشمري"
+              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
             />
-            {errors.name && <p className="text-rose-600 text-[11px] font-medium">{errors.name}</p>}
+            {errors.name && <p className="text-rose-600 text-[11px] font-semibold">{errors.name}</p>}
           </div>
 
-          {/* Email Address */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-content-primary">
-              Email Address <span className="text-rose-500">*</span>
+          {/* Customer Email */}
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700">
+              البريد الإلكتروني <span className="text-rose-500">*</span>
             </label>
             <input
               type="email"
@@ -250,17 +264,18 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your.email@example.com"
-              className="w-full h-11 px-4 text-sm bg-white border border-border rounded-xl text-content-primary placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all shadow-subtle"
+              className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 text-left"
+              dir="ltr"
             />
-            {errors.email && <p className="text-rose-600 text-[11px] font-medium">{errors.email}</p>}
+            {errors.email && <p className="text-rose-600 text-[11px] font-semibold">{errors.email}</p>}
           </div>
 
-          {/* WhatsApp Number with Country Code */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-content-primary">
-              WhatsApp Phone Number <span className="text-rose-500">*</span>
+          {/* WhatsApp Phone Number */}
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700">
+              رقم الواتساب <span className="text-rose-500">*</span>
             </label>
-            <div className="flex">
+            <div className="flex" dir="ltr">
               <CountryCodeSelector
                 selectedCode={selectedCountry.dialCode}
                 onSelect={(country) => setSelectedCountry(country)}
@@ -270,88 +285,79 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 required
                 value={localPhone}
                 onChange={(e) => setLocalPhone(e.target.value)}
-                placeholder="29 482 109 or 555 1234"
-                className="w-full h-11 px-4 text-sm bg-white border border-l-0 border-border rounded-r-xl text-content-primary placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all shadow-subtle"
+                placeholder="50 123 4567"
+                className="w-full h-11 px-4 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
               />
             </div>
-            {errors.phone ? (
-              <p className="text-rose-600 text-[11px] font-medium">{errors.phone}</p>
-            ) : (
-              <p className="text-[11px] text-content-secondary">
-                Format: Selected country code ({selectedCountry.dialCode}) + your local mobile number.
-              </p>
-            )}
+            {errors.phone && <p className="text-rose-600 text-[11px] font-semibold">{errors.phone}</p>}
           </div>
 
           {/* Optional Message */}
-          <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-content-primary">
-              Special Request or Notes <span className="text-content-muted font-normal text-[11px]">(Optional)</span>
+          <div className="space-y-1">
+            <label className="block text-xs font-bold text-slate-700">
+              ملاحظات أو طلب خاص <span className="text-slate-400 font-normal">(اختياري)</span>
             </label>
             <textarea
               rows={2}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="e.g. Preferred language, time to contact, or specific device..."
-              className="w-full px-4 py-2.5 text-xs bg-white border border-border rounded-xl text-content-primary placeholder-content-muted focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all resize-none shadow-subtle"
+              placeholder="أي تفاصيل أو رغبة في جهاز محدد..."
+              className="w-full px-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 resize-none"
             />
           </div>
 
           {/* Total & Transparency */}
-          <div className="p-4 rounded-2xl bg-surface-secondary border border-border flex items-center justify-between">
+          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
             <div>
-              <span className="text-xs text-content-secondary font-medium">Total Order Amount</span>
-              <div className="text-xl font-extrabold text-content-primary tracking-tight">
+              <span className="text-xs text-slate-500 block font-medium">إجمالي الطلب التقديري:</span>
+              <div className="text-lg font-black text-indigo-600 font-mono">
                 {formatPrice(totalPrice)}
               </div>
             </div>
-            <div className="text-right text-[11px] text-content-secondary">
-              <span>{quantity} × {formatPrice(unitPrice)}</span>
-              <div className="text-emerald-700 font-bold flex items-center gap-1 justify-end mt-0.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Pay only after confirmation</span>
-              </div>
+            <div className="text-left text-xs text-emerald-700 font-bold flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <span>الدفع بعد تواصل الإدارة</span>
             </div>
           </div>
 
           {/* MANDATORY NOTICE (Requirement 1) */}
-          <div className="p-4 rounded-2xl bg-primary-50 border border-primary-200 text-xs text-primary-950 flex items-start gap-3 shadow-subtle">
-            <Info className="w-4 h-4 shrink-0 text-primary-600 mt-0.5" />
-            <div className="leading-relaxed">
-              <strong>Notice:</strong> We'll contact you through WhatsApp or email to confirm your order, explain the payment process, and arrange delivery. Your order is not confirmed until we contact you.
+          <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 flex items-start gap-2.5">
+            <Info className="w-4 h-4 shrink-0 text-indigo-600 mt-0.5" />
+            <div className="leading-relaxed text-[11px]">
+              <strong>ملاحظة هامة:</strong> سنتواصل معك مباشرة عبر الواتساب أو البريد الإلكتروني لتأكيد طلبك وتوضيح طرق الدفع وترتيب الاستلام. طلبك لا يعتبر مؤكداً حتى نتواصل معك.
             </div>
           </div>
 
           {/* Required Consent Checkbox */}
           <div className="space-y-1">
-            <label className="flex items-start gap-2.5 cursor-pointer select-none">
+            <label className="flex items-start gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 w-4 h-4 rounded text-primary-500 border-border focus:ring-primary-500"
+                className="mt-0.5 w-4 h-4 rounded text-indigo-600 bg-white border-slate-300 focus:ring-indigo-600"
               />
-              <span className="text-xs text-content-primary font-medium leading-snug">
-                I agree to be contacted via WhatsApp or email regarding this order request.
+              <span className="text-xs text-slate-700 leading-snug">
+                أوافق على التواصل معي عبر الواتساب أو البريد بخصوص هذا الطلب.
                 <span className="text-rose-500"> *</span>
               </span>
             </label>
-            {errors.consent && <p className="text-rose-600 text-[11px] font-medium pl-6">{errors.consent}</p>}
+            {errors.consent && <p className="text-rose-600 text-[11px] font-semibold">{errors.consent}</p>}
           </div>
 
-          {/* Final Submit Button */}
+          {/* Submit Button */}
           <div className="pt-2">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 hover:from-primary-600 hover:to-primary-800 text-white font-bold text-sm shadow-subtle border border-primary-600 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-bold text-xs sm:text-sm shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition disabled:opacity-50"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Submit Order Request</span>
+                  <span>إرسال طلب الشراء للتواصل</span>
                 </>
               )}
             </button>

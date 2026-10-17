@@ -2,18 +2,17 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { INITIAL_PRODUCTS } from '@/lib/store';
 import { OrderModal } from '@/components/OrderModal';
+import { useCart } from '@/lib/cart-context';
 import { formatPrice } from '@/lib/utils';
 import {
   ShieldCheck,
   ShoppingBag,
   Check,
-  ArrowLeft,
   Flame,
   MessageSquare,
-  Clock,
   RefreshCw,
   HelpCircle,
   Zap,
@@ -25,18 +24,19 @@ export default function ProductDetailPage() {
   const product = INITIAL_PRODUCTS.find((p) => p.slug === slug);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addToCart, setIsCartOpen } = useCart();
 
   if (!product) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-4">
-        <h1 className="text-2xl font-bold text-content-primary">Product Not Found</h1>
-        <p className="text-content-secondary text-sm">The requested product could not be located in our catalog.</p>
+      <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-4">
+        <h1 className="text-2xl font-black text-slate-900">المنتج غير موجود</h1>
+        <p className="text-slate-500 text-sm">عذراً، لم نتمكن من العثور على هذا المنتج في المتجر.</p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white font-bold rounded-xl text-xs shadow-subtle"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-lg transition"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Catalog</span>
+          <i className="fa-solid fa-arrow-right"></i>
+          <span>العودة لكتالوج المنتجات</span>
         </Link>
       </div>
     );
@@ -46,122 +46,145 @@ export default function ProductDetailPage() {
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : null;
 
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+    setIsCartOpen(true);
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 animate-in fade-in duration-200">
       {/* Breadcrumb */}
       <div>
         <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xs font-bold text-content-secondary hover:text-primary-600 transition-colors"
+          href="/#products"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-indigo-600 transition"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to All Products</span>
+          <i className="fa-solid fa-arrow-right"></i>
+          <span>العودة إلى جميع العروض والمنتجات</span>
         </Link>
       </div>
 
       {/* Main Product Showcase */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-        {/* Left: Product Media Card */}
-        <div className="relative rounded-3xl overflow-hidden bg-white border border-border shadow-card p-4">
-          <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden bg-surface-tertiary">
-            <img
-              src={product.imageUrl}
-              alt={product.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        {/* Visual Card / Media */}
+        <div className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 p-5 shadow-xl">
+          <div
+            className={`relative h-80 sm:h-96 rounded-2xl overflow-hidden bg-gradient-to-tr ${
+              product.color || 'from-indigo-900 to-indigo-950'
+            } flex items-center justify-center p-6 border border-slate-200 shadow-inner`}
+          >
+            <i className={`${product.icon || 'fa-solid fa-gem'} text-8xl text-white/30`}></i>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-            <div className="absolute top-4 left-4 flex items-center gap-2">
+            {/* Badges */}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
               {product.badge && (
-                <div className="px-3 py-1.5 rounded-full bg-primary-500 text-white font-black text-xs tracking-wide uppercase shadow-subtle flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 fill-current" />
+                <div className="px-3 py-1.5 rounded-full bg-indigo-600 text-white font-black text-xs shadow-lg flex items-center gap-1.5">
+                  <Flame className="w-3.5 h-3.5 fill-current text-yellow-300" />
                   <span>{product.badge}</span>
                 </div>
               )}
               {discountPercent && (
-                <div className="px-2.5 py-1.5 rounded-full bg-rose-500 text-white font-black text-xs shadow-subtle">
+                <div className="px-2.5 py-1.5 rounded-full bg-rose-500 text-white font-black text-xs shadow-lg">
                   -{discountPercent}%
                 </div>
               )}
             </div>
+
+            <div className="absolute bottom-4 right-4 flex items-center gap-2">
+              <span className="px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 text-xs text-slate-800 font-bold shadow">
+                {product.categoryName}
+              </span>
+            </div>
           </div>
 
-          <div className="mt-4 p-4 rounded-2xl bg-surface-secondary border border-border grid grid-cols-2 gap-4 text-xs font-semibold text-content-primary">
+          <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
             <div className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4 text-purple-600 shrink-0" />
+              <RefreshCw className="w-4 h-4 text-indigo-600 shrink-0" />
               <span>{product.warranty}</span>
             </div>
             <div className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-primary-500 shrink-0" />
-              <span>WhatsApp / Email Delivery</span>
+              <MessageSquare className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>تسليم مباشر وتواصل واتساب</span>
             </div>
           </div>
         </div>
 
-        {/* Right: Product Details & Order Trigger */}
+        {/* Product Details & Action Buttons */}
         <div className="space-y-6">
           <div className="space-y-2">
-            <div className="inline-block px-3 py-1 rounded-full bg-primary-50 text-primary-700 border border-primary-200 text-xs font-bold">
+            <div className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold">
               {product.categoryName}
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black text-content-primary tracking-tight">
+            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
               {product.title}
             </h1>
-            <p className="text-content-secondary text-sm leading-relaxed">
+            <p className="text-slate-600 text-sm leading-relaxed">
               {product.fullDescription}
             </p>
           </div>
 
           {/* Pricing Box */}
-          <div className="p-4 rounded-3xl bg-white border border-border shadow-subtle flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between shadow-sm">
             <div>
-              <span className="text-xs text-content-secondary block font-semibold">Price</span>
+              <span className="text-xs text-slate-500 block font-semibold">سعر العرض</span>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-content-primary">
+                <span className="text-3xl font-black text-slate-900 font-mono">
                   {formatPrice(product.price)}
                 </span>
                 {product.compareAtPrice && (
-                  <span className="text-sm text-content-muted line-through font-medium">
+                  <span className="text-sm text-slate-400 line-through font-mono">
                     {formatPrice(product.compareAtPrice)}
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="text-right">
+            <div className="text-left">
               <span className="text-xs font-bold text-emerald-700 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 inline-flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Available in Vault
+                متوفر للتسليم الفوري
               </span>
             </div>
           </div>
 
-          {/* PROMINENT ORDER NOW BUTTON (Requirement 1) */}
+          {/* Action Buttons: Add to Cart & Direct Order */}
           <div className="space-y-3 pt-2">
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white font-extrabold text-base shadow-card border border-primary-600 flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              <span>Order Now — Request Contact</span>
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="py-4 px-6 rounded-2xl bg-gradient-to-r from-brand-primary to-brand-accent hover:opacity-95 text-white font-black text-sm shadow-xl shadow-indigo-500/25 flex items-center justify-center gap-2.5 transition active:scale-95"
+              >
+                <Zap className="w-4 h-4 text-yellow-300" />
+                <span>طلب مباشر الآن</span>
+              </button>
 
-            <div className="p-3.5 rounded-xl bg-surface-secondary border border-border text-[11px] text-content-secondary font-medium flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className="py-4 px-6 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-black text-sm shadow-sm flex items-center justify-center gap-2.5 transition active:scale-95"
+              >
+                <ShoppingBag className="w-4 h-4 text-indigo-600" />
+                <span>إضافة إلى السلة</span>
+              </button>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 font-medium flex items-center justify-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Zero-risk ordering • Administrator confirms with you before payment</span>
+              <span>طلب آمن بدون خصم بطاقة أونلاين • يتواصل معك المشرف لتوضيح طرق الدفع والاستلام</span>
             </div>
           </div>
 
           {/* Features Checklist */}
-          <div className="p-5 rounded-3xl bg-white border border-border shadow-subtle space-y-3">
-            <h3 className="text-xs font-bold text-content-primary uppercase tracking-wider">
-              Included Account Features:
+          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              مميزات ومواصفات هذا الاشتراك:
             </h3>
             <ul className="space-y-2">
               {product.features.map((feat, index) => (
-                <li key={index} className="flex items-center gap-3 text-xs text-content-primary">
-                  <div className="w-5 h-5 rounded-full bg-primary-50 border border-primary-200 text-primary-600 flex items-center justify-center shrink-0">
+                <li key={index} className="flex items-center gap-3 text-xs text-slate-700">
+                  <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0">
                     <Check className="w-3 h-3 stroke-[3]" />
                   </div>
                   <span>{feat}</span>
@@ -172,36 +195,36 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
-      {/* Delivery FAQ Accordion */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-border shadow-card space-y-6">
-        <h3 className="text-base font-bold text-content-primary flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-primary-500" />
-          <span>How will I receive my {product.title}?</span>
+      {/* Delivery FAQ Box */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-lg space-y-6">
+        <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+          <HelpCircle className="w-5 h-5 text-indigo-600" />
+          <span>كيف يتم استلام {product.title}؟</span>
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-          <div className="space-y-1.5 p-4 rounded-2xl bg-surface-secondary border border-border">
-            <div className="font-bold text-content-primary">1. Order Submission</div>
-            <p className="text-content-secondary leading-relaxed">
-              When you submit your request, our system logs your details and queues it for administrator attention.
+          <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div className="font-extrabold text-slate-900">1. تسجيل الطلب</div>
+            <p className="text-slate-600 leading-relaxed">
+              تقوم بتسجيل اسمك ورقم الواتساب وسيتم إدراج طلبك فوراً في لوحة تحكم الإدارة.
             </p>
           </div>
-          <div className="space-y-1.5 p-4 rounded-2xl bg-surface-secondary border border-border">
-            <div className="font-bold text-content-primary">2. Admin Verification</div>
-            <p className="text-content-secondary leading-relaxed">
-              The administrator opens a WhatsApp chat or sends an email to verify your order and arrange your convenient payment method.
+          <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div className="font-extrabold text-slate-900">2. تواصل المشرف</div>
+            <p className="text-slate-600 leading-relaxed">
+              يتواصل معك مسؤول المتجر عبر الواتساب لتأكيد بياناتك وتوفير خيارات السداد المتاحة (مدى، تحويل، STC Pay).
             </p>
           </div>
-          <div className="space-y-1.5 p-4 rounded-2xl bg-surface-secondary border border-border">
-            <div className="font-bold text-content-primary">3. Handover & Warranty</div>
-            <p className="text-content-secondary leading-relaxed">
-              Account credentials or activation invites are securely delivered with step-by-step guidance and ongoing replacement coverage.
+          <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div className="font-extrabold text-slate-900">3. تسليم الحساب والضمان</div>
+            <p className="text-slate-600 leading-relaxed">
+              يتم تفعيل وإرسال بيانات اشتراكك فوراً مع شرح كامل لطريقة الاستخدام وضمان كامل المدة.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Order Modal Triggered by Order Now button */}
+      {/* Order Modal */}
       <OrderModal
         product={product}
         isOpen={isModalOpen}

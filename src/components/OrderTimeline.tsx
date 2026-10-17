@@ -21,28 +21,28 @@ interface StepItem {
 const STEPS: StepItem[] = [
   {
     id: 1,
-    label: 'Order Request Submitted',
-    description: 'We received your order request. Waiting for admin review.',
+    label: 'تم استلام طلب الشراء',
+    description: 'تم تسجيل طلبك في نظام المتجر وبانتظار مراجعة الإدارة.',
   },
   {
     id: 2,
-    label: 'Admin Contact',
-    description: 'Store administrator reaches out via WhatsApp or Email.',
+    label: 'تواصل مسؤول المتجر',
+    description: 'يتواصل معك المشرف عبر الواتساب أو البريد الإلكتروني.',
   },
   {
     id: 3,
-    label: 'Payment Instructions',
-    description: 'Payment methods explained and agreed upon directly.',
+    label: 'إرسال بيانات الدفع',
+    description: 'توضيح طرق الدفع المتاحة والاتفاق على طريقة السداد.',
   },
   {
     id: 4,
-    label: 'Payment Confirmed',
-    description: 'Payment manually verified. Preparing account delivery.',
+    label: 'تأكيد استلام الدفع',
+    description: 'التحقق اليدوي من سداد القيمة وتجهيز بيانات الحساب.',
   },
   {
     id: 5,
-    label: 'Completed & Delivered',
-    description: 'Digital account details provided and verified.',
+    label: 'اكتمال الطلب والتسليم',
+    description: 'تسليم بيانات الحساب الرقمي وتفعيل الضمان الكامل.',
   },
 ];
 
@@ -57,17 +57,17 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
 
   if (status === 'cancelled' || status === 'unable_to_contact') {
     return (
-      <div className={cn('p-4 rounded-2xl border bg-rose-50 border-rose-200 shadow-subtle', className)}>
-        <div className="flex items-center gap-3 text-rose-800">
+      <div className={cn('p-4 rounded-2xl border bg-rose-50 border-rose-200 text-rose-800 shadow-sm', className)}>
+        <div className="flex items-center gap-3">
           <XCircle className="w-5 h-5 shrink-0 text-rose-600" />
           <div>
             <div className="font-bold text-sm">
-              {status === 'cancelled' ? 'Order Cancelled' : 'Unable to Establish Contact'}
+              {status === 'cancelled' ? 'تم إلغاء الطلب' : 'تعذر التواصل مع العميل'}
             </div>
             <div className="text-xs text-rose-700 mt-0.5">
               {status === 'cancelled'
-                ? 'This order request has been cancelled.'
-                : 'The administrator tried contacting you but was unable to reach your number or email.'}
+                ? 'تم إلغاء هذا الطلب من قبل الإدارة أو العميل.'
+                : 'حاول المشرف التواصل معك لكن لم يتلق رداً عبر الواتساب أو البريد.'}
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-border">
+      <div className="relative pr-6 sm:pr-8 space-y-6 before:absolute before:right-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
         {STEPS.map((step) => {
           const isDone = currentStep > step.id;
           const isCurrent = currentStep === step.id;
@@ -88,10 +88,10 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
               {/* Circle icon */}
               <div
                 className={cn(
-                  'absolute -left-6 sm:-left-8 top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all border',
+                  'absolute -right-6 sm:-right-8 top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all border',
                   isDone && 'bg-emerald-600 text-white border-emerald-600 shadow-sm',
-                  isCurrent && 'bg-primary-500 text-white border-primary-500 shadow-sm ring-4 ring-primary-100',
-                  isPending && 'bg-surface-secondary text-content-muted border-border'
+                  isCurrent && 'bg-indigo-600 text-white border-indigo-600 shadow-sm ring-4 ring-indigo-500/20',
+                  isPending && 'bg-slate-100 text-slate-400 border-slate-300'
                 )}
               >
                 {isDone ? (
@@ -104,28 +104,28 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({
               </div>
 
               {/* Step info */}
-              <div>
+              <div className="text-right">
                 <div className="flex items-center gap-2">
                   <h4
                     className={cn(
-                      'text-sm font-semibold transition-colors',
-                      isDone && 'text-content-primary',
-                      isCurrent && 'text-primary-600 font-bold',
-                      isPending && 'text-content-muted'
+                      'text-xs sm:text-sm font-semibold transition-colors',
+                      isDone && 'text-slate-800',
+                      isCurrent && 'text-indigo-600 font-bold',
+                      isPending && 'text-slate-400'
                     )}
                   >
                     {step.label}
                   </h4>
                   {isCurrent && (
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-primary-50 text-primary-700 border border-primary-200">
-                      In Progress
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                      قيد المعالجة
                     </span>
                   )}
                 </div>
                 <p
                   className={cn(
                     'text-xs mt-0.5 transition-colors leading-relaxed',
-                    isCurrent ? 'text-content-secondary' : 'text-content-muted'
+                    isCurrent ? 'text-slate-600' : 'text-slate-400'
                   )}
                 >
                   {step.description}

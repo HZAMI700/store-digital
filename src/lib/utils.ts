@@ -5,7 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatPrice(amount: number, currency: string = 'USD'): string {
+export function formatPrice(amount: number, currency: string = 'SAR'): string {
+  if (currency === 'SAR' || currency === 'ر.س') {
+    return `${Number(amount).toFixed(amount % 1 === 0 ? 0 : 2)} ر.س`;
+  }
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency,
@@ -52,7 +55,7 @@ export function getCleanInternationalNumber(fullNumber: string): string {
 export function formatDateTime(isoString: string): string {
   try {
     const date = new Date(isoString);
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat('ar-SA', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',

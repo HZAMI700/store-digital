@@ -1,134 +1,225 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, ShieldCheck, MessageSquare, Mail, RefreshCw, Lock } from 'lucide-react';
 
 export const Footer = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const scrollToTop = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newsletterEmail.trim()) {
+      setSubscribed(true);
+      setTimeout(() => setSubscribed(false), 4000);
+      setNewsletterEmail('');
+    }
+  };
+
   return (
-    <footer className="w-full border-t border-border bg-white mt-20">
-      {/* Guarantees Grid (Y7X & Nu8th inspired trust badges) */}
-      <div className="border-b border-border bg-surface-secondary/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-border shadow-subtle">
-            <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 shrink-0">
-              <MessageSquare className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-content-primary uppercase tracking-wider">Direct WhatsApp Contact</h4>
-              <p className="text-xs text-content-secondary mt-1 leading-relaxed">
-                Connect directly with store admins via WhatsApp or Email. No bots or generic forms.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-border shadow-subtle">
-            <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 shrink-0">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-content-primary uppercase tracking-wider">Zero Risk Ordering</h4>
-              <p className="text-xs text-content-secondary mt-1 leading-relaxed">
-                Never enter credit cards online. Pay only after speaking to admin and confirming order.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-border shadow-subtle">
-            <div className="p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 shrink-0">
-              <RefreshCw className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-content-primary uppercase tracking-wider">Warranty Guarantee</h4>
-              <p className="text-xs text-content-secondary mt-1 leading-relaxed">
-                All accounts backed by our replacement guarantee for the full duration of your subscription.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-border shadow-subtle">
-            <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 shrink-0">
-              <Lock className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-content-primary uppercase tracking-wider">Single-Use Inventory</h4>
-              <p className="text-xs text-content-secondary mt-1 leading-relaxed">
-                Never shared or re-sold. Each credential is dedicated and locked to one authorized customer.
-              </p>
-            </div>
-          </div>
+    <footer className="bg-slate-100 border-t border-[#e8e8e8] pt-12 pb-24 lg:pb-12 text-slate-600 text-sm mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        {/* Back to Top Button */}
+        <div className="flex justify-center border-b border-[#e8e8e8] pb-6">
+          <button
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#5e17eb] px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 transition shadow-2xs group"
+          >
+            <span>العودة إلى أعلى</span>
+            <i className="fa-solid fa-arrow-up group-hover:-translate-y-0.5 transition"></i>
+          </button>
         </div>
-      </div>
 
-      {/* Links & Disclaimer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white font-black text-sm">
-                A
-              </div>
-              <span className="text-base font-extrabold text-content-primary">APEX DIGITAL STORE</span>
-            </div>
-            <p className="text-xs text-content-secondary max-w-md leading-relaxed">
-              Premium digital accounts, gaming licenses, and subscription facilitator inspired by leading digital storefronts.
-              Operating strictly on a manual order and direct customer contact workflow for utmost customer transparency.
+        {/* Newsletter Box (Y7X Style) */}
+        <div className="bg-white border border-[#e8e8e8] rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+          <div className="space-y-1 text-center md:text-right">
+            <h3 className="text-base sm:text-lg font-black text-slate-900 flex items-center justify-center md:justify-start gap-2">
+              <i className="fa-solid fa-envelope-open-text text-[#5e17eb]"></i>
+              <span>كن أول من يعرف بجديد العروض والخصومات في متجر يوكس!</span>
+            </h3>
+            <p className="text-xs text-slate-500">
+              اشترك بنشرتنا البريدية لتصلك أحدث أكواد الخصم لاشتراكات Netflix، CapCut، Canva، ExpressVPN، و Gemini.
             </p>
-            <div className="text-[11px] text-content-muted pt-2">
-              Verified Digital Accounts • Direct WhatsApp & Email Fulfillment
+          </div>
+
+          <form onSubmit={handleSubscribe} className="w-full md:w-auto flex-1 max-w-md">
+            <div className="flex rounded-2xl overflow-hidden border border-[#e8e8e8] focus-within:border-[#5e17eb] focus-within:ring-2 focus-within:ring-[#5e17eb]/10 transition">
+              <input
+                type="email"
+                required
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder="ادخل بريدك الإلكتروني"
+                className="bg-slate-50 px-4 py-3 text-xs text-slate-900 placeholder-slate-400 flex-1 focus:outline-none focus:bg-white"
+              />
+              <button
+                type="submit"
+                className="px-6 py-3 bg-[#5e17eb] hover:bg-[#4f0ecf] text-white font-bold text-xs transition shrink-0"
+              >
+                {subscribed ? 'تم الاشتراك!' : 'اشترك الآن'}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Footer Navigation Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-8 border-b border-[#e8e8e8] text-right">
+          
+          {/* Column 1 & 2: Store Identity & Bio */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#5e17eb] to-[#843dff] flex items-center justify-center shadow-md shadow-[#5e17eb]/25">
+                <span className="text-white font-black text-xl">Y7X</span>
+              </div>
+              <span className="text-xl font-black text-slate-900">متجر يوكس | Y7X Store</span>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed max-w-sm">
+              متجر يوكس متخصص في تقديم أرقى الاشتراكات الرقمية والبرامج المعتمدة بأفضل الأسعار المنافسة. تفعيل مباشر، خصوصية تامة، وضمان ذهبي كامل المدة مع دعم فني متميز.
+            </p>
+
+            {/* Social Channels */}
+            <div className="flex items-center gap-2.5 pt-2">
+              <a
+                href="https://api.whatsapp.com/send/?phone=%2B966532137759&text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85+%D8%B9%D9%84%D9%8A%D9%83%D9%85%2C+%D8%AD%D8%A7%D8%A8+%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%0A&type=phone_number&app_absent=0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 transition shadow-2xs"
+                title="واتساب الدعم الفني: 0532137759"
+              >
+                <i className="fa-brands fa-whatsapp text-base"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/yox7_store/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-pink-600 hover:bg-pink-50 hover:border-pink-300 transition shadow-2xs"
+                title="انستقرام Yox7_Store"
+              >
+                <i className="fa-brands fa-instagram text-base"></i>
+              </a>
+              <a
+                href="#"
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:text-[#5e17eb] hover:bg-slate-50 transition shadow-2xs"
+                title="منصة إكس / تويتر"
+              >
+                <i className="fa-brands fa-x-twitter text-base"></i>
+              </a>
             </div>
           </div>
 
-          <div>
-            <h5 className="text-xs font-bold text-content-primary uppercase tracking-wider mb-3">Customer Support</h5>
-            <ul className="space-y-2 text-xs text-content-secondary">
+          {/* Column 3: The 5 Subscriptions */}
+          <div className="space-y-3">
+            <h4 className="text-slate-900 font-bold text-sm">الاشتراكات المتاحة (5)</h4>
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/track-order" className="hover:text-primary-500 transition-colors">
-                  Track Existing Order
+                <Link href="/#prod-netflix-4k" className="hover:text-[#5e17eb] transition">
+                  اشتراك نتفلكس بريميوم 4K UHD
                 </Link>
               </li>
               <li>
-                <Link href="/my-orders" className="hover:text-primary-500 transition-colors">
-                  My Orders History
+                <Link href="/#prod-capcut-pro-1m" className="hover:text-[#5e17eb] transition">
+                  اشتراك كاب كت برو CapCut Pro
                 </Link>
               </li>
               <li>
-                <span className="text-content-secondary font-mono">WhatsApp: +216 29 482 109</span>
+                <Link href="/#prod-canva-pro" className="hover:text-[#5e17eb] transition">
+                  اشتراك كانفا برو Canva Pro
+                </Link>
               </li>
               <li>
-                <span className="text-content-secondary font-mono">Email: support@apexaccounts.com</span>
+                <Link href="/#prod-express-vpn" className="hover:text-[#5e17eb] transition">
+                  اشتراك اكسبريس في بي ان ExpressVPN
+                </Link>
+              </li>
+              <li>
+                <Link href="/#prod-gemini-advanced" className="hover:text-[#5e17eb] transition">
+                  اشتراك جوجل Gemini Advanced AI
+                </Link>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h5 className="text-xs font-bold text-content-primary uppercase tracking-wider mb-3">Administration</h5>
-            <ul className="space-y-2 text-xs text-content-secondary">
+          {/* Column 4: Links That Matter (روابط تهمك) */}
+          <div className="space-y-3">
+            <h4 className="text-slate-900 font-bold text-sm">روابط تهمك</h4>
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/admin" className="hover:text-primary-500 transition-colors flex items-center gap-1.5">
-                  <span>Admin Dashboard</span>
+                <Link href="/track-order" className="hover:text-[#5e17eb] transition">
+                  تتبع حالة طلبك
                 </Link>
               </li>
               <li>
-                <Link href="/admin/orders" className="hover:text-primary-500 transition-colors">
-                  Manage Orders & Inquiries
+                <Link href="/my-orders" className="hover:text-[#5e17eb] transition">
+                  سجل طلباتي السابقة
                 </Link>
               </li>
               <li>
-                <Link href="/admin/inventory" className="hover:text-primary-500 transition-colors">
-                  Inventory Vault
+                <a href="#guarantees" className="hover:text-[#5e17eb] transition">
+                  سياسة الضمان الذهبي والاستبدال
+                </a>
+              </li>
+              <li>
+                <a href="#guarantees" className="hover:text-[#5e17eb] transition">
+                  أوقات العمل والتسليم
+                </a>
+              </li>
+              <li>
+                <Link href="/admin" className="hover:text-[#5e17eb] transition text-purple-700 font-bold">
+                  لوحة تحكم المشرف
                 </Link>
               </li>
             </ul>
+          </div>
+
+          {/* Column 5: Accreditation & Verification */}
+          <div className="space-y-3">
+            <h4 className="text-slate-900 font-bold text-sm">التوثيق والأمان</h4>
+            <div className="space-y-2 text-xs">
+              <a
+                href="https://e-services.mc.gov.sa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-2xl bg-white border border-[#e8e8e8] flex items-center gap-3 hover:border-emerald-300 transition shadow-2xs block"
+              >
+                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold">
+                  ✓
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900">موثق بالمركز السعودي للأعمال</div>
+                  <div className="text-[10px] text-slate-500 font-mono">رقم التوثيق: 0000170796</div>
+                </div>
+              </a>
+
+              <div className="p-3 rounded-2xl bg-white border border-[#e8e8e8] space-y-1.5 shadow-2xs">
+                <span className="text-[11px] font-bold text-slate-700 block">طرق الدفع المتوفرة بالتنسيق:</span>
+                <div className="flex flex-wrap gap-1.5 text-[10px] font-bold text-slate-600">
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200">مدى Mada</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200">Apple Pay</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200">STC Pay</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200">تحويل بنكي</span>
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200">Visa / MC</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-border mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-content-muted gap-4">
-          <div>© {new Date().getFullYear()} Apex Digital Accounts. All rights reserved.</div>
-          <div className="flex items-center gap-4">
-            <span>Manual Order Fulfillment</span>
+        {/* Footer Bottom Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 pt-2">
+          <div>
+            جميع الحقوق محفوظة © 2026 <strong className="text-slate-800">متجر يوكس | Y7X Store</strong>
+          </div>
+          <div className="flex items-center gap-4 text-[11px]">
+            <span>تصميم وتطوير متجر المنتجات الرقمية</span>
             <span>•</span>
-            <span>Direct WhatsApp & Email Delivery</span>
+            <span>تسليم فوري ومباشر 100%</span>
           </div>
         </div>
       </div>
