@@ -189,25 +189,15 @@ export const Navbar = () => {
             </div>
           </div>
 
-          {/* Center Section: Velto Official Brand Logo */}
-          <div className="flex flex-col items-center justify-center">
-            <Link href="/" className="flex items-center gap-3 group text-center">
-              <div className="relative w-11 h-11 rounded-2xl overflow-hidden shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300 border border-slate-100 bg-white flex items-center justify-center p-0.5">
+          {/* Center Section: Velto Official Brand Logo (Only Logo) */}
+          <div className="flex items-center justify-center">
+            <Link href="/" className="flex items-center group" aria-label="متجر فيلترو - Velto">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300 border border-slate-100 bg-white flex items-center justify-center p-1">
                 <img
                   src="/logo.png"
-                  alt="Velto Logo"
+                  alt="Velto"
                   className="w-full h-full object-contain"
                 />
-              </div>
-              <div className="text-right">
-                <div className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 flex items-center gap-1.5 leading-none">
-                  <span>متجر</span>
-                  <span className="velto-gradient-text">فيلترو</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-cyan-50 text-[#0284c7] border border-cyan-200 font-mono font-black tracking-wider">
-                    VELTO
-                  </span>
-                </div>
-                <div className="text-[11px] text-slate-400 font-medium mt-1">الاشتراكات الرقمية والخدمات السحابية</div>
               </div>
             </Link>
           </div>
