@@ -21,6 +21,67 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+// Isolated High-Performance Countdown Timer Component (Prevents whole page re-renders)
+const CountdownTimer = React.memo(() => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 2,
+    hours: 18,
+    minutes: 42,
+    seconds: 30,
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.seconds > 0) {
+          return { ...prev, seconds: prev.seconds - 1 };
+        } else if (prev.minutes > 0) {
+          return { ...prev, minutes: 59, seconds: 59 };
+        } else if (prev.hours > 0) {
+          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        } else if (prev.days > 0) {
+          return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
+        }
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center p-6 rounded-3xl bg-white/10 border border-white/20 text-center space-y-4">
+      <span className="text-xs font-bold text-cyan-200">ينتهي العرض الخاص خلال:</span>
+      
+      <div className="grid grid-cols-4 gap-2 sm:gap-3 text-center">
+        <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+          <div className="text-xl sm:text-3xl font-black font-mono text-white">{timeLeft.days}</div>
+          <div className="text-[10px] text-cyan-200 font-bold mt-1">أيام</div>
+        </div>
+
+        <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+          <div className="text-xl sm:text-3xl font-black font-mono text-white">{timeLeft.hours}</div>
+          <div className="text-[10px] text-cyan-200 font-bold mt-1">ساعات</div>
+        </div>
+
+        <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+          <div className="text-xl sm:text-3xl font-black font-mono text-white">{timeLeft.minutes}</div>
+          <div className="text-[10px] text-cyan-200 font-bold mt-1">دقائق</div>
+        </div>
+
+        <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
+          <div className="text-xl sm:text-3xl font-black font-mono text-cyan-300 animate-pulse">{timeLeft.seconds}</div>
+          <div className="text-[10px] text-cyan-200 font-bold mt-1">ثواني</div>
+        </div>
+      </div>
+
+      <div className="text-[11px] text-white/70 font-bold">
+        تسليم فوري بعد الطلب عبر خدمة عملاء فيلترو بالواتساب (+216 50 022 767)
+      </div>
+    </div>
+  );
+});
+CountdownTimer.displayName = 'CountdownTimer';
+
 export default function HomePage() {
   const [products] = useState<Product[]>(INITIAL_PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -121,13 +182,13 @@ export default function HomePage() {
     },
     {
       id: 'slide-canva',
-      title: 'شهر كامل بدون انقطاع Canva Pro',
-      subtitle: 'اشتراك شهر واحد • ترقية حسابك الرسمي مع ملايين القوالب وإزالة الخلفيات وتنزيل التصاميم بجودة فائقة',
-      badge: '25 د.ت شهر واحد ✨',
-      price: '25 د.ت (شهر)',
+      title: 'سنة كاملة بدون انقطاع Canva Pro',
+      subtitle: 'اشتراك سنة كاملة • ترقية حسابك الرسمي مع ملايين القوالب وإزالة الخلفيات وتنزيل التصاميم بجودة فائقة',
+      badge: '10 د.ت سنة كاملة ✨',
+      price: '10 د.ت (سنة)',
       originalPrice: '50 د.ت',
-      discount: 'خصم 50%',
-      duration: 'شهر واحد',
+      discount: 'خصم 80%',
+      duration: 'سنة كاملة',
       productId: 'prod-canva-pro',
       imageUrl: '/images/card-canva.jpg',
       icon: 'fa-solid fa-palette',
@@ -137,10 +198,10 @@ export default function HomePage() {
       id: 'slide-expressvpn',
       title: 'شهر كامل بدون انقطاع ExpressVPN',
       subtitle: 'اشتراك شهر واحد • حساب خاص بأعلى حماية وتشفير وسيرفرات فائقة لفك الحجب وحماية البيانات',
-      badge: 'حماية وتشفير قصوى 🛡️',
-      price: '45 د.ت (شهر)',
-      originalPrice: '90 د.ت',
-      discount: 'أعلى حماية',
+      badge: '15 د.ت شهر واحد 🛡️',
+      price: '15 د.ت (شهر)',
+      originalPrice: '45 د.ت',
+      discount: 'خصم 65%',
       duration: 'شهر واحد',
       productId: 'prod-express-vpn',
       imageUrl: '/images/card-expressvpn.jpg',
@@ -178,32 +239,6 @@ export default function HomePage() {
   const handleNextSlide = () => {
     setActiveHeroSlide((prev) => (prev + 1) % heroSlides.length);
   };
-
-  // Deal of the week countdown
-  const [timeLeft, setTimeLeft] = useState({
-    days: 2,
-    hours: 18,
-    minutes: 42,
-    seconds: 30,
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: 59, seconds: 59 };
-        } else if (prev.hours > 0) {
-          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        } else if (prev.days > 0) {
-          return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        }
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Filter products by category, search & sort
   const filteredProducts = useMemo(() => {
@@ -610,35 +645,7 @@ export default function HomePage() {
             </div>
 
             {/* Countdown Clock Display */}
-            <div className="flex flex-col items-center justify-center p-6 rounded-3xl bg-white/10 border border-white/20 text-center space-y-4">
-              <span className="text-xs font-bold text-cyan-200">ينتهي العرض الخاص خلال:</span>
-              
-              <div className="grid grid-cols-4 gap-2 sm:gap-3 text-center">
-                <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
-                  <div className="text-xl sm:text-3xl font-black font-mono text-white">{timeLeft.days}</div>
-                  <div className="text-[10px] text-cyan-200 font-bold mt-1">أيام</div>
-                </div>
-
-                <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
-                  <div className="text-xl sm:text-3xl font-black font-mono text-white">{timeLeft.hours}</div>
-                  <div className="text-[10px] text-cyan-200 font-bold mt-1">ساعات</div>
-                </div>
-
-                <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
-                  <div className="text-xl sm:text-3xl font-black font-mono text-white">{timeLeft.minutes}</div>
-                  <div className="text-[10px] text-cyan-200 font-bold mt-1">دقائق</div>
-                </div>
-
-                <div className="p-3 sm:p-4 rounded-2xl bg-black/30 border border-white/10 min-w-[65px] sm:min-w-[80px]">
-                  <div className="text-xl sm:text-3xl font-black font-mono text-cyan-300 animate-pulse">{timeLeft.seconds}</div>
-                  <div className="text-[10px] text-cyan-200 font-bold mt-1">ثواني</div>
-                </div>
-              </div>
-
-              <div className="text-[11px] text-white/70">
-                تسليم فوري بعد الطلب عبر خدمة عملاء فيلترو بالواتساب (+216 50 022 767)
-              </div>
-            </div>
+            <CountdownTimer />
           </div>
         </div>
       </section>

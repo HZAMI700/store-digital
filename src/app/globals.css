@@ -19,6 +19,15 @@
   --text-main: #0f172a;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-main);
@@ -36,6 +45,7 @@ body {
 .card-3d-wrap {
   perspective: 1200px;
   transform-style: preserve-3d;
+  contain: content;
 }
 
 .card-3d {
@@ -43,6 +53,8 @@ body {
   background: #ffffff;
   border: 2px solid #e2e8f0;
   border-radius: 1.75rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   box-shadow: 
     0 8px 0 0 #cbd5e1,
     0 16px 28px -8px rgba(2, 132, 199, 0.15),
@@ -76,6 +88,8 @@ body {
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
   border-radius: 1.25rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   box-shadow: 
     0 5px 0 0 #cbd5e1,
     0 10px 20px -5px rgba(2, 132, 199, 0.12),
