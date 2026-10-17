@@ -1,5 +1,15 @@
 [
   {
+    "id": "inv-1792263687247",
+    "productId": "prod-netflix-4k",
+    "productName": "اشتراك نتفلكس بريميوم Netflix 4K UHD",
+    "accountData": "netflix_user_1792263687240@stream.io | Pass_1792263687240 | Profile 1 [PIN 9911]",
+    "isAssigned": true,
+    "createdAt": "2026-10-17T19:01:27.247Z",
+    "assignedOrderId": "ord-1792263687158-824",
+    "assignedAt": "2026-10-17T19:01:27.258Z"
+  },
+  {
     "id": "inv-1792262850535",
     "productId": "prod-netflix-4k",
     "productName": "اشتراك نتفلكس بريميوم Netflix 4K UHD",
