@@ -360,17 +360,13 @@ export default function HomePage() {
                     </div>
 
                     <div className="flex items-center gap-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const found = products.find((p) => p.id === slide.productId);
-                          if (found) setActiveModalProduct(found);
-                        }}
-                        className="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl velto-gradient-btn hover:opacity-95 text-white font-black text-xs sm:text-sm shadow-xl shadow-cyan-500/30 transition-transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                      <Link
+                        href={`/products/${products.find((p) => p.id === slide.productId)?.slug || 'capcut-pro-subscription'}`}
+                        className="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl uiverse-galaxy-btn text-white font-black text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <Zap className="w-4 h-4 text-yellow-300" />
-                        <span>طلب مباشر الآن</span>
-                      </button>
+                        <span>عرض التفاصيل والطلب</span>
+                      </Link>
 
                       <button
                         type="button"
@@ -482,8 +478,8 @@ export default function HomePage() {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer ${
                   selectedCategory === cat.id
-                    ? 'bg-gradient-to-r from-[#06b6d4] to-[#0284c7] text-white shadow-md shadow-cyan-500/20'
-                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80'
+                    ? 'uiverse-galaxy-btn text-white shadow-md'
+                    : 'uiverse-glass-btn text-slate-700'
                 }`}
               >
                 <i className={cat.icon}></i>
@@ -507,7 +503,7 @@ export default function HomePage() {
             <select
               value={sortBy}
               onChange={(e: any) => setSortBy(e.target.value)}
-              className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 outline-none focus:border-[#0284c7] cursor-pointer"
+              className="uiverse-galaxy-input py-1.5 px-3 text-xs font-bold text-slate-800 outline-none cursor-pointer"
             >
               <option value="popular">الأكثر طلباً</option>
               <option value="price-asc">الأقل سعراً</option>
@@ -516,15 +512,15 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 5. Minimalist Product Cards Grid: ONLY Image, Name, and Price */}
+        {/* 5. Minimalist Product Cards Grid: ONLY Image, Name, and Price (Clicking ANY card opens dedicated product page) */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-6">
           {filteredProducts.map((product) => {
             return (
-              <div
+              <Link
                 key={product.id}
                 id={product.id}
-                onClick={() => setActiveModalProduct(product)}
-                className="product-card group cursor-pointer rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-xs hover:border-[#0284c7]/50 transition-all duration-200 flex flex-col justify-between p-3 sm:p-4 text-center select-none active:scale-[0.98]"
+                href={`/products/${product.slug}`}
+                className="uiverse-galaxy-card group cursor-pointer overflow-hidden bg-white shadow-xs transition-all duration-200 flex flex-col justify-between p-3 sm:p-4 text-center select-none active:scale-[0.98]"
               >
                 {/* 1. Image (Uploaded Official Veltro Product Card) */}
                 <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-2.5 sm:mb-3 shadow-inner">
@@ -544,12 +540,16 @@ export default function HomePage() {
                 </h3>
 
                 {/* 3. Price in TND */}
-                <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-center">
+                <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-sm sm:text-lg font-black text-[#0284c7] font-mono">
                     {formatPrice(product.price)}
                   </span>
+                  <span className="text-[10px] font-bold text-slate-400 group-hover:text-[#0284c7] transition flex items-center gap-1">
+                    <span>التفاصيل</span>
+                    <ChevronLeft className="w-3 h-3" />
+                  </span>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -589,17 +589,13 @@ export default function HomePage() {
               </div>
 
               <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const capcut = products.find((p) => p.id === 'prod-capcut-pro-1m');
-                    if (capcut) setActiveModalProduct(capcut);
-                  }}
-                  className="px-6 py-3 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-black text-xs shadow-xl transition-transform active:scale-95 flex items-center gap-2 cursor-pointer"
+                <Link
+                  href="/products/capcut-pro-subscription"
+                  className="inline-flex uiverse-galaxy-btn px-6 py-3 rounded-2xl text-white font-black text-xs sm:text-sm shadow-xl flex items-center gap-2 cursor-pointer"
                 >
-                  <Zap className="w-4 h-4 text-[#0284c7]" />
+                  <Zap className="w-4 h-4 text-yellow-300" />
                   <span>اطلب العرض الآن بـ 15 د.ت</span>
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -652,7 +648,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 space-y-3 group">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-3 group">
             <div className="w-12 h-12 rounded-2xl bg-cyan-50 border border-cyan-200 text-[#0284c7] flex items-center justify-center text-xl shadow-xs group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -662,7 +658,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 space-y-3 group">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-3 group">
             <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center text-xl shadow-xs group-hover:scale-110 transition-transform">
               <Zap className="w-6 h-6" />
             </div>
@@ -672,7 +668,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 space-y-3 group">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-3 group">
             <div className="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 text-sky-600 flex items-center justify-center text-xl shadow-xs group-hover:scale-110 transition-transform">
               <TrendingUp className="w-6 h-6" />
             </div>
@@ -682,7 +678,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 space-y-3 group">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-3 group">
             <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center text-xl shadow-xs group-hover:scale-110 transition-transform">
               <Lock className="w-6 h-6" />
             </div>
@@ -709,7 +705,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1 text-amber-400">
                 {[...Array(5)].map((_, i) => (
@@ -732,7 +728,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1 text-amber-400">
                 {[...Array(5)].map((_, i) => (
@@ -755,7 +751,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs space-y-4">
+          <div className="uiverse-galaxy-card p-6 bg-white border border-slate-200/90 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1 text-amber-400">
                 {[...Array(5)].map((_, i) => (
@@ -801,9 +797,9 @@ export default function HomePage() {
             href="https://wa.me/21650022767"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-emerald-800 font-black text-xs sm:text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2.5 shrink-0"
+            className="uiverse-emerald-btn px-8 py-3.5 rounded-2xl font-black text-xs sm:text-sm shadow-xl flex items-center gap-2.5 shrink-0"
           >
-            <i className="fa-brands fa-whatsapp text-xl text-emerald-600"></i>
+            <i className="fa-brands fa-whatsapp text-xl text-white"></i>
             <span>تواصل عبر الواتساب (+216 50 022 767)</span>
           </a>
         </div>

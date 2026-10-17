@@ -366,7 +366,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="مثال: محمد بن علي"
-                  className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                  className="uiverse-galaxy-input text-xs"
                 />
                 {errors.name && <p className="text-rose-600 text-[11px] font-semibold">{errors.name}</p>}
               </div>
@@ -383,7 +383,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
-                  className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-left transition"
+                  className="uiverse-galaxy-input text-xs text-left"
                   dir="ltr"
                 />
                 {errors.email && <p className="text-rose-600 text-[11px] font-semibold">{errors.email}</p>}
@@ -399,18 +399,20 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 </span>
                 <span className="text-[11px] text-slate-400">تونس (+216) بشكل افتراضي</span>
               </label>
-              <div className="flex" dir="ltr">
-                <CountryCodeSelector
-                  selectedCode={selectedCountry.dialCode}
-                  onSelect={(country) => setSelectedCountry(country)}
-                />
+              <div className="flex gap-2" dir="ltr">
+                <div className="w-32 shrink-0">
+                  <CountryCodeSelector
+                    selectedCode={selectedCountry.dialCode}
+                    onSelect={(country) => setSelectedCountry(country)}
+                  />
+                </div>
                 <input
                   type="tel"
                   required
                   value={localPhone}
                   onChange={(e) => setLocalPhone(e.target.value)}
                   placeholder="98 123 456"
-                  className="w-full h-11 px-4 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                  className="uiverse-galaxy-input text-xs"
                 />
               </div>
               {errors.phone && <p className="text-rose-600 text-[11px] font-semibold">{errors.phone}</p>}
@@ -454,7 +456,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="مثال: يرجى التفعيل لجهاز ويندوز أو شاشة..."
-                  className="w-full h-11 px-4 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition"
+                  className="uiverse-galaxy-input text-xs"
                 />
               </div>
             </div>
@@ -474,7 +476,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   type="checkbox"
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded text-brand-primary bg-white border-slate-300 focus:ring-brand-primary"
+                  className="mt-0.5 w-4 h-4 rounded text-brand-primary bg-white border-slate-300 focus:ring-brand-primary cursor-pointer"
                 />
                 <span className="text-xs text-slate-700 leading-snug">
                   أوافق على التواصل معي عبر الواتساب أو البريد الإلكتروني بخصوص هذا الطلب.
@@ -508,7 +510,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold transition shadow-xs"
+              className="uiverse-glass-btn px-5 py-3 rounded-xl text-slate-700 text-xs font-bold transition shadow-xs"
             >
               إلغاء
             </button>
@@ -517,7 +519,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               type="submit"
               form="orderModalForm"
               disabled={isSubmitting}
-              className="flex-1 sm:flex-initial px-7 py-3 rounded-xl velto-gradient-btn hover:opacity-95 text-white font-black text-xs sm:text-sm shadow-xl shadow-cyan-500/25 flex items-center justify-center gap-2 transition disabled:opacity-50"
+              className="flex-1 sm:flex-initial px-7 py-3 rounded-xl uiverse-galaxy-btn text-white font-black text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2 transition disabled:opacity-50"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

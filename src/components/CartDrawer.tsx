@@ -224,7 +224,7 @@ export const CartDrawer: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="مثال: عبدالله العتيبي"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
+                  className="uiverse-galaxy-input text-xs"
                 />
                 {errors.name && <p className="text-rose-600 text-[11px] font-semibold">{errors.name}</p>}
               </div>
@@ -240,7 +240,7 @@ export const CartDrawer: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your.email@example.com"
-                  className="w-full h-10 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary text-left"
+                  className="uiverse-galaxy-input text-xs text-left"
                   dir="ltr"
                 />
                 {errors.email && <p className="text-rose-600 text-[11px] font-semibold">{errors.email}</p>}
@@ -251,18 +251,20 @@ export const CartDrawer: React.FC = () => {
                 <label className="block text-xs font-bold text-slate-700">
                   رقم الواتساب <span className="text-rose-500">*</span>
                 </label>
-                <div className="flex" dir="ltr">
-                  <CountryCodeSelector
-                    selectedCode={selectedCountry.dialCode}
-                    onSelect={(c) => setSelectedCountry(c)}
-                  />
+                <div className="flex gap-2" dir="ltr">
+                  <div className="w-28 shrink-0">
+                    <CountryCodeSelector
+                      selectedCode={selectedCountry.dialCode}
+                      onSelect={(c) => setSelectedCountry(c)}
+                    />
+                  </div>
                   <input
                     type="tel"
                     required
                     value={localPhone}
                     onChange={(e) => setLocalPhone(e.target.value)}
                     placeholder="50 123 4567"
-                    className="w-full h-10 px-3 text-xs bg-slate-50 border border-l-0 border-slate-200 rounded-r-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary"
+                    className="uiverse-galaxy-input text-xs"
                   />
                 </div>
                 {errors.phone && <p className="text-rose-600 text-[11px] font-semibold">{errors.phone}</p>}
@@ -278,12 +280,12 @@ export const CartDrawer: React.FC = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="أي تفاصيل ترغب في توضيحها..."
-                  className="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-primary focus:ring-1 focus:ring-brand-primary resize-none"
+                  className="uiverse-galaxy-input text-xs resize-none"
                 />
               </div>
 
               {/* MANDATORY NOTICE (Requirement 1) */}
-              <div className="p-3 rounded-xl bg-sky-50 border border-sky-200 text-xs text-sky-900 flex items-start gap-2.5">
+              <div className="p-3 rounded-xl bg-sky-50 border border-sky-200 text-xs text-sky-950 flex items-start gap-2.5">
                 <Info className="w-4 h-4 text-brand-primary shrink-0 mt-0.5" />
                 <div className="leading-relaxed text-[11px]">
                   <strong>ملاحظة هامة:</strong> سنتواصل معك مباشرة عبر الواتساب أو البريد الإلكتروني لتأكيد طلبك وتوضيح طرق الدفع وترتيب الاستلام. طلبك لا يعتبر مؤكداً حتى نتواصل معك.
@@ -297,7 +299,7 @@ export const CartDrawer: React.FC = () => {
                     type="checkbox"
                     checked={consent}
                     onChange={(e) => setConsent(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 rounded text-brand-primary bg-white border-slate-300 focus:ring-brand-primary"
+                    className="mt-0.5 w-4 h-4 rounded text-brand-primary bg-white border-slate-300 focus:ring-brand-primary cursor-pointer"
                   />
                   <span className="text-[11px] text-slate-700 leading-snug">
                     أوافق على التواصل معي عبر الواتساب أو البريد بخصوص هذا الطلب.
@@ -324,7 +326,7 @@ export const CartDrawer: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowOrderForm(true)}
-                className="w-full velto-gradient-btn hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/25 transition flex items-center justify-center gap-2 text-sm"
+                className="w-full uiverse-galaxy-btn text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm"
               >
                 <span>إتمام الطلب الآن</span>
                 <i className="fa-solid fa-arrow-left text-xs"></i>
@@ -334,14 +336,14 @@ export const CartDrawer: React.FC = () => {
                 type="submit"
                 form="cartCheckoutForm"
                 disabled={isSubmittingOrder}
-                className="w-full velto-gradient-btn hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-lg shadow-cyan-500/25 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+                className="w-full uiverse-galaxy-btn text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm disabled:opacity-50"
               >
                 {isSubmittingOrder ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <>
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>إرسال طلب الشراء للتواصل</span>
+                    <i className="fa-solid fa-check"></i>
+                    <span>تأكيد وإرسال الطلب المباشر</span>
                   </>
                 )}
               </button>

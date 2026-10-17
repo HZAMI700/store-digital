@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCart } from '@/lib/cart-context';
 import { formatPrice } from '@/lib/utils';
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const { totalItems, totalPrice, setIsCartOpen } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -45,8 +46,15 @@ export const Navbar = () => {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/#products`;
+    if (!searchQuery.trim()) return;
+    const term = searchQuery.trim().toLowerCase();
+    const found = navProducts.find((p) => p.title.toLowerCase().includes(term));
+    if (found) {
+      router.push(`/products/${found.slug}`);
+      setSearchModalOpen(false);
+      setMobileMenuOpen(false);
+    } else {
+      router.push(`/#products`);
       setSearchModalOpen(false);
       setMobileMenuOpen(false);
     }
@@ -55,6 +63,7 @@ export const Navbar = () => {
   const navProducts = [
     {
       id: 'prod-gemini-advanced',
+      slug: 'google-gemini-advanced-1-month',
       title: 'Gemini Advanced AI',
       price: '30 د.ت',
       icon: 'fa-solid fa-brain text-indigo-600',
@@ -63,6 +72,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-shahid',
+      slug: 'shahid-vip-subscription',
       title: 'شاهد VIP شامل',
       price: '15 د.ت',
       icon: 'fa-solid fa-tv text-emerald-600',
@@ -71,6 +81,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-ufc',
+      slug: 'ufc-fight-pass-subscription',
       title: 'UFC Fight Pass',
       price: '15 د.ت',
       icon: 'fa-solid fa-trophy text-rose-600',
@@ -79,6 +90,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-disney',
+      slug: 'disney-plus-subscription',
       title: 'ديزني بلس Disney+',
       price: '15 د.ت',
       icon: 'fa-solid fa-wand-magic-sparkles text-blue-600',
@@ -87,6 +99,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-storytel',
+      slug: 'storytel-subscription',
       title: 'ستوريتل Storytel',
       price: '15 د.ت',
       icon: 'fa-solid fa-book-open text-amber-600',
@@ -95,6 +108,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-capcut-pro-1m',
+      slug: 'capcut-pro-subscription',
       title: 'كاب كت CapCut Pro',
       price: '15 د.ت',
       icon: 'fa-solid fa-scissors text-cyan-600',
@@ -103,6 +117,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-netflix-4k',
+      slug: 'netflix-premium-4k-1-month',
       title: 'نتفلكس Netflix 4K',
       price: '18 د.ت',
       icon: 'fa-solid fa-film text-red-600',
@@ -111,6 +126,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-canva-pro',
+      slug: 'canva-pro-1-month',
       title: 'كانفا Canva Pro',
       price: '25 د.ت',
       icon: 'fa-solid fa-palette text-sky-600',
@@ -119,6 +135,7 @@ export const Navbar = () => {
     },
     {
       id: 'prod-express-vpn',
+      slug: 'expressvpn-premium-1-month',
       title: 'ExpressVPN',
       price: '45 د.ت',
       icon: 'fa-solid fa-shield-halved text-emerald-600',
@@ -231,7 +248,7 @@ export const Navbar = () => {
               id="cartBtn"
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center gap-2 velto-gradient-btn text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-black shadow-md shadow-cyan-500/25 transition-all relative overflow-hidden"
+              className="flex items-center gap-2 uiverse-galaxy-btn text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-black shadow-md shadow-cyan-500/25 transition-all relative overflow-hidden"
             >
               <div className="relative">
                 <i className="fa-solid fa-bag-shopping text-base"></i>
@@ -256,7 +273,7 @@ export const Navbar = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2.5 py-2.5 text-xs font-semibold whitespace-nowrap">
             <Link
               href="/#products"
-              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#06b6d4] to-[#0284c7] text-white font-bold flex items-center gap-1.5 shadow-xs hover:shadow-sm transition"
+              className="px-3.5 py-1.5 rounded-xl uiverse-galaxy-btn text-white font-bold flex items-center gap-1.5 shadow-xs"
             >
               <i className="fa-solid fa-border-all"></i>
               <span>جميع الاشتراكات (9)</span>
@@ -265,7 +282,7 @@ export const Navbar = () => {
             {navProducts.map((item) => (
               <Link
                 key={item.id}
-                href={`/#${item.id}`}
+                href={`/products/${item.slug}`}
                 className="px-3 py-1.5 rounded-xl text-slate-700 hover:text-slate-900 bg-white hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all flex items-center gap-2 shadow-2xs group"
               >
                 <i className={`${item.icon} group-hover:scale-110 transition-transform`}></i>
@@ -340,7 +357,7 @@ export const Navbar = () => {
                   {navProducts.map((p) => (
                     <Link
                       key={p.id}
-                      href={`/#${p.id}`}
+                      href={`/products/${p.slug}`}
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all group"
                     >
@@ -458,7 +475,7 @@ export const Navbar = () => {
                     key={p.id}
                     type="button"
                     onClick={() => {
-                      window.location.href = `/#${p.id}`;
+                      router.push(`/products/${p.slug}`);
                       setSearchModalOpen(false);
                     }}
                     className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-800 hover:text-[#0284c7] text-xs font-bold border border-slate-200 transition"
