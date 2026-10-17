@@ -76,11 +76,14 @@ export const CartDrawer: React.FC = () => {
       // For multi-item cart, summarize products in order
       const primaryProduct = cart[0];
       const itemsSummary = cart.map((i) => `${i.title} (x${i.qty})`).join(' + ');
+      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalCartAmount = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const effectiveUnitPrice = totalQty > 0 ? Number((totalCartAmount / totalQty).toFixed(2)) : primaryProduct.price;
 
       const payload = {
         productId: primaryProduct.id,
         productName: cart.length === 1 ? primaryProduct.title : `سلة مشتريات: ${itemsSummary}`,
-        quantity: cart.reduce((sum, item) => sum + item.qty, 0),
+        quantity: totalQty,
         customerName: name.trim(),
         customerEmail: email.trim(),
         customerWhatsapp: fullPhone,
@@ -89,6 +92,7 @@ export const CartDrawer: React.FC = () => {
           ? `${message.trim()} [سلة مشتريات: ${itemsSummary}]`
           : `سلة مشتريات: ${itemsSummary}`,
         consentGiven: consent,
+        unitPrice: effectiveUnitPrice,
       };
 
       const res = await fetch('/api/orders', {

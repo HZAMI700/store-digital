@@ -1,0 +1,84 @@
+[
+  {
+    "id": "inv-1792262850535",
+    "productId": "prod-netflix-4k",
+    "productName": "اشتراك نتفلكس بريميوم Netflix 4K UHD",
+    "accountData": "netflix_user_1792262850528@stream.io | Pass_1792262850528 | Profile 1 [PIN 9911]",
+    "isAssigned": true,
+    "createdAt": "2026-10-17T18:47:30.535Z",
+    "assignedOrderId": "ord-1792262850447-4",
+    "assignedAt": "2026-10-17T18:47:30.550Z"
+  },
+  {
+    "id": "inv-01",
+    "productId": "prod-netflix-4k",
+    "productName": "اشتراك نتفلكس بريميوم Netflix 4K UHD - شهر",
+    "accountData": "الإيميل: nfx.vip.stream99@hubmail.com | كلمة السر: Net#Vault2026! | الملف: رقم 2 (الرمز: 1042)",
+    "isAssigned": false,
+    "createdAt": "2026-10-15T18:47:30.358Z"
+  },
+  {
+    "id": "inv-02",
+    "productId": "prod-capcut-pro-1m",
+    "productName": "اشتراك كاب كت برو CapCut Pro - شهر واحد",
+    "accountData": "حساب كاب كات: capcut.pro.vip88@y7x.store | كلمة السر: CapPro#9912! | جهازين مع الذكاء الاصطناعي",
+    "isAssigned": false,
+    "createdAt": "2026-10-16T18:47:30.360Z"
+  },
+  {
+    "id": "inv-03",
+    "productId": "prod-canva-pro",
+    "productName": "اشتراك كانفا برو Canva Pro التعليمي/الاحترافي - شهر واحد",
+    "accountData": "رابط دعوة كانفا الرسمية: https://www.canva.com/brand/join?invite_id=CANVA-PRO-OFFICIAL-2026-SA",
+    "isAssigned": false,
+    "createdAt": "2026-10-13T18:47:30.360Z"
+  },
+  {
+    "id": "inv-04",
+    "productId": "prod-express-vpn",
+    "productName": "اشتراك اكسبريس في بي ان ExpressVPN - شهر واحد",
+    "accountData": "كود التفعيل: E6Q8Y-PN4WZ-9KL2T-MV81J-X7R03 | رابط التحميل المباشر: expressvpn.com/latest",
+    "isAssigned": false,
+    "createdAt": "2026-10-14T18:47:30.360Z"
+  },
+  {
+    "id": "inv-05",
+    "productId": "prod-gemini-advanced",
+    "productName": "اشتراك جوجل جيميناي Google Gemini Advanced (1.5 Pro) - سنة كاملة",
+    "accountData": "حساب جوجل: gemini.pro.deepmind@gmail.com | كلمة السر: Gemini#Deep2026! | مفعل باقة 1.5 Pro",
+    "isAssigned": false,
+    "createdAt": "2026-10-15T18:47:30.360Z"
+  },
+  {
+    "id": "inv-06",
+    "productId": "prod-shahid",
+    "productName": "اشتراك شاهد VIP شامل (Shahid VIP) - شهر واحد",
+    "accountData": "حساب شاهد: shahid.vip.account@velto.store | كلمة السر: Shahid#Vip2026! | مفعل باقة VIP شامل",
+    "isAssigned": false,
+    "createdAt": "2026-10-16T18:47:30.360Z"
+  },
+  {
+    "id": "inv-07",
+    "productId": "prod-ufc",
+    "productName": "اشتراك يو إف سي فايت باس UFC Fight Pass - شهر واحد",
+    "accountData": "حساب UFC: ufc.fightpass.pro@velto.store | كلمة السر: UFC#FightPass2026! | وصول كامل للأرشيف والبث",
+    "isAssigned": false,
+    "createdAt": "2026-10-16T18:47:30.360Z"
+  },
+  {
+    "id": "inv-08",
+    "productId": "prod-disney",
+    "productName": "اشتراك ديزني بلس Disney+ - شهر واحد",
+    "accountData": "حساب ديزني: disney.plus.premium@velto.store | كلمة السر: Disney#Magic2026! | جودة 4K HDR",
+    "isAssigned": false,
+    "createdAt": "2026-10-16T18:47:30.360Z"
+  },
+  {
+    "id": "inv-09",
+    "productId": "prod-storytel",
+    "productName": "اشتراك ستوريتل Storytel للكتب والروايات - شهر واحد",
+    "accountData": "حساب ستوريتل: storytel.unlimited@velto.store | كلمة السر: Story#Books2026! | كتب غير محدودة",
+    "isAssigned": false,
+    "createdAt": "2026-10-16T18:47:30.360Z"
+  }
+]

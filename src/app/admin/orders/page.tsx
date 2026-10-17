@@ -45,18 +45,45 @@ export default function AdminOrdersPage() {
       setOrders(localOrders);
       setInventory(localInv);
 
-      const res = await fetch('/api/admin/orders');
+      const res = await fetch(`/api/admin/orders?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' },
+      });
+
       if (res.ok) {
         const data = await res.json();
         if (data.orders) {
-          const merged = [...data.orders];
+          const serverIds = new Set(data.orders.map((o: Order) => o.id));
+          const missingOnServer = localOrders.filter((lo) => !serverIds.has(lo.id));
+
+          let finalOrders = [...data.orders];
+
+          if (missingOnServer.length > 0) {
+            try {
+              const syncRes = await fetch('/api/admin/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ syncOrders: missingOnServer }),
+              });
+              if (syncRes.ok) {
+                const syncData = await syncRes.json();
+                if (syncData.orders) {
+                  finalOrders = syncData.orders;
+                }
+              }
+            } catch (syncErr) {
+              console.warn('Sync to server failed', syncErr);
+            }
+          }
+
           localOrders.forEach((lo) => {
-            if (!merged.some((mo) => mo.id === lo.id || mo.orderReference === lo.orderReference)) {
-              merged.unshift(lo);
+            if (!finalOrders.some((mo) => mo.id === lo.id || mo.orderReference === lo.orderReference)) {
+              finalOrders.unshift(lo);
             }
           });
-          setOrders(merged);
-          clientStore.saveOrders(merged);
+
+          setOrders(finalOrders);
+          clientStore.saveOrders(finalOrders);
           setInventory(data.inventory || localInv);
         }
       }

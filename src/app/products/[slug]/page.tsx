@@ -142,44 +142,26 @@ export default function ProductDetailPage() {
         unitPrice: currentPrice,
       };
 
-      // 1. Save in clientStore for instant offline/zero-backend handling
-      const localOrder = clientStore.createOrder({
-        productId: product.id,
-        productName: `${product.title} (${selectedPlan.name})`,
-        quantity: 1,
-        customerName: name.trim(),
-        customerEmail: email.trim(),
-        customerWhatsapp: fullPhone,
-        countryCode: selectedCountry.dialCode,
-        customerMessage: message.trim() || null,
-        unitPrice: currentPrice,
-        selectedPlan: selectedPlan.name,
+      // 1. Submit directly to server API first to ensure it's recorded on disk & server
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
-      let orderRef = localOrder.orderReference;
-      let token = localOrder.guestLookupToken;
+      const data = await res.json();
 
-      // 2. Also record on backend if available
-      try {
-        const res = await fetch('/api/orders', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.order) {
-            orderRef = data.order.orderReference;
-            token = data.order.guestLookupToken;
-            clientStore.replaceOrAddOrder(data.order, localOrder.id);
-          }
-        }
-      } catch (apiErr) {
-        console.info('Backend API skipped or offline, proceeding with client order', apiErr);
+      if (!res.ok) {
+        throw new Error(data.error || 'حدث خطأ أثناء معالجة الطلب');
       }
 
-      router.push(`/order-success/${orderRef}?token=${token}`);
+      if (data.order) {
+        // Save server-confirmed order to local store so client and admin have identical order
+        clientStore.replaceOrAddOrder(data.order);
+        router.push(`/order-success/${data.order.orderReference}?token=${data.order.guestLookupToken}`);
+      } else {
+        throw new Error('لم يتم استلام تفاصيل الطلب من الخادم');
+      }
     } catch (err: any) {
       console.error(err);
       setServerError(err.message || 'حدث خطأ أثناء معالجة الطلب');

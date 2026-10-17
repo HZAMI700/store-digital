@@ -1,6 +1,98 @@
+import fs from 'fs';
+import path from 'path';
 import { Order, OrderStatus, DigitalAccountInventory, OrderActivityLog, Product } from './types';
 import { INITIAL_ORDERS, INITIAL_PRODUCTS, INITIAL_INVENTORY, INITIAL_ACTIVITY_LOGS } from './store';
 import { generateOrderReference, generateSecureToken } from './utils';
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
+const INVENTORY_FILE = path.join(DATA_DIR, 'inventory.json');
+const ACTIVITY_FILE = path.join(DATA_DIR, 'activity.json');
+
+function ensureDataDir() {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+  } catch (err) {
+    console.error('Error creating data directory:', err);
+  }
+}
+
+function loadOrdersFromDisk(): Order[] {
+  try {
+    ensureDataDir();
+    if (fs.existsSync(ORDERS_FILE)) {
+      const content = fs.readFileSync(ORDERS_FILE, 'utf-8');
+      if (content && content.trim()) {
+        const parsed = JSON.parse(content);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error loading orders from disk:', err);
+  }
+  return [...INITIAL_ORDERS];
+}
+
+function saveOrdersToDisk(orders: Order[]) {
+  try {
+    ensureDataDir();
+    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving orders to disk:', err);
+  }
+}
+
+function loadInventoryFromDisk(): DigitalAccountInventory[] {
+  try {
+    ensureDataDir();
+    if (fs.existsSync(INVENTORY_FILE)) {
+      const content = fs.readFileSync(INVENTORY_FILE, 'utf-8');
+      if (content && content.trim()) {
+        const parsed = JSON.parse(content);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error loading inventory from disk:', err);
+  }
+  return [...INITIAL_INVENTORY];
+}
+
+function saveInventoryToDisk(inventory: DigitalAccountInventory[]) {
+  try {
+    ensureDataDir();
+    fs.writeFileSync(INVENTORY_FILE, JSON.stringify(inventory, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving inventory to disk:', err);
+  }
+}
+
+function loadActivityFromDisk(): OrderActivityLog[] {
+  try {
+    ensureDataDir();
+    if (fs.existsSync(ACTIVITY_FILE)) {
+      const content = fs.readFileSync(ACTIVITY_FILE, 'utf-8');
+      if (content && content.trim()) {
+        const parsed = JSON.parse(content);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error loading activity from disk:', err);
+  }
+  return [...INITIAL_ACTIVITY_LOGS];
+}
+
+function saveActivityToDisk(logs: OrderActivityLog[]) {
+  try {
+    ensureDataDir();
+    fs.writeFileSync(ACTIVITY_FILE, JSON.stringify(logs, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving activity to disk:', err);
+  }
+}
 
 // Global singleton in Node environment so state persists across hot-reloads and API calls
 declare global {
@@ -14,30 +106,52 @@ declare global {
 
 if (!global.__globalStore) {
   global.__globalStore = {
-    orders: [...INITIAL_ORDERS],
+    orders: loadOrdersFromDisk(),
     products: [...INITIAL_PRODUCTS],
-    inventory: [...INITIAL_INVENTORY],
-    activityLogs: [...INITIAL_ACTIVITY_LOGS],
+    inventory: loadInventoryFromDisk(),
+    activityLogs: loadActivityFromDisk(),
   };
 }
 
 export const serverDb = {
-  getOrders: () => global.__globalStore!.orders,
+  getOrders: (): Order[] => {
+    // Reload from disk to guarantee multi-process / worker sync
+    const diskOrders = loadOrdersFromDisk();
+    global.__globalStore!.orders = diskOrders;
+    return global.__globalStore!.orders;
+  },
   
-  getOrderById: (id: string) => global.__globalStore!.orders.find((o) => o.id === id),
+  getOrderById: (id: string): Order | undefined => {
+    const orders = serverDb.getOrders();
+    return orders.find((o) => o.id === id);
+  },
   
-  getOrderByReference: (ref: string) =>
-    global.__globalStore!.orders.find((o) => o.orderReference.toLowerCase() === ref.toLowerCase()),
+  getOrderByReference: (ref: string): Order | undefined => {
+    const orders = serverDb.getOrders();
+    return orders.find((o) => o.orderReference.toLowerCase() === ref.toLowerCase());
+  },
 
-  getProducts: () => global.__globalStore!.products,
+  getProducts: (): Product[] => {
+    return global.__globalStore!.products;
+  },
 
-  getProductById: (id: string) => global.__globalStore!.products.find((p) => p.id === id),
+  getProductById: (id: string): Product | undefined => {
+    return global.__globalStore!.products.find((p) => p.id === id || p.slug === id);
+  },
 
-  getProductBySlug: (slug: string) => global.__globalStore!.products.find((p) => p.slug === slug),
+  getProductBySlug: (slug: string): Product | undefined => {
+    return global.__globalStore!.products.find((p) => p.slug === slug || p.id === slug);
+  },
 
-  getInventory: () => global.__globalStore!.inventory,
+  getInventory: (): DigitalAccountInventory[] => {
+    const diskInv = loadInventoryFromDisk();
+    global.__globalStore!.inventory = diskInv;
+    return global.__globalStore!.inventory;
+  },
 
-  getActivityLogs: (orderId?: string) => {
+  getActivityLogs: (orderId?: string): OrderActivityLog[] => {
+    const diskLogs = loadActivityFromDisk();
+    global.__globalStore!.activityLogs = diskLogs;
     if (!orderId) return global.__globalStore!.activityLogs;
     return global.__globalStore!.activityLogs.filter((l) => l.orderId === orderId);
   },
@@ -56,7 +170,10 @@ export const serverDb = {
     planId?: string | null;
     unitPrice?: number | null;
   }): Order => {
-    const product = global.__globalStore!.products.find((p) => p.id === data.productId);
+    // Find product by either ID or slug for maximum resilience
+    const product = global.__globalStore!.products.find(
+      (p) => p.id === data.productId || p.slug === data.productId
+    );
     if (!product) {
       throw new Error('Product not found or unavailable');
     }
@@ -109,7 +226,10 @@ export const serverDb = {
     };
 
     // Prepend to orders list
-    global.__globalStore!.orders.unshift(newOrder);
+    const currentOrders = serverDb.getOrders();
+    const updatedOrders = [newOrder, ...currentOrders];
+    global.__globalStore!.orders = updatedOrders;
+    saveOrdersToDisk(updatedOrders);
 
     // Record activity log
     const log: OrderActivityLog = {
@@ -126,13 +246,45 @@ export const serverDb = {
       },
       createdAt: now,
     };
-    global.__globalStore!.activityLogs.unshift(log);
+    const currentLogs = serverDb.getActivityLogs();
+    const updatedLogs = [log, ...currentLogs];
+    global.__globalStore!.activityLogs = updatedLogs;
+    saveActivityToDisk(updatedLogs);
 
     return newOrder;
   },
 
+  syncOrdersFromClient: (clientOrders: Order[]): Order[] => {
+    if (!Array.isArray(clientOrders) || clientOrders.length === 0) {
+      return serverDb.getOrders();
+    }
+
+    const currentOrders = serverDb.getOrders();
+    let hasNew = false;
+    const merged = [...currentOrders];
+
+    for (const co of clientOrders) {
+      if (!co || !co.id) continue;
+      const exists = merged.some(
+        (o) => o.id === co.id || o.orderReference.toLowerCase() === co.orderReference.toLowerCase()
+      );
+      if (!exists) {
+        merged.unshift(co);
+        hasNew = true;
+      }
+    }
+
+    if (hasNew) {
+      global.__globalStore!.orders = merged;
+      saveOrdersToDisk(merged);
+    }
+
+    return merged;
+  },
+
   updateOrderStatus: (orderId: string, status: OrderStatus, adminName: string = 'Admin'): Order => {
-    const order = global.__globalStore!.orders.find((o) => o.id === orderId);
+    const orders = serverDb.getOrders();
+    const order = orders.find((o) => o.id === orderId);
     if (!order) throw new Error('Order not found');
 
     const oldStatus = order.status;
@@ -149,17 +301,28 @@ export const serverDb = {
       details: { oldStatus, newStatus: status },
       createdAt: order.updatedAt,
     };
-    global.__globalStore!.activityLogs.unshift(log);
+    
+    global.__globalStore!.orders = orders;
+    saveOrdersToDisk(orders);
+
+    const logs = [log, ...serverDb.getActivityLogs()];
+    global.__globalStore!.activityLogs = logs;
+    saveActivityToDisk(logs);
 
     return order;
   },
 
   updateOrderNotes: (orderId: string, notes: string): Order => {
-    const order = global.__globalStore!.orders.find((o) => o.id === orderId);
+    const orders = serverDb.getOrders();
+    const order = orders.find((o) => o.id === orderId);
     if (!order) throw new Error('Order not found');
 
     order.internalNotes = notes;
     order.updatedAt = new Date().toISOString();
+    
+    global.__globalStore!.orders = orders;
+    saveOrdersToDisk(orders);
+    
     return order;
   },
 
@@ -169,7 +332,8 @@ export const serverDb = {
     timestamp: string,
     note?: string
   ): Order => {
-    const order = global.__globalStore!.orders.find((o) => o.id === orderId);
+    const orders = serverDb.getOrders();
+    const order = orders.find((o) => o.id === orderId);
     if (!order) throw new Error('Order not found');
 
     order.contactMethod = method;
@@ -189,16 +353,24 @@ export const serverDb = {
       details: { method, timestamp, note },
       createdAt: timestamp,
     };
-    global.__globalStore!.activityLogs.unshift(log);
+
+    global.__globalStore!.orders = orders;
+    saveOrdersToDisk(orders);
+
+    const logs = [log, ...serverDb.getActivityLogs()];
+    global.__globalStore!.activityLogs = logs;
+    saveActivityToDisk(logs);
 
     return order;
   },
 
   assignInventoryToOrder: (orderId: string, inventoryId: string): Order => {
-    const order = global.__globalStore!.orders.find((o) => o.id === orderId);
+    const orders = serverDb.getOrders();
+    const order = orders.find((o) => o.id === orderId);
     if (!order) throw new Error('Order not found');
 
-    const inv = global.__globalStore!.inventory.find((i) => i.id === inventoryId);
+    const invList = serverDb.getInventory();
+    const inv = invList.find((i) => i.id === inventoryId);
     if (!inv) throw new Error('Inventory item not found');
 
     if (inv.isAssigned && inv.assignedOrderId !== orderId) {
@@ -222,13 +394,23 @@ export const serverDb = {
       details: { inventoryId: inv.id, productName: inv.productName },
       createdAt: order.updatedAt,
     };
-    global.__globalStore!.activityLogs.unshift(log);
+
+    global.__globalStore!.orders = orders;
+    saveOrdersToDisk(orders);
+
+    global.__globalStore!.inventory = invList;
+    saveInventoryToDisk(invList);
+
+    const logs = [log, ...serverDb.getActivityLogs()];
+    global.__globalStore!.activityLogs = logs;
+    saveActivityToDisk(logs);
 
     return order;
   },
 
   toggleCredentialsRevealed: (orderId: string, revealed: boolean): Order => {
-    const order = global.__globalStore!.orders.find((o) => o.id === orderId);
+    const orders = serverDb.getOrders();
+    const order = orders.find((o) => o.id === orderId);
     if (!order) throw new Error('Order not found');
 
     order.credentialsRevealed = revealed;
@@ -248,15 +430,22 @@ export const serverDb = {
       details: { revealed },
       createdAt: order.updatedAt,
     };
-    global.__globalStore!.activityLogs.unshift(log);
+
+    global.__globalStore!.orders = orders;
+    saveOrdersToDisk(orders);
+
+    const logs = [log, ...serverDb.getActivityLogs()];
+    global.__globalStore!.activityLogs = logs;
+    saveActivityToDisk(logs);
 
     return order;
   },
 
   addInventoryItem: (productId: string, accountData: string): DigitalAccountInventory => {
-    const product = global.__globalStore!.products.find((p) => p.id === productId);
+    const product = global.__globalStore!.products.find((p) => p.id === productId || p.slug === productId);
     if (!product) throw new Error('Product not found');
 
+    const invList = serverDb.getInventory();
     const newItem: DigitalAccountInventory = {
       id: `inv-${Date.now()}`,
       productId: product.id,
@@ -266,7 +455,9 @@ export const serverDb = {
       createdAt: new Date().toISOString(),
     };
 
-    global.__globalStore!.inventory.unshift(newItem);
+    invList.unshift(newItem);
+    global.__globalStore!.inventory = invList;
+    saveInventoryToDisk(invList);
     return newItem;
   },
 

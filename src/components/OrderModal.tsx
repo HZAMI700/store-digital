@@ -148,45 +148,26 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         unitPrice,
       };
 
-      // 1. Create in clientStore for instant frontend offline / zero-backend support
-      const localOrder = clientStore.createOrder({
-        productId: product.id,
-        productName: `${product.title} (${selectedPlan.name})`,
-        quantity,
-        customerName: name.trim(),
-        customerEmail: email.trim(),
-        customerWhatsapp: fullPhone,
-        countryCode: selectedCountry.dialCode,
-        customerMessage: message.trim() || null,
-        unitPrice,
-        selectedPlan: selectedPlan.name,
+      // 1. Submit directly to server API first to ensure it's recorded on disk & server
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
-      let orderRef = localOrder.orderReference;
-      let token = localOrder.guestLookupToken;
+      const data = await res.json();
 
-      // 2. Also send to API if backend server is available
-      try {
-        const res = await fetch('/api/orders', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.order) {
-            orderRef = data.order.orderReference;
-            token = data.order.guestLookupToken;
-            clientStore.replaceOrAddOrder(data.order, localOrder.id);
-          }
-        }
-      } catch (apiErr) {
-        console.info('Backend API skipped or offline, proceeding with client order', apiErr);
+      if (!res.ok) {
+        throw new Error(data.error || 'حدث خطأ أثناء معالجة الطلب');
       }
 
-      onClose();
-      router.push(`/order-success/${orderRef}?token=${token}`);
+      if (data.order) {
+        clientStore.replaceOrAddOrder(data.order);
+        onClose();
+        router.push(`/order-success/${data.order.orderReference}?token=${data.order.guestLookupToken}`);
+      } else {
+        throw new Error('لم يتم استلام تفاصيل الطلب من الخادم');
+      }
     } catch (err: any) {
       console.error(err);
       setServerError(err.message || 'حدث خطأ أثناء معالجة الطلب');

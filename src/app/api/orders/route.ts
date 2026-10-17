@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Validate product exists
-    const product = serverDb.getProductById(productId);
+    const product = serverDb.getProductById(productId) || serverDb.getProductBySlug(productId);
     if (!product) {
       return NextResponse.json(
         { error: 'Selected product does not exist or is out of stock' },
@@ -67,32 +67,32 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Prevent immediate duplicate submissions (same email & product in past 30 seconds)
+    // 3. Prevent immediate duplicate submissions (same email & product in past 10 seconds)
     const recentOrders = serverDb.getOrders();
     const isDuplicate = recentOrders.some((o) => {
       const isSameEmail = o.customerEmail.toLowerCase() === customerEmail.toLowerCase().trim();
-      const isSameProduct = o.productId === productId;
+      const isSameProduct = o.productId === product.id;
       const createdDate = new Date(o.createdAt).getTime();
       const diffSeconds = (Date.now() - createdDate) / 1000;
-      return isSameEmail && isSameProduct && diffSeconds < 30;
+      return isSameEmail && isSameProduct && diffSeconds < 10;
     });
 
     if (isDuplicate) {
       return NextResponse.json(
-        { error: 'An identical order request was just submitted. Please wait a moment.' },
+        { error: 'تم استلام طلب مماثل للتو. يرجى الانتظار بضع ثوانٍ قبل إرسال طلب جديد.' },
         { status: 429 }
       );
     }
 
     // 4. Create Order with Server Calculated Prices
     const newOrder = serverDb.createOrder({
-      productId,
+      productId: product.id,
       productName: product.title,
       quantity: qty,
       customerName: customerName.trim(),
       customerEmail: customerEmail.trim(),
       customerWhatsapp: customerWhatsapp.trim(),
-      countryCode: countryCode || '+1',
+      countryCode: countryCode || '+216',
       customerMessage: customerMessage ? customerMessage.trim() : null,
       consentGiven: true,
       customerId: customerId || null,
@@ -109,7 +109,12 @@ export async function POST(req: NextRequest) {
         order: sanitized,
         message: 'Order request submitted successfully. Administrator will contact you.',
       },
-      { status: 201 }
+      {
+        status: 201,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      }
     );
   } catch (error: any) {
     console.error('Error processing order submission:', error);
