@@ -32,7 +32,7 @@ export default function RootLayout({
 
           {/* Floating WhatsApp Support Button with Gentle Pulse Motion */}
           <a
-            href="https://wa.me/966532137759"
+            href="https://wa.me/21650022767"
             target="_blank"
             rel="noopener noreferrer"
             className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl shadow-emerald-500/30 hover:scale-110 active:scale-95 transition-all duration-300 group"

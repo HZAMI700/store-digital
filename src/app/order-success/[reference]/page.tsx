@@ -234,10 +234,22 @@ function OrderSuccessContent() {
 
         {/* Timeline */}
         <div className="pt-4 border-t border-slate-200 space-y-4">
-          <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            المسار الزمني لمتابعة الطلب
-          </h3>
           <OrderTimeline status={order.status} createdAt={order.createdAt} />
+        </div>
+
+        {/* Direct WhatsApp Call-to-action */}
+        <div className="pt-2">
+          <a
+            href={`https://wa.me/21650022767?text=${encodeURIComponent(
+              `مرحباً متجر فيلترو، قمت بإرسال طلب جديد رقم: #${order.orderReference} لاشتراك ${order.productName} (${order.customerName}). أرجو التفعيل والتواصل.`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-xl shadow-emerald-600/25 flex items-center justify-center gap-2.5 transition active:scale-95"
+          >
+            <i className="fa-brands fa-whatsapp text-xl"></i>
+            <span>تواصل مع الإدارة عبر الواتساب لتأكيد وتسليم الحساب (+216 50 022 767)</span>
+          </a>
         </div>
       </div>
 
