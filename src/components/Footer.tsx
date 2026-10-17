@@ -96,11 +96,11 @@ export const Footer = () => {
             {/* Social & Contact Channels */}
             <div className="flex items-center gap-2.5 pt-2">
               <a
-                href="https://wa.me/966532137759"
+                href="https://wa.me/21650022767"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 transition shadow-2xs"
-                title="واتساب الدعم الفني: 0532137759"
+                title="واتساب الدعم الفني: +216 50 022 767"
               >
                 <i className="fa-brands fa-whatsapp text-base"></i>
               </a>
@@ -178,11 +178,6 @@ export const Footer = () => {
                 <a href="#guarantees" className="hover:text-[#0284c7] transition">
                   أوقات العمل والتسليم
                 </a>
-              </li>
-              <li>
-                <Link href="/admin" className="hover:text-[#0284c7] transition text-[#0284c7] font-bold">
-                  لوحة تحكم المشرف (خاص بالمسؤول)
-                </Link>
               </li>
             </ul>
           </div>

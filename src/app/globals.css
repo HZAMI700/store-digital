@@ -139,3 +139,41 @@ body {
 .spinning-icon {
   animation: spinSlow 15s linear infinite;
 }
+
+/* Infinite Moving Gradient Beam (Under Logo) */
+@keyframes infiniteLaserLine {
+  0% {
+    transform: translateX(-150%);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.animate-infinite-line {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: linear-gradient(90deg, transparent 0%, #06b6d4 30%, #0284c7 60%, #8b5cf6 85%, transparent 100%);
+  animation: infiniteLaserLine 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.75));
+}
+
+@keyframes continuousGradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.animate-continuous-flow {
+  background: linear-gradient(90deg, #0284c7, #06b6d4, #38bdf8, #8b5cf6, #00d2c4, #0284c7);
+  background-size: 250% 100%;
+  animation: continuousGradientFlow 3.5s linear infinite;
+}

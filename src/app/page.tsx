@@ -30,88 +30,94 @@ export default function HomePage() {
 
   const { addToCart, setIsCartOpen } = useCart();
 
-  // Velto Top Hero Slider with AI & Flagship Artwork
+  // Velto Top Hero Slider spanning full width edge-to-edge
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   const heroSlides = [
     {
-      id: 'slide-velto',
-      title: 'متجر فيلترو الرقمي | Velto Store',
-      subtitle: 'المنصة الرقمية الأولى للاشتراكات السحابية والترفيهية بأفضل الأسعار بالدينار التونسي (د.ت) وضمان ذهبي كامل المدة',
-      badge: 'المنصة الرقمية الأولى 🌟',
-      price: 'اشتراكات تبدأ من 15 د.ت',
-      originalPrice: '',
-      discount: 'توفير حتى 65%',
-      productId: 'prod-capcut-pro-1m',
-      imageUrl: '/images/banner-hero-velto.jpg',
-      icon: 'fa-solid fa-gem',
-      themeGradient: 'from-slate-950 via-slate-900 to-sky-950',
+      id: 'slide-gemini',
+      title: 'سنة كاملة بدون انقطاع Gemini Pro',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي بإيميل وباسورد من عندنا مع دعم وضمان طوال السنة',
+      badge: '30 د.ت سنة كاملة 🤖',
+      price: '30 د.ت',
+      originalPrice: '60 د.ت',
+      discount: 'سنة كاملة',
+      duration: 'سنة كاملة',
+      productId: 'prod-gemini-advanced',
+      imageUrl: '/images/card-gemini.jpg',
+      icon: 'fa-solid fa-brain',
+      accentColor: '#38bdf8',
     },
     {
       id: 'slide-capcut',
-      title: 'اشتراك كاب كت برو CapCut Pro',
-      subtitle: 'فتح جميع مميزات الذكاء الاصطناعي وتصدير 4K 60fps بدون علامة مائية (15 د.ت شهر / 80 د.ت سنة)',
+      title: 'شهر كامل بدون انقطاع CapCut Pro',
+      subtitle: 'اشتراك شهري أو سنوي • حساب خاص مع فتح جميع أدوات الذكاء الاصطناعي وتصدير 4K بدون علامة مائية',
       badge: '15 د.ت شهر / 80 د.ت سنة 🔥',
       price: '15 د.ت (شهر) / 80 د.ت (سنة)',
       originalPrice: '30 د.ت',
       discount: 'وفر 55%',
+      duration: 'شهر / سنة',
       productId: 'prod-capcut-pro-1m',
-      imageUrl: '/images/product-capcut.jpg',
+      imageUrl: '/images/card-capcut.jpg',
       icon: 'fa-solid fa-scissors',
-      themeGradient: 'from-cyan-950 via-slate-900 to-slate-950',
+      accentColor: '#06b6d4',
     },
     {
-      id: 'slide-gemini',
-      title: 'اشتراك جوجل جيميناي أدفانسد Gemini 1.5 Pro',
-      subtitle: 'أقوى نماذج الذكاء الاصطناعي من Google DeepMind بنافذة سياق تفوق مليون رمز مع تحليل المستندات والأكواد',
-      badge: '30 د.ت سنة كاملة 🤖',
-      price: '30 د.ت (سنة كاملة)',
-      originalPrice: '60 د.ت',
-      discount: 'عرض سنوي',
-      productId: 'prod-gemini-advanced',
-      imageUrl: '/images/product-gemini.jpg',
-      icon: 'fa-solid fa-brain',
-      themeGradient: 'from-blue-950 via-indigo-950 to-slate-950',
+      id: 'slide-canva',
+      title: 'سنة كاملة بدون انقطاع Canva Pro',
+      subtitle: 'اشتراك سنوي • حساب خاص رسمي مع ملايين القوالب وإزالة الخلفيات وتنزيل التصاميم بجودة فائقة',
+      badge: '25 د.ت سنة كاملة ✨',
+      price: '25 د.ت',
+      originalPrice: '65 د.ت',
+      discount: 'خصم 60%',
+      duration: 'سنة كاملة',
+      productId: 'prod-canva-pro',
+      imageUrl: '/images/card-canva.jpg',
+      icon: 'fa-solid fa-palette',
+      accentColor: '#8b5cf6',
+    },
+    {
+      id: 'slide-expressvpn',
+      title: 'شهر كامل بدون انقطاع ExpressVPN',
+      subtitle: 'اشتراك شهري وسنوي • حساب خاص بأعلى حماية وتشفير وسيرفرات فائقة لفك الحجب وحماية البيانات',
+      badge: 'حماية وتشفير قصوى 🛡️',
+      price: '45 د.ت (سنة)',
+      originalPrice: '120 د.ت',
+      discount: 'أعلى حماية',
+      duration: 'سنة كاملة',
+      productId: 'prod-express-vpn',
+      imageUrl: '/images/card-expressvpn.jpg',
+      icon: 'fa-solid fa-shield-halved',
+      accentColor: '#ef4444',
+    },
+    {
+      id: 'slide-velto',
+      title: 'متجر فيلترو الرقمي | Velto Store',
+      subtitle: 'أرقى الاشتراكات السحابية والترفيهية بالدينار التونسي (د.ت) مع تفعيل وتسليم فوري وضمان كامل المدة',
+      badge: 'المنصة الرقمية الأولى في تونس 🇹🇳',
+      price: 'اشتراكات تبدأ من 15 د.ت',
+      originalPrice: '',
+      discount: 'توفير حتى 65%',
+      duration: 'ضمان كامل',
+      productId: 'prod-capcut-pro-1m',
+      imageUrl: '/images/banner-hero-velto.jpg',
+      icon: 'fa-solid fa-gem',
+      accentColor: '#0284c7',
     },
     {
       id: 'slide-netflix',
       title: 'اشتراك نتفلكس بريميوم 4K Ultra HD',
-      subtitle: 'شاشة خاصة مقفلة برقم سري PIN مع دقة 4K HDR وصوت محيطي وضمان ذهبي للاستبدال الفوري',
+      subtitle: 'شاشة خاصة برقم سري PIN وجودة سينمائية 4K HDR وصوت محيطي وضمان ذهبي كامل المدة',
       badge: 'الأكثر طلباً ومبيعاً ⭐',
       price: '18 د.ت',
       originalPrice: '35 د.ت',
       discount: 'خصم 50%',
+      duration: 'شهر كامل',
       productId: 'prod-netflix-4k',
       imageUrl: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&auto=format&fit=crop&q=80',
       icon: 'fa-solid fa-film',
-      themeGradient: 'from-rose-950 via-slate-900 to-slate-950',
-    },
-    {
-      id: 'slide-canva',
-      title: 'اشتراك كانفا برو Canva Pro',
-      subtitle: 'ترقية حسابك الشخصي مع أكثر من 100 مليون عنصر مدفوع وإزالة الخلفيات بضغطة زر واحدة',
-      badge: 'تفعيل على إيميلك الشخصي ✨',
-      price: '25 د.ت',
-      originalPrice: '65 د.ت',
-      discount: 'سنة كاملة',
-      productId: 'prod-canva-pro',
-      imageUrl: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=1200&auto=format&fit=crop&q=80',
-      icon: 'fa-solid fa-palette',
-      themeGradient: 'from-sky-950 via-blue-950 to-slate-950',
-    },
-    {
-      id: 'slide-expressvpn',
-      title: 'اشتراك ExpressVPN الأصلي',
-      subtitle: 'حماية وتشفير عسكري من الدرجة الأولى مع سرعات عالية لتصفح آمن وفتح جميع المنصات المحجوبة',
-      badge: 'أعلى درجات الخصوصية والأمان 🛡️',
-      price: '45 د.ت',
-      originalPrice: '120 د.ت',
-      discount: 'سنة كاملة',
-      productId: 'prod-express-vpn',
-      imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80',
-      icon: 'fa-solid fa-shield-halved',
-      themeGradient: 'from-emerald-950 via-slate-900 to-slate-950',
+      accentColor: '#e11d48',
     },
   ];
 
@@ -205,196 +211,194 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="space-y-16 pb-20 selection:bg-[#0284c7] selection:text-white" dir="rtl">
+    <div className="space-y-12 sm:space-y-16 pb-20 selection:bg-[#0284c7] selection:text-white" dir="rtl">
       
-      {/* 1. Velto Top Flagship Banner & Product Slider */}
-      <section className="relative overflow-hidden velto-hero-mesh pt-6 pb-12 border-b border-slate-200/80">
-        
-        {/* Ambient Animated Glow Spheres */}
-        <div className="absolute top-10 left-1/4 w-80 h-80 rounded-full bg-cyan-400/15 blur-3xl pointer-events-none animate-pulseGlow" />
-        <div className="absolute top-20 right-1/4 w-96 h-96 rounded-full bg-blue-600/10 blur-3xl pointer-events-none animate-float-delayed" />
+      {/* 1. Full-Width Edge-to-Edge Flagship Banner Slider (From Left to Right) */}
+      <section
+        className="w-full relative overflow-hidden bg-slate-950 group"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <div className="relative w-full h-[400px] sm:h-[460px] md:h-[500px] lg:h-[540px]">
+          {heroSlides.map((slide, index) => {
+            const isActive = index === activeHeroSlide;
+            return (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                }`}
+              >
+                {/* Background Artwork Layer with Subtle Overlay */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <img
+                    src={slide.imageUrl}
+                    alt={slide.title}
+                    className={`w-full h-full object-cover transition-transform duration-7000 ease-out ${
+                      isActive ? 'scale-105' : 'scale-100'
+                    }`}
+                  />
+                  {/* Premium Multi-Layer Dark Gradient for High Legibility */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-slate-950/60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30" />
+                </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
-          
-          {/* Hero Header & Value Statement */}
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            
-            {/* Shimmer Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-cyan-200/80 shadow-sm text-xs font-bold text-[#0284c7] relative overflow-hidden animate-fade-in">
-              <span className="w-2 h-2 rounded-full bg-cyan-500 animate-ping" />
-              <span>متجر فيلترو المعتمد | أسعار بالدينار التونسي (د.ت) وتسليم فوري 100%</span>
-              <div className="absolute inset-0 shimmer-badge pointer-events-none" />
-            </div>
+                {/* Content Overlay - Fully Mobile Responsive */}
+                <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-between py-6 sm:py-10">
+                  
+                  {/* Top Badges */}
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs font-black text-white border border-white/20 shadow-sm animate-fade-in">
+                      <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+                      <span>{slide.badge}</span>
+                    </span>
 
-            {/* Main Gradient Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
-              أرقى الاشتراكات الرقمية <br className="hidden sm:inline" />
-              <span className="velto-gradient-text">بأفضل الأسعار وضمان فوري كامل المدة</span>
-            </h1>
+                    <span className="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-black shadow-md">
+                      {slide.discount}
+                    </span>
+                  </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
-              اختر اشتراكك بضغطة زر واحدة: كاب كت برو (15 د.ت شهرياً / 80 د.ت سنوياً)، جيميناي أدفانسد (30 د.ت سنوياً)، نتفلكس 4K، كانفا برو، و ExpressVPN.
-            </p>
-
-            {/* Benefit Pills with Float Animation */}
-            <div className="pt-1 flex flex-wrap items-center justify-center gap-3 text-xs font-bold text-slate-700">
-              <div className="px-3.5 py-1.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2 animate-float">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>ضمان ذهبي كامل المدة</span>
-              </div>
-
-              <div className="px-3.5 py-1.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2 animate-float-delayed">
-                <Zap className="w-4 h-4 text-amber-500" />
-                <span>تسليم وتفعيل فوري عبر الواتساب</span>
-              </div>
-
-              <div className="px-3.5 py-1.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2 animate-float">
-                <Lock className="w-4 h-4 text-[#0284c7]" />
-                <span>خصوصية تامة وحسابات خاصة 100%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive Top Banner Slider Carousel with Full Product Artwork */}
-          <div
-            className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-slate-950 group"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            <div className="relative h-[340px] sm:h-[400px] overflow-hidden">
-              {heroSlides.map((slide, index) => {
-                const isActive = index === activeHeroSlide;
-                return (
-                  <div
-                    key={slide.id}
-                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out flex flex-col justify-between p-6 sm:p-10 ${
-                      isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-                    } text-white`}
-                  >
-                    {/* Background Slide Image with Soft Ambient Overlay */}
-                    <div className="absolute inset-0 z-0 overflow-hidden">
-                      <img
-                        src={slide.imageUrl}
-                        alt={slide.title}
-                        className={`w-full h-full object-cover transition-transform duration-7000 ease-out ${
-                          isActive ? 'scale-105' : 'scale-100'
-                        }`}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40" />
-                      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-500/10 via-transparent to-transparent pointer-events-none" />
-                    </div>
-                    
-                    {/* Top Row: Badge & Discount */}
-                    <div className="relative flex items-center justify-between z-10">
-                      <span className="px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-black text-white border border-white/30 flex items-center gap-1.5 shadow-sm">
-                        <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                        <span>{slide.badge}</span>
-                      </span>
-
-                      <span className="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-black shadow-md">
-                        {slide.discount}
-                      </span>
-                    </div>
-
-                    {/* Middle: Title & Subtitle */}
-                    <div className="relative space-y-2 z-10 max-w-2xl">
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-2xl border border-white/20 shadow-inner">
-                          <i className={slide.icon}></i>
-                        </div>
-                        <h2 className="text-xl sm:text-3xl font-black text-white leading-snug">
-                          {slide.title}
-                        </h2>
+                  {/* Middle Content */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center my-auto">
+                    <div className="md:col-span-8 space-y-3 sm:space-y-4 text-right">
+                      <div className="inline-flex items-center gap-2 text-cyan-300 text-xs font-extrabold">
+                        <i className={slide.icon}></i>
+                        <span>متجر فيلترو Veltro • اشتراك رسمي مضمون</span>
                       </div>
-                      <p className="text-xs sm:text-sm text-cyan-100/90 font-medium leading-relaxed">
+
+                      <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-md">
+                        {slide.title}
+                      </h2>
+
+                      <p className="text-xs sm:text-sm lg:text-base text-slate-200/90 leading-relaxed max-w-2xl font-medium">
                         {slide.subtitle}
                       </p>
+
+                      {/* WhatsApp Verification Pill */}
+                      <div className="flex items-center gap-2 pt-1 text-xs text-emerald-400 font-bold">
+                        <i className="fa-brands fa-whatsapp text-base"></i>
+                        <span>تواصل مباشر وتفعيل فوري: +216 50 022 767</span>
+                      </div>
                     </div>
 
-                    {/* Bottom: Pricing & Action Buttons */}
-                    <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 border-t border-white/20 pt-4">
-                      <div className="flex items-baseline gap-3">
-                        <span className="text-2xl sm:text-3xl font-black font-mono text-white">
-                          {slide.price}
-                        </span>
-                        {slide.originalPrice && (
-                          <span className="text-sm font-mono text-white/60 line-through">
-                            {slide.originalPrice}
-                          </span>
-                        )}
-                        <span className="text-xs text-cyan-200 font-semibold">شامل الضمان الذهبي</span>
-                      </div>
-
-                      <div className="flex items-center gap-2.5">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const found = products.find((p) => p.id === slide.productId);
-                            if (found) setActiveModalProduct(found);
-                          }}
-                          className="px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-[#0f172a] font-black text-xs shadow-lg transition-transform active:scale-95 flex items-center gap-2 cursor-pointer"
-                        >
-                          <Zap className="w-4 h-4 text-[#0284c7]" />
-                          <span>طلب مباشر الآن</span>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const found = products.find((p) => p.id === slide.productId);
-                            if (found) {
-                              addToCart(found, 1);
-                              setIsCartOpen(true);
-                            }
-                          }}
-                          className="px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs border border-white/30 transition flex items-center gap-1.5 cursor-pointer"
-                        >
-                          <ShoppingBag className="w-4 h-4" />
-                          <span>أضف للسلة</span>
-                        </button>
+                    {/* Desktop Card Preview Floater */}
+                    <div className="hidden md:flex md:col-span-4 justify-center items-center">
+                      <div className="relative w-48 sm:w-56 aspect-square rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-500 animate-float bg-white/5 backdrop-blur-md p-1.5">
+                        <img
+                          src={slide.imageUrl}
+                          alt={slide.title}
+                          className="w-full h-full object-cover rounded-2xl"
+                        />
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
 
-            {/* Slider Navigation Arrows */}
+                  {/* Bottom Actions & Price */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-white/15 pt-4">
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-2xl sm:text-3xl font-black font-mono text-cyan-300">
+                        {slide.price}
+                      </span>
+                      {slide.originalPrice && (
+                        <span className="text-sm font-mono text-white/50 line-through">
+                          {slide.originalPrice}
+                        </span>
+                      )}
+                      <span className="text-xs text-emerald-300 font-semibold bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-md">
+                        تسليم فوري 100%
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const found = products.find((p) => p.id === slide.productId);
+                          if (found) setActiveModalProduct(found);
+                        }}
+                        className="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl velto-gradient-btn hover:opacity-95 text-white font-black text-xs sm:text-sm shadow-xl shadow-cyan-500/30 transition-transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        <Zap className="w-4 h-4 text-yellow-300" />
+                        <span>طلب مباشر الآن</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const found = products.find((p) => p.id === slide.productId);
+                          if (found) {
+                            addToCart(found, 1);
+                            setIsCartOpen(true);
+                          }
+                        }}
+                        className="px-4 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white font-bold text-xs border border-white/25 transition flex items-center justify-center gap-1.5 cursor-pointer"
+                        title="أضف إلى السلة"
+                      >
+                        <ShoppingBag className="w-4 h-4" />
+                        <span className="hidden sm:inline">أضف للسلة</span>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={handlePrevSlide}
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition opacity-80 hover:opacity-100 cursor-pointer"
+          aria-label="السابق"
+        >
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+
+        <button
+          onClick={handleNextSlide}
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition opacity-80 hover:opacity-100 cursor-pointer"
+          aria-label="التالي"
+        >
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+
+        {/* Slider Dots */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {heroSlides.map((_, i) => (
             <button
-              onClick={handlePrevSlide}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100"
-              aria-label="السابق"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-
-            <button
-              onClick={handleNextSlide}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100"
-              aria-label="التالي"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            {/* Slider Dots */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveHeroSlide(i)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === activeHeroSlide ? 'w-8 bg-cyan-400 shadow-md shadow-cyan-400/50' : 'w-2 bg-white/50'
-                  }`}
-                  aria-label={`شريحة ${i + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-
+              key={i}
+              onClick={() => setActiveHeroSlide(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                i === activeHeroSlide ? 'w-8 bg-cyan-400 shadow-md shadow-cyan-400/50' : 'w-2 bg-white/50'
+              }`}
+              aria-label={`شريحة ${i + 1}`}
+            />
+          ))}
         </div>
       </section>
 
-      {/* 2. Signature Section Divider: الاشتراكات الرقمية المتوفرة */}
+      {/* 2. Floating Value Statement Pills */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-bold text-slate-700">
+          <div className="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center gap-2 animate-float">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>ضمان ذهبي كامل المدة</span>
+          </div>
+
+          <div className="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center gap-2 animate-float-delayed">
+            <Zap className="w-4 h-4 text-amber-500" />
+            <span>تفعيل فوري عبر الواتساب: 21650022767+</span>
+          </div>
+
+          <div className="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center gap-2 animate-float">
+            <Lock className="w-4 h-4 text-[#0284c7]" />
+            <span>حسابات خاصة بإيميل وباسورد من عندنا</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Products Section Header */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative py-2 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
@@ -408,15 +412,15 @@ export default function HomePage() {
             <div className="text-right">
               <div className="text-xs font-black text-slate-900 flex items-center gap-1">
                 <span>اشتراكات متجر</span>
-                <span className="velto-gradient-text font-black">فيلترو</span>
+                <span className="velto-gradient-text font-black">فيلترو Veltro</span>
               </div>
-              <div className="text-[10px] text-slate-400 font-semibold">انقر على أي اشتراك لاختيار المدة وإتمام الطلب المباشر فوراً</div>
+              <div className="text-[10px] text-slate-400 font-semibold">انقر على أي بطاقة لاختيار المدة وإتمام الطلب المباشر فوراً</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Category Filter Tabs */}
+      {/* 4. Category Filter Tabs */}
       <section id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
           
@@ -462,36 +466,35 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 4. Ultra-Clean Product Cards Grid: ONLY Image, Name, and Price */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+        {/* 5. Minimalist Product Cards Grid: ONLY Image, Name, and Price */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-6">
           {filteredProducts.map((product) => {
             return (
               <div
                 key={product.id}
                 id={product.id}
                 onClick={() => setActiveModalProduct(product)}
-                className="product-card group cursor-pointer rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-xs hover:shadow-2xl hover:border-[#0284c7]/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between p-3.5 sm:p-4 text-center select-none active:scale-[0.98]"
+                className="product-card group cursor-pointer rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-xs hover:shadow-2xl hover:border-[#0284c7]/50 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between p-3 sm:p-4 text-center select-none active:scale-[0.98]"
               >
-                {/* 1. Image */}
-                <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-100/80 mb-3 shadow-inner">
+                {/* 1. Image (Uploaded Official Veltro Product Card) */}
+                <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 mb-2.5 sm:mb-3 shadow-inner">
                   <img
                     src={product.imageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500 ease-out"
                     loading="lazy"
                   />
-                  {/* Subtle hover pulse hint */}
                   <div className="absolute inset-0 bg-[#0284c7]/0 group-hover:bg-[#0284c7]/5 transition-colors duration-300 pointer-events-none" />
                 </div>
 
                 {/* 2. Product Name */}
-                <h3 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-[#0284c7] transition-colors leading-snug line-clamp-2 min-h-[2.5rem] flex items-center justify-center">
+                <h3 className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-[#0284c7] transition-colors leading-snug line-clamp-2 min-h-[2.4rem] flex items-center justify-center">
                   {product.title}
                 </h3>
 
                 {/* 3. Price in TND */}
-                <div className="mt-2.5 pt-2.5 border-t border-slate-100 flex items-center justify-center">
-                  <span className="text-base sm:text-lg font-black text-[#0284c7] font-mono">
+                <div className="mt-2 pt-2 border-t border-slate-100 flex items-center justify-center">
+                  <span className="text-sm sm:text-lg font-black text-[#0284c7] font-mono">
                     {formatPrice(product.price)}
                   </span>
                 </div>
@@ -501,7 +504,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. Exclusive Deal of the Week (عرض الأسبوع بالدينار التونسي) */}
+      {/* 6. Exclusive Deal of the Week */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0a192f] via-[#0369a1] to-[#0f172a] text-white p-6 sm:p-10 shadow-2xl border border-cyan-500/20">
           
@@ -511,7 +514,7 @@ export default function HomePage() {
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/20 text-cyan-200 text-xs font-bold border border-cyan-400/30">
                 <Flame className="w-3.5 h-3.5 text-amber-400" />
-                <span>عرض الأسبوع الخاطف في فيلترو</span>
+                <span>عرض الأسبوع الخاطف في فيلترو Veltro</span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight">
@@ -576,14 +579,14 @@ export default function HomePage() {
               </div>
 
               <div className="text-[11px] text-white/70">
-                تسليم فوري بعد الطلب عبر خدمة عملاء فيلترو بالواتساب
+                تسليم فوري بعد الطلب عبر خدمة عملاء فيلترو بالواتساب (+216 50 022 767)
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. Why Choose Velto? */}
+      {/* 7. Why Choose Velto? */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2 max-w-xl mx-auto">
           <span className="text-xs font-bold text-[#0284c7] uppercase tracking-wider">
@@ -640,17 +643,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. Customer Testimonials */}
+      {/* 8. Customer Testimonials */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2 max-w-xl mx-auto">
           <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">
             تقييمات موثقة
           </span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            تجارب عملاء متجر فيلترو
+            تجارب عملاء متجر فيلترو Veltro
           </h2>
           <p className="text-xs text-slate-500">
-            أكثر من 2,400+ تقييم 5 نجوم من عملائنا الراضين في تونس والعالم العربي.
+            أكثر من 2,400+ تقييم 5 نجوم من عملائنا في تونس والعالم العربي.
           </p>
         </div>
 
@@ -688,7 +691,7 @@ export default function HomePage() {
               <span className="text-[11px] text-slate-400">قبل 4 أيام</span>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed font-medium">
-              &quot;جيميناي أدفانسد بـ 30 د.ت سنة كاملة عرض لا يقاوم! شغال مع نافذة مليون رمز وكل شيء رسمي 100%.&quot;
+              &quot;جيميناي برو بـ 30 د.ت سنة كاملة عرض لا يقاوم! شغال مع نافذة مليون رمز وكل شيء رسمي 100%.&quot;
             </p>
             <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
               <div className="w-9 h-9 rounded-full bg-sky-100 text-sky-700 font-black text-xs flex items-center justify-center">
@@ -711,7 +714,7 @@ export default function HomePage() {
               <span className="text-[11px] text-slate-400">قبل أسبوع</span>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed font-medium">
-              &quot;نتفلكس وكانفا شغالين بروعة. التعامل راقي جداً والتفعيل تم خلال 3 دقائق فقط عبر الواتساب. شكراً فيلترو!&quot;
+              &quot;نتفلكس وكانفا واكسبريس شغالين بروعة. التعامل راقي جداً والتفعيل تم خلال 3 دقائق فقط عبر الواتساب. شكراً فيلترو!&quot;
             </p>
             <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
               <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-black text-xs flex items-center justify-center">
@@ -726,7 +729,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. Direct WhatsApp CTA Banner */}
+      {/* 9. Direct WhatsApp CTA Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
           
@@ -744,18 +747,18 @@ export default function HomePage() {
           </div>
 
           <a
-            href="https://wa.me/21650000000"
+            href="https://wa.me/21650022767"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-emerald-800 font-black text-xs sm:text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2.5 shrink-0"
           >
             <i className="fa-brands fa-whatsapp text-xl text-emerald-600"></i>
-            <span>تواصل عبر الواتساب</span>
+            <span>تواصل عبر الواتساب (+216 50 022 767)</span>
           </a>
         </div>
       </section>
 
-      {/* 9. Interactive Order Modal (All info, duration selector, form fields) */}
+      {/* 10. Interactive Order Modal */}
       {activeModalProduct && (
         <OrderModal
           product={activeModalProduct}
@@ -763,6 +766,19 @@ export default function HomePage() {
           onClose={() => setActiveModalProduct(null)}
         />
       )}
+
+      {/* 11. Mobile Floating WhatsApp Quick Action Button */}
+      <div className="fixed bottom-5 left-5 z-40 sm:hidden">
+        <a
+          href="https://wa.me/21650022767"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-14 h-14 rounded-full bg-emerald-500 text-white shadow-2xl flex items-center justify-center text-2xl hover:scale-110 active:scale-95 transition-transform border-2 border-white"
+          aria-label="تواصل واتساب مباشر"
+        >
+          <i className="fa-brands fa-whatsapp"></i>
+        </a>
+      </div>
 
     </div>
   );

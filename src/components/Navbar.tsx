@@ -27,7 +27,7 @@ export const Navbar = () => {
       icon: 'fa-solid fa-tag text-emerald-300',
     },
     {
-      text: 'تفعيل يدوي مباشر وخدمة عملاء على مدار الساعة عبر الواتساب: 0532137759',
+      text: 'تفعيل يدوي مباشر وخدمة عملاء على مدار الساعة عبر الواتساب: 21650022767+',
       icon: 'fa-brands fa-whatsapp text-emerald-300',
     },
     {
@@ -194,15 +194,6 @@ export const Navbar = () => {
               <i className="fa-solid fa-clipboard-list text-base"></i>
             </Link>
 
-            {/* Admin Panel Access Link */}
-            <Link
-              href="/admin"
-              className="p-2.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 text-[#0284c7] transition"
-              title="لوحة تحكم الإدارة (خاص بالمسؤول)"
-            >
-              <i className="fa-solid fa-shield-halved text-base"></i>
-            </Link>
-
             {/* Shopping Cart Button with Shimmer */}
             <button
               id="cartBtn"
@@ -221,6 +212,11 @@ export const Navbar = () => {
               <span className="hidden sm:inline-block font-mono">{formatPrice(totalPrice)}</span>
             </button>
           </div>
+        </div>
+
+        {/* Infinite Moving Laser Line Directly Under Top Header / Logo */}
+        <div className="relative h-[3px] w-full overflow-hidden bg-slate-100/80">
+          <div className="animate-infinite-line" />
         </div>
 
         {/* 3. Category Horizontal Pills Sub-bar with Live Highlights */}
@@ -358,15 +354,6 @@ export const Navbar = () => {
                     <i className="fa-solid fa-clipboard-list text-[#0284c7] text-sm"></i>
                     <span>سجل طلباتي</span>
                   </Link>
-
-                  <Link
-                    href="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl text-xs font-bold text-[#0284c7] bg-sky-50 border border-sky-200 transition"
-                  >
-                    <i className="fa-solid fa-shield-halved text-sm"></i>
-                    <span>لوحة تحكم الإدارة (خاص بالمسؤول)</span>
-                  </Link>
                 </div>
 
                 {/* Customer Support WhatsApp Card */}
@@ -379,12 +366,12 @@ export const Navbar = () => {
                     متواجدون على مدار الساعة للرد على استفساراتكم وترتيب تسليم الحسابات.
                   </p>
                   <a
-                    href="https://wa.me/966532137759"
+                    href="https://wa.me/21650022767"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-1.5 w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition"
                   >
-                    <span>محادثة واتساب مباشرة</span>
+                    <span>محادثة واتساب (+216 50 022 767)</span>
                   </a>
                 </div>
 
