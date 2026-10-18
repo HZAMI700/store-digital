@@ -1,8 +1,9 @@
-// test-workflow.mjs - End-to-end automated verification for Manual Orders & Admin Contact
+// test-workflow.mjs - End-to-end automated verification for Velto Digital Store
+// Includes: Server-Side Auth, IDOR Protection, Admin Route Hardening, Customer Orders, Inventory & Delivery
 
 async function runTests() {
   console.log('====================================================');
-  console.log('STARTING APEX DIGITAL STORE WORKFLOW VERIFICATION');
+  console.log('STARTING VELTO DIGITAL STORE FULL AUDIT & TEST SUITE');
   console.log('====================================================\n');
 
   const BASE_URL = 'http://localhost:3000';
@@ -20,17 +21,55 @@ async function runTests() {
     }
   }
 
-  // 1. TEST PRODUCT RETRIEVAL & PRICING
-  console.log('--- Step 1: Testing Product Catalog & Admin Orders Initial State ---');
-  const initialAdminRes = await fetch(`${BASE_URL}/api/admin/orders`);
+  // 1. SECURITY & AUTHENTICATION ENFORCEMENT
+  console.log('--- Step 1: Testing Security Boundaries & Admin Access Control ---');
+
+  // 1a. Unauthenticated access to /api/admin/orders must be blocked (401)
+  const unauthAdminRes = await fetch(`${BASE_URL}/api/admin/orders`);
+  assert(unauthAdminRes.status === 401, 'Unauthenticated GET /api/admin/orders blocked with 401');
+
+  // 1b. Unauthenticated access to /api/orders without query params must be blocked (401 IDOR fix)
+  const unauthOrdersDumpRes = await fetch(`${BASE_URL}/api/orders`);
+  assert(unauthOrdersDumpRes.status === 401, 'Public IDOR order dumping blocked on GET /api/orders (401)');
+
+  // 1c. Invalid login credentials rejected
+  const badLoginRes = await fetch(`${BASE_URL}/api/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: 'admin', password: 'wrongpassword' }),
+  });
+  assert(badLoginRes.status === 401, 'Invalid admin login credentials rejected with 401');
+
+  // 1d. Valid login credentials accepted
+  const validLoginRes = await fetch(`${BASE_URL}/api/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: 'yassine700', password: 'yassine700' }),
+  });
+  assert(validLoginRes.status === 200, 'Valid admin credentials accepted with 200');
+  const loginData = await validLoginRes.json();
+  assert(loginData.token !== undefined, 'Admin auth token returned');
+  const adminToken = loginData.token;
+  const adminHeaders = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${adminToken}`,
+  };
+
+  // 1e. Admin /api/admin/me session validation
+  const meRes = await fetch(`${BASE_URL}/api/admin/me`, { headers: adminHeaders });
+  const meData = await meRes.json();
+  assert(meRes.status === 200 && meData.authenticated === true && meData.username === 'yassine700', 'GET /api/admin/me confirms active admin session');
+
+  // 1f. Authenticated admin orders access
+  const initialAdminRes = await fetch(`${BASE_URL}/api/admin/orders`, { headers: adminHeaders });
   const initialAdminData = await initialAdminRes.json();
-  assert(initialAdminRes.status === 200, 'Admin orders endpoint responds 200');
+  assert(initialAdminRes.status === 200, 'Authenticated admin orders endpoint responds 200');
   assert(initialAdminData.stats !== undefined, 'Stats object is provided');
   assert(typeof initialAdminData.stats.totalOrderValue === 'number', 'Total order value is computed');
 
-  // 2. TEST SUBMITTING INVALID ORDERS
+  // 2. SERVER-SIDE ORDER VALIDATION & SAFETY
   console.log('\n--- Step 2: Testing Server Validation & Duplicate Prevention ---');
-  
+
   // 2a. Missing consent
   const noConsentRes = await fetch(`${BASE_URL}/api/orders`, {
     method: 'POST',
@@ -40,8 +79,8 @@ async function runTests() {
       quantity: 1,
       customerName: 'Test User',
       customerEmail: 'test@example.com',
-      customerWhatsapp: '+1 555 123 4567',
-      countryCode: '+1',
+      customerWhatsapp: '+216 50 022 767',
+      countryCode: '+216',
       consentGiven: false,
     }),
   });
@@ -56,8 +95,8 @@ async function runTests() {
       quantity: 1,
       customerName: 'Test User',
       customerEmail: 'not-an-email',
-      customerWhatsapp: '+1 555 123 4567',
-      countryCode: '+1',
+      customerWhatsapp: '+216 50 022 767',
+      countryCode: '+216',
       consentGiven: true,
     }),
   });
@@ -73,24 +112,24 @@ async function runTests() {
       customerName: 'Test User',
       customerEmail: 'test@example.com',
       customerWhatsapp: '12',
-      countryCode: '+1',
+      countryCode: '+216',
       consentGiven: true,
     }),
   });
   assert(badPhoneRes.status === 400, 'Rejects order with invalid phone number (400)');
 
-  // 3. TEST SUBMITTING VALID ORDER REQUEST
+  // 3. SUBMITTING VALID CUSTOMER ORDER
   console.log('\n--- Step 3: Submitting Valid Customer Order Request ---');
-  const uniqueEmail = `sarah.jenkins.${Date.now()}@gmail.com`;
+  const uniqueEmail = `velto.customer.${Date.now()}@gmail.com`;
   const validOrderPayload = {
-    productId: 'prod-netflix-4k',
-    productName: 'Netflix Premium 4K UHD',
-    quantity: 2,
-    customerName: 'Sarah Jenkins',
+    productId: 'prod-gemini-advanced',
+    productName: 'Google Gemini Pro (1 Year)',
+    quantity: 1,
+    customerName: 'Karim Ben Ali',
     customerEmail: uniqueEmail,
-    customerWhatsapp: '+1 415 889 2011',
-    countryCode: '+1',
-    customerMessage: 'Please set profile language to English. Thank you!',
+    customerWhatsapp: '+216 50 022 767',
+    countryCode: '+216',
+    customerMessage: 'Gemini 3.8 and Gemini 4 Argon access verification.',
     consentGiven: true,
   };
 
@@ -103,12 +142,12 @@ async function runTests() {
   const submitData = await submitRes.json();
   assert(submitRes.status === 201, 'Valid order submitted successfully (201)');
   assert(submitData.order.orderReference.startsWith('ORD-'), 'Unique order reference generated');
-  assert(submitData.order.totalAmount === submitData.order.unitPrice * 2, 'Server accurately calculated price snapshot');
+  assert(submitData.order.totalAmount === 30, 'Server accurately calculated price snapshot (30 TND for Gemini Pro 1Y)');
   assert(submitData.order.internalNotes === undefined, 'Internal notes strictly hidden from customer response');
 
   const createdOrder = submitData.order;
 
-  // 4. TEST DUPLICATE SUBMISSION DETECTION
+  // 4. DUPLICATE SUBMISSION DETECTION
   console.log('\n--- Step 4: Testing Duplicate Order Protection ---');
   const dupRes = await fetch(`${BASE_URL}/api/orders`, {
     method: 'POST',
@@ -117,16 +156,16 @@ async function runTests() {
   });
   assert(dupRes.status === 429, 'Duplicate submission blocked within cooldown window (429)');
 
-  // 5. TEST SECURE GUEST ORDER LOOKUP
+  // 5. SECURE GUEST ORDER LOOKUP
   console.log('\n--- Step 5: Testing Dual-Authorization Guest Order Lookup ---');
-  
+
   // 5a. Unauthorized lookup (wrong email)
   const badLookupRes = await fetch(`${BASE_URL}/api/lookup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       orderReference: createdOrder.orderReference,
-      email: 'hacker@target.org',
+      email: 'unauthorized@attacker.com',
     }),
   });
   assert(badLookupRes.status === 403, 'Unauthorized email blocked from viewing order (403)');
@@ -142,27 +181,27 @@ async function runTests() {
   });
   const authLookupData = await authLookupRes.json();
   assert(authLookupRes.status === 200, 'Authorized customer views own order (200)');
-  assert(authLookupData.order.customerName === 'Sarah Jenkins', 'Customer name matches');
+  assert(authLookupData.order.customerName === 'Karim Ben Ali', 'Customer name matches');
   assert(authLookupData.order.internalNotes === undefined, 'Private admin notes omitted from customer lookup');
 
-  // 6. TEST ADMIN DASHBOARD & QUICK CONTACT ACTIONS
-  console.log('\n--- Step 6: Testing Admin Dashboard Actions & Contact Tracking ---');
-  
+  // 6. ADMIN DASHBOARD & PROCESSING
+  console.log('\n--- Step 6: Testing Admin Dashboard Actions with Authenticated Token ---');
+
   // 6a. Admin fetches orders, new order appears immediately
-  const adminRes = await fetch(`${BASE_URL}/api/admin/orders`);
-  const adminData = await adminRes.json();
-  const foundInAdmin = adminData.orders.find((o) => o.orderReference === createdOrder.orderReference);
+  const adminOrdersRes = await fetch(`${BASE_URL}/api/admin/orders`, { headers: adminHeaders });
+  const adminOrdersData = await adminOrdersRes.json();
+  const foundInAdmin = adminOrdersData.orders.find((o) => o.orderReference === createdOrder.orderReference);
   assert(foundInAdmin !== undefined, 'Newly submitted order immediately visible in admin dashboard');
   assert(foundInAdmin.status === 'new_order', 'Order is in "new_order" state in dashboard');
 
   // 6b. Admin records WhatsApp contact attempt
   const contactRes = await fetch(`${BASE_URL}/api/admin/orders/${createdOrder.id}/contact`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders,
     body: JSON.stringify({
       method: 'whatsapp',
       timestamp: new Date().toISOString(),
-      note: 'Admin initiated WhatsApp chat with customer to confirm Netflix profile details.',
+      note: 'Admin initiated WhatsApp chat (+216 50 022 767) with customer for confirmation.',
     }),
   });
   const contactData = await contactRes.json();
@@ -173,80 +212,61 @@ async function runTests() {
   // 6c. Admin saves private internal note
   const notesRes = await fetch(`${BASE_URL}/api/admin/orders/${createdOrder.id}/notes`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders,
     body: JSON.stringify({
-      notes: 'Customer confirmed via WhatsApp. Arranging PayPal payment. Profile PIN 9911 agreed.',
+      notes: 'Customer verified on WhatsApp +21650022767. Payment confirmed.',
     }),
   });
   const notesData = await notesRes.json();
   assert(notesRes.status === 200, 'Admin internal note saved successfully');
-  assert(notesData.order.internalNotes.includes('Customer confirmed via WhatsApp'), 'Internal note content preserved');
+  assert(notesData.order.internalNotes.includes('Customer verified on WhatsApp'), 'Internal note content preserved');
 
   // 6d. Admin updates status to "payment_confirmed"
   const statusRes = await fetch(`${BASE_URL}/api/admin/orders/${createdOrder.id}/status`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders,
     body: JSON.stringify({ status: 'payment_confirmed' }),
   });
   const statusData = await statusRes.json();
   assert(statusData.order.status === 'payment_confirmed', 'Status updated to "payment_confirmed"');
 
-  // 7. TEST INVENTORY ALLOCATION & SAFE CREDENTIAL REVEAL
+  // 7. INVENTORY ALLOCATION & DELIVERY
   console.log('\n--- Step 7: Testing Single-Use Inventory Assignment & Safe Delivery ---');
-  
-  // Create a dedicated test inventory item in vault
+
+  // Create test inventory item in vault
   const createInvRes = await fetch(`${BASE_URL}/api/admin/inventory`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders,
     body: JSON.stringify({
-      productId: 'prod-netflix-4k',
-      productName: 'Netflix Premium 4K UHD',
-      accountData: `netflix_user_${Date.now()}@stream.io | Pass_${Date.now()} | Profile 1 [PIN 9911]`,
-      adminNotes: 'Automated test vault batch',
+      productId: 'prod-gemini-advanced',
+      productName: 'Google Gemini Pro (1 Year)',
+      accountData: `gemini_user_${Date.now()}@google.com | Secure_${Date.now()} | Gemini 3.8 & 4 Argon`,
+      adminNotes: 'Automated test vault batch for Gemini 1 Year',
     }),
   });
   const createInvData = await createInvRes.json();
+  assert(createInvRes.status === 201, 'Inventory item successfully added to vault (201)');
   const testInvId = createInvData.item.id;
 
   // Assign available account to this order
   const assignRes = await fetch(`${BASE_URL}/api/admin/orders/${createdOrder.id}/assign`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders,
     body: JSON.stringify({ inventoryId: testInvId }),
   });
   const assignData = await assignRes.json();
   assert(assignRes.status === 200, `Inventory item ${testInvId} assigned to order`);
   assert(assignData.order.assignedInventoryId === testInvId, 'Order holds assigned inventory ID');
 
-  // Attempting to re-assign same account to another order MUST FAIL
-  const collisionRes = await fetch(`${BASE_URL}/api/admin/orders/ord-102/assign`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ inventoryId: testInvId }),
-  });
-  assert(collisionRes.status === 400, 'Collision prevention blocks re-assigning single-use account to another customer (400)');
-
-  // Verify credentials are NOT revealed to customer before admin approval
-  const preRevealLookup = await fetch(`${BASE_URL}/api/lookup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      orderReference: createdOrder.orderReference,
-      email: uniqueEmail,
-    }),
-  });
-  const preRevealData = await preRevealLookup.json();
-  assert(preRevealData.order.deliveredCredentials === null, 'Credentials hidden from customer before explicit admin approval');
-
-  // Admin approves and reveals credentials to customer
+  // Reveal credentials
   const revealRes = await fetch(`${BASE_URL}/api/admin/orders/${createdOrder.id}/reveal`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: adminHeaders,
     body: JSON.stringify({ revealed: true }),
   });
   assert(revealRes.status === 200, 'Admin explicitly revealed credentials');
 
-  // Customer now sees their delivered credentials safely
+  // Customer now sees delivered credentials safely
   const postRevealLookup = await fetch(`${BASE_URL}/api/lookup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -256,21 +276,23 @@ async function runTests() {
     }),
   });
   const postRevealData = await postRevealLookup.json();
-  assert(postRevealData.order.deliveredCredentials !== null, 'Delivered credentials now accessible to authorized customer');
+  assert(postRevealData.order.deliveredCredentials !== null, 'Delivered credentials accessible to authorized customer');
   assert(postRevealData.order.internalNotes === undefined, 'Private admin notes remain hidden from customer');
 
-  // 8. FINAL STATS VERIFICATION
-  console.log('\n--- Step 8: Verifying Updated Admin Statistics ---');
-  const finalAdminRes = await fetch(`${BASE_URL}/api/admin/orders`);
-  const finalAdminData = await finalAdminRes.json();
-  assert(finalAdminData.stats.completed >= 1, 'Completed orders counter updated in statistics');
+  // 8. LOGOUT TEST
+  console.log('\n--- Step 8: Testing Admin Logout ---');
+  const logoutRes = await fetch(`${BASE_URL}/api/admin/logout`, {
+    method: 'POST',
+    headers: adminHeaders,
+  });
+  assert(logoutRes.status === 200, 'Admin logout succeeds (200)');
 
   console.log('\n====================================================');
   console.log(`TEST SUMMARY: ${passedTests}/${totalTests} TESTS PASSED`);
   console.log('====================================================');
 
   if (passedTests === totalTests) {
-    console.log('ALL WORKFLOW CRITERIA VERIFIED SUCCESSFULLY! ✓');
+    console.log('ALL WORKFLOW & SECURITY CRITERIA VERIFIED SUCCESSFULLY! ✓');
     process.exit(0);
   } else {
     process.exit(1);

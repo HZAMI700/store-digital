@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { serverDb } from '@/lib/server-db';
+import { getAdminSessionFromRequest } from '@/lib/admin-auth';
 
 export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = getAdminSessionFromRequest(req);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator authentication required.' },
+        { status: 401, headers: { 'Cache-Control': 'no-store, no-cache' } }
+      );
+    }
+
     const { id } = params;
-    const { method, timestamp, note, sendDirect, subject, body } = await req.json();
+    const { method, timestamp, note, sendDirect, subject } = await req.json();
 
     if (!method || !['whatsapp', 'email', 'phone'].includes(method)) {
       return NextResponse.json({ error: 'Valid contact method required' }, { status: 400 });
@@ -15,7 +24,6 @@ export async function POST(
 
     const contactTime = timestamp || new Date().toISOString();
 
-    // If server email requested, we can attempt sending via external SMTP / Resend or log as transactional
     if (sendDirect && method === 'email') {
       console.log(`[Transactional Email] Sending email for order ${id} to customer. Subject: ${subject}`);
     }

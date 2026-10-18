@@ -1,5 +1,25 @@
 [
   {
+    "id": "inv-1792311731740",
+    "productId": "prod-gemini-advanced",
+    "productName": "اشتراك جوجل جيميناي برو Google Gemini Pro (يشمل Gemini 3.8 و Gemini 4 Argon)",
+    "accountData": "gemini_user_1792311731731@google.com | Secure_1792311731731 | Gemini 3.8 & 4 Argon",
+    "isAssigned": true,
+    "createdAt": "2026-10-18T08:22:11.740Z",
+    "assignedOrderId": "ord-1792311731639-841",
+    "assignedAt": "2026-10-18T08:22:11.754Z"
+  },
+  {
+    "id": "inv-1792311658092",
+    "productId": "prod-gemini-advanced",
+    "productName": "اشتراك جوجل جيميناي برو Google Gemini Pro (يشمل Gemini 3.8 و Gemini 4 Argon)",
+    "accountData": "gemini_user_1792311658084@google.com | Secure_1792311658084 | Gemini 3.8 & 4 Argon",
+    "isAssigned": true,
+    "createdAt": "2026-10-18T08:20:58.092Z",
+    "assignedOrderId": "ord-1792311658012-885",
+    "assignedAt": "2026-10-18T08:20:58.103Z"
+  },
+  {
     "id": "inv-1792263687247",
     "productId": "prod-netflix-4k",
     "productName": "اشتراك نتفلكس بريميوم Netflix 4K UHD",

@@ -1,1 +1,126 @@
-[]
+[
+  {
+    "id": "log-1792311731770",
+    "orderId": "ord-1792311731639-841",
+    "actorType": "admin",
+    "actorName": "Store Administrator",
+    "action": "Digital account credentials released to customer dashboard",
+    "details": {
+      "revealed": true
+    },
+    "createdAt": "2026-10-18T08:22:11.769Z"
+  },
+  {
+    "id": "log-1792311731754",
+    "orderId": "ord-1792311731639-841",
+    "actorType": "admin",
+    "actorName": "Store Administrator",
+    "action": "Account inventory assigned to order",
+    "details": {
+      "inventoryId": "inv-1792311731740",
+      "productName": "اشتراك جوجل جيميناي برو Google Gemini Pro (يشمل Gemini 3.8 و Gemini 4 Argon)"
+    },
+    "createdAt": "2026-10-18T08:22:11.754Z"
+  },
+  {
+    "id": "log-1792311731726",
+    "orderId": "ord-1792311731639-841",
+    "actorType": "admin",
+    "actorName": "yassine700",
+    "action": "Status updated from \"contacting_customer\" to \"payment_confirmed\"",
+    "details": {
+      "oldStatus": "contacting_customer",
+      "newStatus": "payment_confirmed"
+    },
+    "createdAt": "2026-10-18T08:22:11.726Z"
+  },
+  {
+    "id": "log-1792311731695",
+    "orderId": "ord-1792311731639-841",
+    "actorType": "admin",
+    "actorName": "Store Administrator",
+    "action": "Contact via WHATSAPP recorded",
+    "details": {
+      "method": "whatsapp",
+      "timestamp": "2026-10-18T08:22:11.682Z",
+      "note": "Admin initiated WhatsApp chat (+216 50 022 767) with customer for confirmation."
+    },
+    "createdAt": "2026-10-18T08:22:11.682Z"
+  },
+  {
+    "id": "log-1792311731641",
+    "orderId": "ord-1792311731639-841",
+    "actorType": "customer",
+    "actorName": "Karim Ben Ali",
+    "action": "Order Request Submitted",
+    "details": {
+      "reference": "ORD-20261018-DPCM",
+      "product": "اشتراك جوجل جيميناي برو Google Gemini Pro (يشمل Gemini 3.8 و Gemini 4 Argon)",
+      "quantity": 1,
+      "total": 30
+    },
+    "createdAt": "2026-10-18T08:22:11.639Z"
+  },
+  {
+    "id": "log-1792311658116",
+    "orderId": "ord-1792311658012-885",
+    "actorType": "admin",
+    "actorName": "Store Administrator",
+    "action": "Digital account credentials released to customer dashboard",
+    "details": {
+      "revealed": true
+    },
+    "createdAt": "2026-10-18T08:20:58.116Z"
+  },
+  {
+    "id": "log-1792311658103",
+    "orderId": "ord-1792311658012-885",
+    "actorType": "admin",
+    "actorName": "Store Administrator",
+    "action": "Account inventory assigned to order",
+    "details": {
+      "inventoryId": "inv-1792311658092",
+      "productName": "اشتراك جوجل جيميناي برو Google Gemini Pro (يشمل Gemini 3.8 و Gemini 4 Argon)"
+    },
+    "createdAt": "2026-10-18T08:20:58.103Z"
+  },
+  {
+    "id": "log-1792311658078",
+    "orderId": "ord-1792311658012-885",
+    "actorType": "admin",
+    "actorName": "yassine700",
+    "action": "Status updated from \"contacting_customer\" to \"payment_confirmed\"",
+    "details": {
+      "oldStatus": "contacting_customer",
+      "newStatus": "payment_confirmed"
+    },
+    "createdAt": "2026-10-18T08:20:58.078Z"
+  },
+  {
+    "id": "log-1792311658056",
+    "orderId": "ord-1792311658012-885",
+    "actorType": "admin",
+    "actorName": "Store Administrator",
+    "action": "Contact via WHATSAPP recorded",
+    "details": {
+      "method": "whatsapp",
+      "timestamp": "2026-10-18T08:20:58.048Z",
+      "note": "Admin initiated WhatsApp chat (+216 50 022 767) with customer for confirmation."
+    },
+    "createdAt": "2026-10-18T08:20:58.048Z"
+  },
+  {
+    "id": "log-1792311658014",
+    "orderId": "ord-1792311658012-885",
+    "actorType": "customer",
+    "actorName": "Karim Ben Ali",
+    "action": "Order Request Submitted",
+    "details": {
+      "reference": "ORD-20261018-677B",
+      "product": "اشتراك جوجل جيميناي برو Google Gemini Pro (يشمل Gemini 3.8 و Gemini 4 Argon)",
+      "quantity": 1,
+      "total": 30
+    },
+    "createdAt": "2026-10-18T08:20:58.012Z"
+  }
+]

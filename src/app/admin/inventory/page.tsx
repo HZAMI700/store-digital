@@ -39,7 +39,10 @@ export default function AdminInventoryPage() {
       const local = clientStore.getInventory();
       setInventory(local);
 
-      const res = await fetch('/api/admin/inventory');
+      const res = await fetch(`/api/admin/inventory?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' },
+      });
       if (res.ok) {
         const data = await res.json();
         if (data.inventory) {

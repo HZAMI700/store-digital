@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { serverDb } from '@/lib/server-db';
-import { AdminStats, Order } from '@/lib/types';
+import { AdminStats } from '@/lib/types';
+import { getAdminSessionFromRequest } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {
+    const session = getAdminSessionFromRequest(req);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator authentication required.' },
+        { status: 401, headers: { 'Cache-Control': 'no-store, no-cache' } }
+      );
+    }
+
     const orders = serverDb.getOrders();
     const inventory = serverDb.getInventory();
 
@@ -48,6 +57,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = getAdminSessionFromRequest(req);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator authentication required.' },
+        { status: 401, headers: { 'Cache-Control': 'no-store, no-cache' } }
+      );
+    }
+
     const body = await req.json();
     const { syncOrders } = body;
 

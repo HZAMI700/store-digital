@@ -537,102 +537,163 @@ export default function AdminDashboardPage() {
             لا توجد طلبات مطابقة للبحث أو الفلتر المحدد.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-right text-xs">
-              <thead>
-                <tr className="border-b border-slate-200 text-slate-400 font-bold">
-                  <th className="pb-3 pr-2">رقم المرجع والوقت</th>
-                  <th className="pb-3">العميل</th>
-                  <th className="pb-3">الاشتراك</th>
-                  <th className="pb-3">المبلغ</th>
-                  <th className="pb-3">حالة الطلب</th>
-                  <th className="pb-3 pl-2 text-left">الإجراءات السريعة</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-medium">
-                {filteredOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3.5 pr-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
-                          #{order.orderReference}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(order.id, order.orderReference)}
-                          className="text-slate-400 hover:text-slate-600 p-1"
-                          title="نسخ رقم المرجع"
-                        >
-                          {copiedId === order.id ? (
-                            <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          ) : (
-                            <Copy className="w-3.5 h-3.5" />
-                          )}
-                        </button>
-                      </div>
-                      <div className="text-[10px] text-slate-400 mt-1 font-mono">
-                        {formatDateTime(order.createdAt)}
-                      </div>
-                    </td>
-
-                    <td className="py-3.5">
-                      <div className="font-black text-slate-900">{order.customerName}</div>
-                      <div className="text-[11px] font-mono text-emerald-700 font-bold" dir="ltr">
-                        {order.customerWhatsapp}
-                      </div>
-                      <div className="text-[10px] font-mono text-slate-400">{order.customerEmail}</div>
-                    </td>
-
-                    <td className="py-3.5">
-                      <div className="font-bold text-slate-800 line-clamp-1">{order.productName}</div>
-                      <div className="text-[10px] text-slate-500">الكمية: {order.quantity}</div>
-                      {order.selectedPlan && (
-                        <span className="inline-block mt-0.5 text-[10px] px-1.5 py-0.2 rounded bg-sky-50 text-[#0284c7] font-semibold border border-sky-100">
-                          {order.selectedPlan}
-                        </span>
-                      )}
-                    </td>
-
-                    <td className="py-3.5 font-black text-slate-900 font-mono">
-                      {formatPrice(order.totalAmount)}
-                    </td>
-
-                    <td className="py-3.5">
-                      <StatusBadge status={order.status} />
-                    </td>
-
-                    <td className="py-3.5 pl-2 text-left">
-                      <div className="inline-flex items-center gap-1.5 justify-end">
-                        <WhatsAppButton
-                          customerName={order.customerName}
-                          orderReference={order.orderReference}
-                          productName={order.productName}
-                          whatsappNumber={order.customerWhatsapp}
-                          orderId={order.id}
-                          size="sm"
-                          onContactRecorded={() => {
-                            const updated = clientStore.recordContact(order.id, 'whatsapp');
-                            if (updated) handleOrderUpdated(updated);
-                          }}
-                        />
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedOrder(order);
-                            setIsDrawerOpen(true);
-                          }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer"
-                        >
-                          <Eye className="w-3.5 h-3.5 text-slate-500" />
-                          <span>معالجة</span>
-                        </button>
-                      </div>
-                    </td>
+          <div className="space-y-3">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-right text-xs">
+                <thead>
+                  <tr className="border-b border-slate-200 text-slate-400 font-bold">
+                    <th className="pb-3 pr-2">رقم المرجع والوقت</th>
+                    <th className="pb-3">العميل</th>
+                    <th className="pb-3">الاشتراك</th>
+                    <th className="pb-3">المبلغ</th>
+                    <th className="pb-3">حالة الطلب</th>
+                    <th className="pb-3 pl-2 text-left">الإجراءات السريعة</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-medium">
+                  {filteredOrders.map((order) => (
+                    <tr key={order.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-3.5 pr-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
+                            #{order.orderReference}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(order.id, order.orderReference)}
+                            className="text-slate-400 hover:text-slate-600 p-1"
+                            title="نسخ رقم المرجع"
+                          >
+                            {copiedId === order.id ? (
+                              <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            ) : (
+                              <Copy className="w-3.5 h-3.5" />
+                            )}
+                          </button>
+                        </div>
+                        <div className="text-[10px] text-slate-400 mt-1 font-mono">
+                          {formatDateTime(order.createdAt)}
+                        </div>
+                      </td>
+
+                      <td className="py-3.5">
+                        <div className="font-black text-slate-900">{order.customerName}</div>
+                        <div className="text-[11px] font-mono text-emerald-700 font-bold" dir="ltr">
+                          {order.customerWhatsapp}
+                        </div>
+                        <div className="text-[10px] font-mono text-slate-400">{order.customerEmail}</div>
+                      </td>
+
+                      <td className="py-3.5">
+                        <div className="font-bold text-slate-800 line-clamp-1">{order.productName}</div>
+                        <div className="text-[10px] text-slate-500">الكمية: {order.quantity}</div>
+                        {order.selectedPlan && (
+                          <span className="inline-block mt-0.5 text-[10px] px-1.5 py-0.2 rounded bg-sky-50 text-[#0284c7] font-semibold border border-sky-100">
+                            {order.selectedPlan}
+                          </span>
+                        )}
+                      </td>
+
+                      <td className="py-3.5 font-black text-slate-900 font-mono">
+                        {formatPrice(order.totalAmount)}
+                      </td>
+
+                      <td className="py-3.5">
+                        <StatusBadge status={order.status} />
+                      </td>
+
+                      <td className="py-3.5 pl-2 text-left">
+                        <div className="inline-flex items-center gap-1.5 justify-end">
+                          <WhatsAppButton
+                            customerName={order.customerName}
+                            orderReference={order.orderReference}
+                            productName={order.productName}
+                            whatsappNumber={order.customerWhatsapp}
+                            orderId={order.id}
+                            size="sm"
+                            onContactRecorded={() => {
+                              const updated = clientStore.recordContact(order.id, 'whatsapp');
+                              if (updated) handleOrderUpdated(updated);
+                            }}
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedOrder(order);
+                              setIsDrawerOpen(true);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-slate-500" />
+                            <span>معالجة</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Touch-Friendly Card View */}
+            <div className="md:hidden space-y-3">
+              {filteredOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-black text-[#0284c7] bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">
+                      #{order.orderReference}
+                    </span>
+                    <StatusBadge status={order.status} />
+                  </div>
+
+                  <div className="text-right">
+                    <h3 className="font-black text-slate-900 text-sm">{order.customerName}</h3>
+                    <div className="text-xs text-slate-700 font-bold mt-0.5">
+                      {order.productName} (x{order.quantity})
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-100">
+                    <span className="font-black text-slate-900 font-mono text-sm">
+                      {formatPrice(order.totalAmount)}
+                    </span>
+                    <span className="font-mono text-emerald-700 font-bold text-xs" dir="ltr">
+                      {order.customerWhatsapp}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <WhatsAppButton
+                      customerName={order.customerName}
+                      orderReference={order.orderReference}
+                      productName={order.productName}
+                      whatsappNumber={order.customerWhatsapp}
+                      orderId={order.id}
+                      size="sm"
+                      onContactRecorded={() => {
+                        const updated = clientStore.recordContact(order.id, 'whatsapp');
+                        if (updated) handleOrderUpdated(updated);
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedOrder(order);
+                        setIsDrawerOpen(true);
+                      }}
+                      className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold text-center border border-slate-200 transition"
+                    >
+                      عرض التفاصيل
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

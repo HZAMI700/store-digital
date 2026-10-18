@@ -2,28 +2,27 @@
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Link from 'next/link';
-import { Shield, Lock, User, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
+import { Shield, Lock, User, Eye, EyeOff, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
 
 interface AdminAuthContextType {
   isAuthenticated: boolean;
   adminUser: string | null;
-  logout: () => void;
+  logout: () => Promise<void>;
+  checkSession: () => Promise<void>;
 }
 
 const AdminAuthContext = createContext<AdminAuthContextType>({
   isAuthenticated: false,
   adminUser: null,
-  logout: () => {},
+  logout: async () => {},
+  checkSession: async () => {},
 });
 
 export const useAdminAuth = () => useContext(AdminAuthContext);
 
-const ADMIN_STORAGE_KEY = 'velto_admin_session_auth_v2';
-const VALID_USERNAME = 'yassine700';
-const VALID_PASSWORD = 'yassine700';
-
 export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [adminUser, setAdminUser] = useState<string | null>(null);
   const [checkingAuth, setCheckingAuth] = useState<boolean>(true);
 
   // Form states
@@ -33,49 +32,76 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  // Verify server session on load
+  const checkSession = async () => {
     try {
-      const session = localStorage.getItem(ADMIN_STORAGE_KEY);
-      if (session) {
-        const parsed = JSON.parse(session);
-        if (parsed?.username === VALID_USERNAME && parsed?.token) {
+      const res = await fetch(`/api/admin/me?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated) {
           setIsAuthenticated(true);
+          setAdminUser(data.username || 'Administrator');
+          return;
         }
       }
+      setIsAuthenticated(false);
+      setAdminUser(null);
     } catch {
-      // Ignored
+      setIsAuthenticated(false);
+      setAdminUser(null);
     } finally {
       setCheckingAuth(false);
     }
+  };
+
+  useEffect(() => {
+    checkSession();
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
 
-    setTimeout(() => {
-      if (username.trim() === VALID_USERNAME && password === VALID_PASSWORD) {
-        const sessionData = {
-          username: VALID_USERNAME,
-          token: 'token_' + Date.now(),
-          loginTime: new Date().toISOString(),
-        };
-        localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(sessionData));
-        setIsAuthenticated(true);
-        setError(null);
-      } else {
-        setError('اسم المستخدم أو كلمة المرور غير صحيحة. يرجى التأكد والمحاولة مجدداً.');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: username.trim(),
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'اسم المستخدم أو كلمة المرور غير صحيحة. يرجى المحاولة مجدداً.');
+        setIsLoading(false);
+        return;
       }
+
+      setIsAuthenticated(true);
+      setAdminUser(data.username || username.trim());
+      setError(null);
+      setPassword('');
+    } catch (err: any) {
+      setError('حدث خطأ في الاتصال بالخادم. يرجى التحقق من اتصالك بالإنترنت والمحاولة مجدداً.');
+    } finally {
       setIsLoading(false);
-    }, 400);
+    }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      localStorage.removeItem(ADMIN_STORAGE_KEY);
+      await fetch('/api/admin/logout', { method: 'POST' });
     } catch {}
     setIsAuthenticated(false);
+    setAdminUser(null);
     setUsername('');
     setPassword('');
   };
@@ -85,7 +111,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-4 border-sky-200 border-t-[#0284c7] rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-slate-500 font-bold">جاري التحقق من صلاحيات المشرف...</p>
+          <p className="text-xs text-slate-500 font-bold">جاري التحقق الآمن من صلاحيات الإدارة...</p>
         </div>
       </div>
     );
@@ -108,7 +134,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
             </div>
             <h1 className="text-2xl font-black text-slate-900 tracking-tight">تسجيل دخول الإدارة</h1>
             <p className="text-xs text-slate-500 font-medium">
-              لوحة التحكم الخاصة بمدير المتجر لمعالجة طلبات العملاء وإدارة المخزون
+              منطقة آمنة ومحمية خاصة بمدير متجر فيلترو لإدارة الطلبات وتسليم الحسابات
             </p>
           </div>
 
@@ -177,7 +203,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
               {isLoading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>جاري تسجيل الدخول...</span>
+                  <span>جاري التحقق والاتصال الآمن...</span>
                 </>
               ) : (
                 <>
@@ -188,10 +214,10 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
             </button>
           </form>
 
-          {/* Secure System Badge (Secret, No Credentials Revealed) */}
+          {/* Secure System Badge (Secret, Zero plaintext credentials in frontend) */}
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-500 flex items-center justify-center gap-2 text-center">
             <Shield className="w-3.5 h-3.5 text-[#0284c7] shrink-0" />
-            <span>منطقة وصول آمنة ومحمية خاصة بمشرفي النظام فقط</span>
+            <span>نظام تسجيل دخول مشفر عبر خادم معتمد وحماية ضد الهجمات</span>
           </div>
 
           {/* Return to storefront */}
@@ -214,8 +240,9 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     <AdminAuthContext.Provider
       value={{
         isAuthenticated,
-        adminUser: VALID_USERNAME,
+        adminUser,
         logout: handleLogout,
+        checkSession,
       }}
     >
       {children}

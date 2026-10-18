@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { serverDb } from '@/lib/server-db';
 import { isValidEmail, isValidPhone } from '@/lib/utils';
+import { getAdminSessionFromRequest } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -127,22 +128,48 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const session = getAdminSessionFromRequest(req);
     const { searchParams } = new URL(req.url);
     const customerId = searchParams.get('customerId');
     const email = searchParams.get('email');
+
+    // If administrator is authenticated, return requested orders
+    if (session) {
+      let adminOrders = serverDb.getOrders();
+      if (customerId) {
+        adminOrders = adminOrders.filter((o) => o.customerId === customerId);
+      } else if (email) {
+        adminOrders = adminOrders.filter((o) => o.customerEmail.toLowerCase() === email.toLowerCase());
+      }
+      return NextResponse.json(
+        { orders: adminOrders },
+        { headers: { 'Cache-Control': 'no-store, no-cache' } }
+      );
+    }
+
+    // Public unauthenticated requests MUST NOT dump orders without credentials
+    if (!email && !customerId) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Admin session or customer identifier required.' },
+        { status: 401, headers: { 'Cache-Control': 'no-store, no-cache' } }
+      );
+    }
 
     let orders = serverDb.getOrders();
 
     if (customerId) {
       orders = orders.filter((o) => o.customerId === customerId);
     } else if (email) {
-      orders = orders.filter((o) => o.customerEmail.toLowerCase() === email.toLowerCase());
+      orders = orders.filter((o) => o.customerEmail.toLowerCase() === email.toLowerCase().trim());
     }
 
-    // Strictly sanitize all customer orders (strip internal notes)
+    // Strictly sanitize all customer orders (strip internal notes, hide unapproved credentials)
     const safeOrders = orders.map((o) => serverDb.sanitizeForCustomer(o));
 
-    return NextResponse.json({ orders: safeOrders });
+    return NextResponse.json(
+      { orders: safeOrders },
+      { headers: { 'Cache-Control': 'no-store, no-cache' } }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
